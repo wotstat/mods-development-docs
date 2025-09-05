@@ -29,6 +29,10 @@ jobs:
           cache: npm
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
+      - name: Remove lock file # to avoid issues with Node 24 and GitHub Actions Runners https://github.com/npm/cli/issues/4828
+        run: rm -f package-lock.json
+        
       - name: Install dependencies
         run: npm i
       - name: Build with VitePress
