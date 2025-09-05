@@ -14,8 +14,8 @@ hero:
       text: Полезные статьи
       link: /articles/vehicle-moe
   image:
-    light: ./assets/logo-light.svg
-    dark: ./assets/logo.svg
+    light: /logo-light.svg
+    dark: /logo-dark.svg
     alt: mt-mods-logo
   
 
