@@ -4,8 +4,6 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   srcDir: "docs",
 
-  base: '/mods-development-docs/',
-
   locales: {
     root: {
       label: 'Русский',
