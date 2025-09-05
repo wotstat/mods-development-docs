@@ -4,6 +4,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   srcDir: "docs",
 
+  base: '/mods-development-docs/',
+
   locales: {
     root: {
       label: 'Русский',
@@ -19,6 +21,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
 
     logo: '/logo-small.png',
+
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/wotstat/mods-development-docs' }
