@@ -13,12 +13,12 @@ export default defineConfig({
     },
   },
 
-  head: [['link', { rel: 'icon', href: '/logo-small.png' }]],
+  head: [['link', { rel: 'icon', href: '/logo-small.svg' }]],
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
 
-    logo: '/logo-small.png',
+    logo: '/logo-small.svg',
 
 
     socialLinks: [
