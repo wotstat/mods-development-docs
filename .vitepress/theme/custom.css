@@ -31,3 +31,10 @@
 .VPDoc.has-aside .content-container {
   max-width: unset !important;
 }
+
+/* HERO */
+
+.VPHero .VPImage {
+  user-select: none;
+  pointer-events: none;
+}
