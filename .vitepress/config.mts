@@ -13,6 +13,16 @@ export default defineConfig({
     plugins: [
       GitChangelog({
         repoURL: () => 'https://github.com/wotstat/mods-development-docs',
+        mapAuthors: [
+          {
+            name: 'Andrei Soprachev',
+            username: 'SoprachevAK',
+            mapByEmailAliases: [
+              'soprachev@mail.ru',
+              '13734096+SoprachevAK@users.noreply.github.com'
+            ],
+          }
+        ]
       }),
       GitChangelogMarkdownSection(),
     ],
