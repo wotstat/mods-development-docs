@@ -1,8 +1,22 @@
 import { defineConfig } from 'vitepress'
+import {
+  GitChangelog,
+  GitChangelogMarkdownSection,
+} from '@nolebase/vitepress-plugin-git-changelog/vite'
+
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   srcDir: "docs",
+
+  vite: {
+    plugins: [
+      GitChangelog({
+        repoURL: () => 'https://github.com/wotstat/mods-development-docs',
+      }),
+      GitChangelogMarkdownSection(),
+    ],
+  },
 
   locales: {
     root: {
