@@ -21,3 +21,13 @@
   filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
   padding: 18px;
 }
+
+
+/* Add 100px to max width */
+:root {
+  --vp-layout-max-width: 1540px;
+}
+
+.VPDoc.has-aside .content-container {
+  max-width: unset !important;
+}
