@@ -45,6 +45,7 @@ ServicesLocator.appLoader.onGUISpaceEntered += onGUISpaceEntered
 ```python :line-numbers {1}
 class PlayerAccount(...):
     ...
+
     # Вызывает self.base.doCmdStr.
     # Callback вызывается при получении ответа: callback(requestID, resultID).
     def _doCmdStr(self, cmd, s, callback):
@@ -56,14 +57,12 @@ class PlayerAccount(...):
         return self.__doCmd('doCmdIntStr', cmd, callback, int1, s)
 
     # Вызывает self.base.doCmdInt.
-    # Callback вызывается при получении ответа:
-    #   callback(requestID, resultID).
+    # Callback вызывается при получении ответа: callback(requestID, resultID).
     def _doCmdInt(self, cmd, int_, callback):
         return self.__doCmd('doCmdInt', cmd, callback, int_)
 
     # Вызывает self.base.doCmdInt2.
-    # Callback вызывается при получении ответа:
-    #   callback(requestID, resultID).
+    # Callback вызывается при получении ответа: callback(requestID, resultID).
     def _doCmdInt2(self, cmd, int1, int2, callback):
         return self.__doCmd('doCmdInt2', cmd, callback, int1, int2)
     ...
@@ -80,9 +79,9 @@ class PlayerAccount(...):
 
 В случае **успешного** ответа от сервера в колбэк приходит 4 аргумента:
 
-- `requestID` — ID запроса;  
-- `resultID` — код состояния ответа;  
-- `errorStr` — строка ошибки (при успешном ответе — пустая строка `''`);  
+- `requestID` — ID запроса;
+- `resultID` — код состояния ответа;
+- `errorStr` — строка ошибки (при успешном ответе — пустая строка `''`);
 - `ext` *(extended information)* — распакованный ответ от сервера.
 
 В случае **отрицательного** ответа передаются 3 аргумента (без `ext`).
@@ -114,9 +113,9 @@ class PlayerAccount(...):
 
 ### Пояснения к полям
 
-- `maxDamage` — максимальный средний урон на технике, соответствующий 100%.  
-- `distForMarkOnGun` — значения среднего урона для отметок на стволе: 1-й (65%), 2-й (85%), 3-й (95%).  
-- `fullDamageDist` — список кортежей; каждый соответствует интервалу среднего урона.  
-  Пример: `((20, 40), (613, 1498))`, где:
+- `maxDamage` — максимальный средний урон на технике, соответствующий 100%.
+- `distForMarkOnGun` — значения среднего урона для отметок на стволе: 1-й (65%), 2-й (85%), 3-й (95%).
+- `fullDamageDist` — список кортежей; каждый соответствует интервалу среднего урона.
+Пример: `((20, 40), (613, 1498))`, где:
   - первый вложенный кортеж — это процентили (20% и 40%),
   - второй — значения среднего урона для этих процентов (613 для 20% и 1498 для 40%).
