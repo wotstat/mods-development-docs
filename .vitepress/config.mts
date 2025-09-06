@@ -20,7 +20,6 @@ export default defineConfig({
 
     logo: '/logo-small.svg',
 
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/wotstat/mods-development-docs' }
     ],
@@ -141,7 +140,10 @@ export default defineConfig({
       linkText: 'Отведи меня домой'
     },
 
-    outline: { label: 'Содержание страницы' },
+    outline: {
+      label: 'Содержание страницы',
+      level: 'deep'
+    },
 
     darkModeSwitchLabel: 'Оформление',
     lightModeSwitchTitle: 'Переключить на светлую тему',
