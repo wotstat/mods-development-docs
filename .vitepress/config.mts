@@ -61,6 +61,7 @@ export default defineConfig({
             items: [
               { text: 'Введение', link: '/' },
               { text: 'Настройка PjOrion', link: '/pjorion' },
+              { text: 'Исходный код', link: '/sources' },
               {
                 text: 'Настройка окружения', items: [
                   { text: 'Для Python', link: '/python-setup' },

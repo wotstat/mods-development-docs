@@ -38,3 +38,7 @@
   user-select: none;
   pointer-events: none;
 }
+
+.VPDoc img {
+  border-radius: 5px;
+}
