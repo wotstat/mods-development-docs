@@ -60,7 +60,7 @@ export default defineConfig({
             base: '/guide/first-steps',
             items: [
               { text: 'Введение', link: '/' },
-              { text: 'Настройка PjOrion', link: '/pjorion' },
+              { text: 'Настройка PjOrion', link: '/pjorion/' },
               { text: 'Исходный код', link: '/sources' },
               {
                 text: 'Настройка окружения', items: [
@@ -83,7 +83,7 @@ export default defineConfig({
             items: [
               { text: 'Введение', link: '/' },
               { text: 'Unified Editor', link: '/' },
-              { text: 'Blender', link: '/blender' },
+              { text: 'Blender', link: '/blender/' },
             ]
           },
           {
