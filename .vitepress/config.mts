@@ -79,11 +79,11 @@ export default defineConfig({
           {
             text: 'Ремоделлинг',
             collapsed: false,
-            base: '/guide/modeling',
+            base: '/guide/modelling',
             items: [
               { text: 'Введение', link: '/' },
-              { text: 'Editor что то там', link: '/' },
-              { text: 'Blender', link: '/' },
+              { text: 'Unified Editor', link: '/' },
+              { text: 'Blender', link: '/blender' },
             ]
           },
           {

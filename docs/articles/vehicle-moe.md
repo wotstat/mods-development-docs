@@ -14,7 +14,7 @@
 
 ## Пример кода запроса
 
-```python
+```python :line-numbers {1}
 import BigWorld
 from gui.shared.personality import ServicesLocator
 from skeletons.gui.app_loader import GuiGlobalSpaceID
@@ -42,7 +42,7 @@ ServicesLocator.appLoader.onGUISpaceEntered += onGUISpaceEntered
 
 ## Вспомогательные методы `PlayerAccount`
 
-```python
+```python :line-numbers {1}
 class PlayerAccount(...):
     ...
     # Вызывает self.base.doCmdStr.
