@@ -6,6 +6,7 @@ import { NolebaseGitChangelogPlugin } from '@nolebase/vitepress-plugin-git-chang
 
 import './custom.css'
 import '@nolebase/vitepress-plugin-git-changelog/client/style.css'
+import Layout from './Layout.vue';
 
 export const Theme: ThemeConfig = {
   extends: DefaultTheme,
@@ -14,6 +15,7 @@ export const Theme: ThemeConfig = {
       displayAuthorsInsideCommitLine: true,
     })
   },
+  Layout: Layout,
 }
 
 export default Theme
