@@ -18,16 +18,23 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Введение', link: '/' },
           { text: 'Настройка PjOrion', link: '/pjorion/' },
-          { text: 'Исходный код', link: '/sources' },
           {
             text: 'Настройка окружения', items: [
-              { text: 'Для Python', link: '/python-setup' },
-              { text: 'Для AS3', link: '/as3-setup' },
-              { text: 'Для AS3 c Animate', link: '/animate-setup' },
+              { text: 'Для Python', link: '/environment/python/' },
+              { text: 'Для AS3', link: '/environment/as3' },
+              { text: 'Для AS3 c Animate', link: '/environment/animate' },
             ]
           },
           { text: 'Первый мод', link: '/first-mod' },
           { text: 'Первый графический мод', link: '/first-ui-mod' }
+        ]
+      },
+      {
+        text: 'Скриптинг',
+        base: '/guide/scripting',
+        items: [
+          { text: 'Организация репозитория', link: '/repo' },
+          { text: 'Исходный код', link: '/sources' },
         ]
       },
       {
@@ -44,13 +51,13 @@ const sidebar: DefaultTheme.Sidebar = {
         ]
       },
       {
-        text: 'Модпаки',
+        text: 'Дистрибьюция',
         collapsed: false,
         base: '/guide/modpacks',
         items: [
-          { text: 'Введение', link: '/' },
+          { text: 'Форум', link: '/' },
+          { text: 'Модпаки', link: '/' },
           { text: 'Свой модпак', link: '/' },
-          { text: 'МОСТ', link: '/' },
         ]
       },
       {
