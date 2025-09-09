@@ -21,8 +21,8 @@ const sidebar: DefaultTheme.Sidebar = {
           {
             text: 'Настройка окружения', items: [
               { text: 'Для Python', link: '/environment/python/' },
-              { text: 'Для AS3', link: '/environment/as3' },
-              { text: 'Для AS3 c Animate', link: '/environment/animate' },
+              { text: 'Для AS3', link: '/environment/as3/' },
+              { text: 'Для AS3 c Animate', link: '/environment/animate/' },
             ]
           },
           { text: 'Первый мод', link: '/first-mod' },
