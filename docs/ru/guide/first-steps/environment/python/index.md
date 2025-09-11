@@ -78,17 +78,53 @@ git clone https://github.com/izeberg/wot-src.git
 ### Точка входа {#entry-point}
 Поскольку игра автоматически запускает скрипты с префиксом `mod_` из папки `res/scripts/client/gui/mods/`, такую структуру папок и следует использовать в вашем проекте.
 
+Создайте файл вашего мода `mod_myFirstMod.py` по пути `res/scripts/client/gui/mods/mod_myFirstMod.py`.
+
 :::tip СОВЕТ
 Вы можете нажать в VSCode кнопку создания нового файла, вписать туда полный путь до этого файла `res/scripts/client/gui/mods/mod_myFirstMod.py`, и VSCode сам создаст все необходимые подпапки.
 :::
 
-Напишите в этом файле (`mod_myFirstMod.py`) следующий код:
+Напишите в этом файле следующий код:
+::: code-group
 ```python [mod_myFirstMod.py]
+from gui import SystemMessages
+from helpers import dependency
+from skeletons.gui.shared.utils import IHangarSpace
+
 MOD_VERSION = '{{VERSION}}'
 
+# Получаем ссылку на IHangarSpace
+hangarSpace = dependency.instance(IHangarSpace) # type: IHangarSpace
+
+# Мод загрузился
 def init():
   print("[MY_FIRST_MOD] Hello, World! Mod version is %s" % MOD_VERSION)
-```
+
+  # Подписываемся на загрузку ангара
+  hangarSpace.onSpaceCreate += onHangarSpaceCreate
+
+def onHangarSpaceCreate():
+  # Отписываемся от загрузки ангара
+  hangarSpace.onSpaceCreate -= onHangarSpaceCreate
+
+  # Выводим уведомление в ангаре
+  SystemMessages.pushMessage(
+    text='Привет мир! Версия мода: %s' % MOD_VERSION,
+    type=SystemMessages.SM_TYPE.InformationHeader,
+    messageData={ 'header': 'MY_FIRST_MOD' }
+  )
+:::
+
+
+Обратите внимание, что у вас в редакторе должна быть подсветка синтаксиса. Наведите мышку на `SystemMessages.pushMessage` и увидите всплывающую подсказку с описанием функции и её параметров.
+
+![tooltip](./assets/hint.png){width=400}
+
+А если вы начнёте печатать, по после символа `.` (точка) появятся подсказки с атрибутами и методами объекта.
+
+![suggestion](./assets/suggestion.png){width=400}
+
+Если вы видите в окошке `Loading...` то надо немного подождать, пока `VSCode` проиндексирует исходный код игры.
 
 ### Скрипты и ресурсы {#resources}
 Кроме файла точки входа в вашем моде могут быть и другие скрипты и ресурсы (изображения, файлы конфигурации и т. д.). Хорошим подходом является создание корневой папки вашего мода рядом с точкой входа, например `my_first_mod`, и размещение всех дополнительных файлов там. Это необходимо для минимизации конфликтов имён файлов с другими модами.
@@ -250,6 +286,9 @@ c:\Python27\python.exe -m compileall ".\build"
 В корневой папке игры очистите файл `python.log` (откройте любым текстовым редактором и удалите всё его содержимое, затем сохраните).
 
 Перенесите файл `my.first-mod_1.0.0.mtmod` в папку с игрой `/mods/<версия_игры>/`, запустите игру и дождитесь входа в ангар.
+
+В центре уведомлений должно появиться сообщение от вашего мода:
+![notification](./assets/notification.png){width=400}
 
 Откройте файл `python.log` и убедитесь, что там есть вывод вашего мода:
 ```log
