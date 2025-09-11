@@ -46,8 +46,13 @@ const sidebar: DefaultTheme.Sidebar = {
         base: '/guide/modelling',
         items: [
           { text: 'Введение', link: '/' },
-          { text: 'Unified Editor', link: '/' },
           { text: 'Blender', link: '/blender/' },
+          {
+            text: 'Unified Editor', items: [
+              { text: 'Знакомство', link: '/unified-editor/first-steps/' },
+              { text: 'Интерфейс', link: '/unified-editor/interface/' }
+            ]
+          },
         ]
       },
       {
