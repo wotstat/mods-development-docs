@@ -177,7 +177,7 @@ my-first-mod/
 ## Компиляция и упаковка {#build-process}
   Для запуска сборки откройте терминал в VSCode (`` Ctrl+` `` или `Terminal -> New Terminal`) и выполните команду:
 ```cmd
-.\build.bat -v 1.0.0
+build -v 1.0.0
 ```
 
 :::details Вывод сборки
