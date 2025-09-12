@@ -113,6 +113,7 @@ def onHangarSpaceCreate():
     type=SystemMessages.SM_TYPE.InformationHeader,
     messageData={ 'header': 'MY_FIRST_MOD' }
   )
+```
 :::
 
 
@@ -132,84 +133,7 @@ def onHangarSpaceCreate():
 По пути `res/scripts/client/gui/mods/` создайте папку `my_first_mod` и добавьте туда пустой файл `utils.py`.
 
 ### Компиляция скриптов `build.bat` {#compile}
-В корне вашего проекта создайте файл `build.bat` со следующим содержимым:
-
-:::details Исходный код build.bat
-```bat [build.bat] :line-numbers
-@echo off
-setlocal EnableExtensions EnableDelayedExpansion
-
-rem ==== настройки ====
-set "SEVENZIP=C:\Program Files\7-Zip\7z.exe"
-set "MOD_NAME=my.first-mod"
-set "MOD_ENTRY=mod_myFirstMod.py"
-
-rem ==== разбор аргументов ====
-set "v="
-:parse
-if "%~1"=="" goto after_parse
-if /I "%~1"=="-v" (
-  if "%~2"=="" (echo [ERROR] Missing value for -v & exit /b 1)
-  set "v=%~2"
-  shift & shift & goto parse
-)
-echo Usage: %~nx0 -v ^<version^>
-exit /b 1
-
-:after_parse
-if not defined v (
-  echo [ERROR] Version is required. Use -v ^<version^>.
-  exit /b 1
-)
-
-rem ==== очистка и подготовка build ====
-if exist ".\build" rmdir /S /Q ".\build"
-mkdir ".\build"
-xcopy ".\res" ".\build\res" /E /I /Y >nul
-
-rem ==== проставить версию ====
-set "configPath=.\build\res\scripts\client\gui\mods\%MOD_ENTRY%"
-if exist "%configPath%" (
-  powershell -NoProfile -Command "(Get-Content '%configPath%' -Raw) -replace '\{\{VERSION\}\}','%v%' | Set-Content '%configPath%' -Encoding utf8"
-) else (
-  echo [WARN] %configPath% not found.
-)
-
-rem ==== байткод Python 2 ====
-python -m compileall ".\build"
-
-rem ==== meta.xml с версией ====
-if exist ".\meta.xml" (
-  powershell -NoProfile -Command "$m = Get-Content '.\meta.xml' -Raw; $m = $m -replace '\{\{VERSION\}\}','%v%'; Set-Content '.\build\meta.xml' $m -Encoding utf8"
-) else (
-  echo [ERROR] meta.xml not found.
-  exit /b 1
-)
-
-rem ==== упаковка в .mtmod (7-Zip) ====
-pushd ".\build"
-
-
-set "folder=%MOD_NAME%_%v%.mtmod"
-if exist "%folder%" del /Q "%folder%"
-
-rem без сжатия, только нужные типы
-"%SEVENZIP%" a -tzip -mx=0 "%folder%" ".\*.pyc" -r >nul
-"%SEVENZIP%" a -tzip -mx=0 "%folder%" ".\*.swf" -r >nul
-"%SEVENZIP%" a -tzip -mx=0 "%folder%" ".\meta.xml" >nul
-"%SEVENZIP%" a -tzip -mx=0 "%folder%" ".\*.png" -r >nul
-
-popd
-
-copy /Y ".\build\%folder%" ".\%folder%" >nul
-rmdir /S /Q ".\build"
-
-
-echo Done: %folder%
-endlocal
-exit /b 0
-```
-:::
+Скачайте [файл build.bat](/download/mod-build/build.bat){target=_blank download} и поместите его в корень вашего проекта.
 
 #### Блок настроек в начале файла {#settings}
 ```bat :line-numbers=4
@@ -226,7 +150,7 @@ set "MOD_ENTRY=mod_myFirstMod.py"
 Если вам интересно, как работает этот скрипт, ниже приведено подробное описание каждого блока.
 
 ---
-<!--@include: ./how-it-works.md-->
+  <!-- @include: ./how-it-works.md -->
 :::
 
 ### Итоговая структура проекта {#final-structure}
@@ -251,7 +175,7 @@ my-first-mod/
 ```
 
 ## Компиляция и упаковка {#build-process}
-Для запуска сборки откройте терминал в VSCode (`` Ctrl+` `` или `Terminal -> New Terminal`) и выполните команду:
+  Для запуска сборки откройте терминал в VSCode (`` Ctrl+` `` или `Terminal -> New Terminal`) и выполните команду:
 ```powershell
 .\build.bat -v 1.0.0
 ```
@@ -260,21 +184,21 @@ my-first-mod/
   ![terminal](./assets/terminal-output.png)
 :::
 
-В корне проекта появится файл `my.first-mod_1.0.0.mtmod` — это и есть ваш упакованный мод :tada:.
+  В корне проекта появится файл `my.first-mod_1.0.0.mtmod` — это и есть ваш упакованный мод :tada:.
 
 :::tip СОВЕТ
-Обратите внимание, что должна использоваться оболочка `PowerShell` (по умолчанию в Windows 10 и выше). Если у вас используется `cmd`, вы можете переключиться на `PowerShell`, нажав на стрелочку рядом с кнопкой `+` в окне терминала.
+  Обратите внимание, что должна использоваться оболочка `PowerShell` (по умолчанию в Windows 10 и выше). Если у вас используется `cmd`, вы можете переключиться на `PowerShell`, нажав на стрелочку рядом с кнопкой `+` в окне терминала.
 :::
 
 :::warning ВАЖНО
-В `build.bat` используется команда `python -m compileall` — ожидается, что у вас в `PATH` доступен `Python 2.7`.
-Проверить, какая версия Python используется по умолчанию, можно командой в этом же терминале:
+  В `build.bat` используется команда `python -m compileall` — ожидается, что у вас в `PATH` доступен `Python 2.7`.
+  Проверить, какая версия Python используется по умолчанию, можно командой в этом же терминале:
 ```bat
 python --version
 ```
-Вывод должен быть таким: `Python 2.7.16`.
+  Вывод должен быть таким: `Python 2.7.16`.
 
-Если версия отличается, замените строку в `build.bat` на путь до вашего `python.exe`, например:
+  Если версия отличается, замените строку в `build.bat` на путь до вашего `python.exe`, например:
 
 ```bat:line-numbers=41
 c:\Python27\python.exe -m compileall ".\build"
@@ -283,14 +207,14 @@ c:\Python27\python.exe -m compileall ".\build"
 
 
 ## Проверочный запуск {#test}
-В корневой папке игры очистите файл `python.log` (откройте любым текстовым редактором и удалите всё его содержимое, затем сохраните).
+  В корневой папке игры очистите файл `python.log` (откройте любым текстовым редактором и удалите всё его содержимое, затем сохраните).
 
-Перенесите файл `my.first-mod_1.0.0.mtmod` в папку с игрой `/mods/<версия_игры>/`, запустите игру и дождитесь входа в ангар.
+  Перенесите файл `my.first-mod_1.0.0.mtmod` в папку с игрой `/mods/<версия_игры>/`, запустите игру и дождитесь входа в ангар.
 
-В центре уведомлений должно появиться сообщение от вашего мода:
-![notification](./assets/notification.png){width=400}
+  В центре уведомлений должно появиться сообщение от вашего мода:
+  ![notification](./assets/notification.png){width=400}
 
-Откройте файл `python.log` и убедитесь, что там есть вывод вашего мода:
+  Откройте файл `python.log` и убедитесь, что там есть вывод вашего мода:
 ```log
 /------------------------------------------------------------------------------------------\
 Tanki(x64) Build: 1.37.0.10 #2189918 starting on Mon Sep  8 04:43:39 2025
@@ -301,5 +225,5 @@ INFO: [MY_FIRST_MOD] Hello, World! Mod version is 1.0.0
 ...
 ```
 
-Логов будет много; можете воспользоваться поиском по файлу (`Ctrl+F`) и найти `MY_FIRST_MOD`, чтобы убедиться, что ваш мод успешно загрузился и выполнился.
+  Логов будет много; можете воспользоваться поиском по файлу (`Ctrl+F`) и найти `MY_FIRST_MOD`, чтобы убедиться, что ваш мод успешно загрузился и выполнился.
 

@@ -56,11 +56,26 @@ python -m compileall ".\build"
 ```
 
 ---
+**Компиляция в SWF**
+
+Запускает скрипт `build.bat` из папки `as3`, если такая папка есть в корне проекта. Этот скрипт должен скомпилировать все `ActionScript`‑файлы в `SWF`‑файлы и поместить их в папку `./as3/bin`. После этого все `SWF`‑файлы копируются в папку `build/res/gui/flash`, откуда попадают в файл мода.
+
+```bat:line-numbers=44
+if exist ".\as3\build.bat" (
+  pushd ".\as3"
+  del /Q /F ".\bin\*.swf"
+  call build.bat
+  xcopy ".\bin\*.swf" "..\build\res\gui\flash\" /Y /I >nul
+  popd
+)
+```
+
+---
 **meta.xml с версией**
 
 Аналогично точке входа, в `meta.xml` проставляется версия мода.
 
-```bat:line-numbers=44
+```bat:line-numbers=53
 if exist ".\meta.xml" (
   powershell -NoProfile -Command "$m = Get-Content '.\meta.xml' -Raw; $m = $m -replace '\{\{VERSION\}\}','%v%'; Set-Content '.\build\meta.xml' $m -Encoding utf8"
 ) else (
@@ -74,7 +89,7 @@ if exist ".\meta.xml" (
 
 Происходит упаковка всех необходимых файлов в архив `.mtmod` с помощью 7-Zip. Упаковываются только файлы с расширениями `.pyc`, `.swf`, `.png` и `meta.xml`.
 
-```bat:line-numbers=52
+```bat:line-numbers=61
 pushd ".\build"
 
 set "folder=%MOD_NAME%_%v%.mtmod"

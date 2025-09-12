@@ -26,34 +26,34 @@
   - [Java JDK 11+](https://www.oracle.com/java/technologies/downloads/#jdk24-windows) – последняя версия `JDK` необходима для работы расширения
   - `AIRSDK` – набор инструментов для компиляции `AS3` необходим для работаы расширения. Устанавливается через [AIR SDK Manager](https://airsdk.harman.com/download)
 ![AIR SDK Manager](./assets/air-sdk-manager.png){width=400}
-- [Apache Royale SWF](https://royale.apache.org/download/) – компилятор `AS3` в `SWF`. Скачайте последнюю версию `Apache Royale JS/SWF` и распакуйте её в любую папку.
+- [Apache Royale](https://royale.apache.org/download/) – компилятор `AS3` в `SWF`. Нужно скачать архив `APACHE ROYALE JS/SWF` и распаковать его в удобное место на диске, например `C:\apache-royale`.
 
 ::: warning ВАЖНО
-При установке `Apache Royale` не перепутайте версию `JS-ONLY` и `JS/SWF`. Нужна именно версия `SWF`.
+При загрузке `Apache Royale` не перепутайте версии `JS-ONLY` и `JS/SWF`, необходима именно версия с `JS/SWF`.
 :::
 
 ## Организация проекта {#project-structure}
 Мы расширим структуру проекта, которая была описана в [инструкции по настройке окружения для Python](../python/).
 `AS3` часть мода полностью независима от `Python` части, поэтому её исходный код не нужно помещать в папку `res`, создайте в корне проекта папку `as3`, в которой разместим папки:
-- `src` – здесь будет находиться исходный код `AS3` мода
-  - `my/first_mod` – корневая папка вашего `AS3` мода, в которой будет находиться весь исходный код.
+- `src/my/first_mod` – корневая папка вашего `AS3` мода, в которой будет находиться весь исходный код.
 - `lib` – здесь будут находиться сторонние библиотеки, которые понадобятся для компиляции
 - `bin` – здесь будет находиться скомпилированный файл `SWF`
 
-Так же создайте конфигурационный файл `asconfig.json`, в котором будут указаны настройки для расширения `ActionScript & MXML` и `build-config.xml` для настроек компиляции `SWF`.
+Так же создайте конфигурационный файл `asconfig.json`, в котором будут указаны настройки для расширения и `build-config.xml` для настроек компиляции `SWF`. А так же файл `build.bat`, который будет запускать компиляцию.
 
 ```
 my-first-mod/
 └── as3/
-    ├── bin/
-    ├── lib/
-    │   └── ... (сторонние библиотеки)
-    ├── src/
-    │   └── my/
-    │       └── first_mod/
-    │           └── ... (исходный код AS3 мода)
-    ├── build-config.xml
-    └── asconfig.json
+├── bin/
+├── lib/
+│   └── ... (сторонние библиотеки)
+├── src/
+│   └── my/
+│       └── first_mod/
+│           └── ... (исходный код AS3 мода)
+├── build-config.xml
+├── asconfig.json
+└── build.bat
 ```
 
 ### Библиотеки игры SWC {#game-swc}
@@ -78,9 +78,68 @@ my-first-mod/
 - `lobby.swc`
 - `predictionIndicator.swc`
 
-### Конфигурация компиляции AS3 {#as3-config}
+В дополнение к игровым библиотекам, вам необходима ещё основная библиотека `playerglobal.swc`, [скачайте](/download/playerglobal.swc){target="_blank"} её и поместите в папку `as3/lib/`.
 
+### Конфигурация компиляции AS3 {#as3-config}
+Заполните файлы `asconfig.json` и `build-config.xml` следующим содержимым:
 ::: code-group
 <<< ./assets/asconfig.json{json :line-numbers}
 <<< ./assets/build-config.xml{xml :line-numbers}
 :::
+
+В `build-config.xml` на 38 строке указывается путь к выходному файлу `SWF`, измените его при необходимости.
+```xml:line-numbers=38
+<output>bin/my.first_mod.swf</output>
+```
+
+### Скрипт сборки {#build-script}
+Заполните файл `as3/build.bat` следующим содержимым:
+::: code-group
+```bat [build.bat]:line-numbers
+@echo off
+
+rem ==== настройки ====
+set "MXML_PATH=C:\apache-royale"
+
+rem ==== компиляция ====
+"%MXML_PATH%\royale-asjs\js\bin\mxmlc" -load-config+=build-config.xml --output=bin/my.first_mod.swf src/my/first_mod/HelloWorldWindow.as
+```
+:::
+
+На 7 строке команда с помощью которой мы компилируем `SWF`:
+- `-load-config+=build-config.xml` – указывает на файл с настройками компиляции
+- `--output=bin/my.first_mod.swf` – указывает путь к выходному `SWF` файлу
+- `src/my/first_mod/HelloWorldWindow.as` – указывает на файл с исходным кодом
+
+Если вам в модификации понадобится несколько `SWF` файлов, то просто добавьте в `build.bat` ещё одну команду для компиляции с другими параметрами.
+
+В разделе `настройки` укажите путь к папке, в которую вы распаковали `Apache Royale`.
+
+#### Обновление основного скрипта сборки {#update-build-script}
+Обновление основного скрипта не требуется, если вы настроили по инструкции [окружение для Python](../python/), то можете убедиться, что там есть блок, который запускает `as3/build.bat`:
+```bat:line-numbers=44 {4}
+if exist ".\as3\build.bat" (
+  pushd ".\as3"
+  del /Q /F ".\bin\*.swf"
+  call build.bat
+  xcopy ".\bin\*.swf" "..\build\res\gui\flash\" /Y /I >nul
+  popd
+)
+```
+
+## Подготовка тестового мода {#test-mod}
+Для проверки работоспособности отобразим в игре окно с надписью `Hello, World!`.
+
+Создадим в папке `as3/src/my/first_mod/` файл `HelloWorldWindow.as` со следующим содержимым:
+```actionscript-3
+package my.first_mod
+{
+    import net.wg.infrastructure.base.AbstractWindowView;
+    public class HelloWorldWindow extends AbstractWindowView
+    {
+
+    }
+}
+```
+
+## Проверочный запуск #{test-run}
