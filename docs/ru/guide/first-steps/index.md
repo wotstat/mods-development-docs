@@ -98,8 +98,8 @@
             └── gui/
                 └── mods/
                     ├── mod_demo.pyc  # [!code highlight]
-                    ├── utils.pyc
-                    └── features/
+                    └── mod_demo/
+                        ├── __init__.pyc
                         ├── feature1.pyc
                         └── feature2.pyc
 ```
