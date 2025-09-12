@@ -35,6 +35,7 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Организация репозитория', link: '/repo' },
           { text: 'Исходный код', link: '/sources' },
+          { text: 'Теория AS3', link: '/as3-theory' },
         ]
       },
       {

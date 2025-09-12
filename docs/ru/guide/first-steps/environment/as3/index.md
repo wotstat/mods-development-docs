@@ -4,22 +4,6 @@
 
 Поэтому подразумевается, что у вас уже настроено окружение для `Python` модов. Если это не так, сначала настройте его, следуя [инструкции по настройке окружения для Python](../python/).
 
-## Немного теории {#theory}
-Пользовательский интерфейс игры состоит из совокупности окон (`Windows`), которыми управляет движок `wulf`. Сами окна могут быть реализованы на:
-- `CGF` – Coherent GameFace, это `HTML` + `JavaScript` + `CSS`
-- `Unbound` – собственный фреймворк Лесты
-- `Scaleform` – это `Flash`, в котором используется язык программирования `ActionScript 3` (AS3)
-
-Наиболее распространённым способом создания графических модов является использование `Scaleform`.
-
-### Scaleform {#scaleform}
-`Scaleform` — это технология, которая позволяет запускать `Flash`‑приложения внутри игры, аналогично тому, как они раньше запускались в браузере с помощью плагина `Adobe Flash Player`.
-
-`Flash`‑приложения пишутся на языке `ActionScript 3` (AS3) и компилируются в файл с расширением `.swf`, который содержит скрипты, картинки, анимации и другие ресурсы необходимые для работы приложения. Игра умеет работать с такими файлами и отображать их в интерфейсе.
-
-### DAAPI {#daapi}
-Для взаимодействия `AS3`‑кода с `Python` скриптами, используется специальный механизм `DAAPI` (Direct Access API). Этот механизм позволяет связать `AS3`‑класс с `Python`‑классом, чтобы они могли обмениваться данными вызывая методы друг друга.
-
 ## Необходимые инструменты {#tools}
 - Полностью настроенное окружение для `Python` модов (см. [инструкцию по настройке окружения для Python](../python/))
 - [ActionScript & MXML](https://marketplace.visualstudio.com/items?itemName=bowlerhatllc.vscode-as3mxml) – расширение для VSCode, которое добавляет поддержку ActionScript
@@ -128,18 +112,43 @@ if exist ".\as3\build.bat" (
 ```
 
 ## Подготовка тестового мода {#test-mod}
-Для проверки работоспособности отобразим в игре окно с надписью `Hello, World!`.
+Для проверки работоспособности отобразим в ангаре игровое окно.
 
 Создадим в папке `as3/src/my/first_mod/` файл `HelloWorldWindow.as` со следующим содержимым:
 ```actionscript-3
 package my.first_mod
 {
-    import net.wg.infrastructure.base.AbstractWindowView;
-    public class HelloWorldWindow extends AbstractWindowView
+  import net.wg.infrastructure.base.AbstractWindowView;
+  import flash.text.TextField;
+
+  public class HelloWorldWindow extends AbstractWindowView
+  {
+    public function HelloWorldWindow()
     {
+      super();
+    }
+
+    override protected function onPopulate():void
+    {
+      super.onPopulate();
+      width = 400;
+      height = 100;
+      window.title = 'My First Mod Window';
+      window.useBottomBtns = false;
+
+      var textStateText:TextField = new TextField();
+      textStateText.width = 384;
+      textStateText.height = 84;
+      textStateText.x = 8;
+      textStateText.y = 8;
+      textStateText.text = 'Мод работает, УРА!';
 
     }
+  }
 }
 ```
+
+### Отображение окна из Python {#show-window}
+Для того, что бы окно появилось в игре, нужно из `Python` скрипта добавить его на экран. Для этого, в создадим управляющий `Python`-класс (подробнее в [теории AS3](../../../scripting/as3-theory/)).
 
 ## Проверочный запуск #{test-run}
