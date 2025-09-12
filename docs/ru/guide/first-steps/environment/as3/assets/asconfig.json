@@ -14,7 +14,8 @@
       "libs/gui_battle-1.0-SNAPSHOT.swc",
       "libs/gui_lobby-1.0-SNAPSHOT.swc",
       "libs/lobby.swc",
-      "libs/predictionIndicator.swc"
+      "libs/predictionIndicator.swc",
+      "libs/playerglobal.swc"
     ]
   },
   "mainClass": "Main"
