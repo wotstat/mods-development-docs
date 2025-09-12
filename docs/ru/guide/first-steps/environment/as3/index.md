@@ -115,7 +115,8 @@ if exist ".\as3\build.bat" (
 Для проверки работоспособности отобразим в ангаре игровое окно.
 
 Создадим в папке `as3/src/my/first_mod/` файл `HelloWorldWindow.as` со следующим содержимым:
-```actionscript-3
+:::code-group
+```actionscript-3 [HelloWorldWindow.as]
 package my.first_mod
 {
   import net.wg.infrastructure.base.AbstractWindowView;
@@ -136,19 +137,160 @@ package my.first_mod
       window.title = 'My First Mod Window';
       window.useBottomBtns = false;
 
-      var textStateText:TextField = new TextField();
-      textStateText.width = 384;
-      textStateText.height = 84;
-      textStateText.x = 8;
-      textStateText.y = 8;
-      textStateText.text = 'Мод работает, УРА!';
+      var text:TextField = new TextField();
+      text.width = 384;
+      text.height = 84;
+      text.x = 8;
+      text.y = 8;
+      text.htmlText = "<font face='$FieldFont' size='14' color='#8C8C7E'>Мод работает! Ура!</font>";
 
+      addChild(text);
     }
   }
 }
 ```
+:::
 
 ### Отображение окна из Python {#show-window}
 Для того, что бы окно появилось в игре, нужно из `Python` скрипта добавить его на экран. Для этого, в создадим управляющий `Python`-класс (подробнее в [теории AS3](../../../scripting/as3-theory/)).
 
-## Проверочный запуск #{test-run}
+Создайте файл `res/scripts/client/gui/mods/my_first_mod/HelloWorldWindow.py` со следующим содержимым:
+
+:::code-group
+```python [HelloWorldWindow.py]
+from frameworks.wulf.gui_constants import WindowLayer
+from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
+from gui.Scaleform.framework import g_entitiesFactories, ScopeTemplates, ViewSettings
+from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
+from helpers import dependency
+from skeletons.gui.app_loader import IAppLoader
+from gui.Scaleform.framework.application import AppEntry
+
+class HelloWorldWindow(AbstractWindowView):
+  def onWindowClose(self):
+    self.destroy()
+
+HELLO_WORLD_WINDOW = "MY_MOD_HELLO_WORLD_WINDOW"
+
+def setup():
+  settingsViewSettings = ViewSettings(
+    HELLO_WORLD_WINDOW,
+    HelloWorldWindow,
+    "my.first_mod.HelloWorldWindow.swf",
+    WindowLayer.TOP_WINDOW,
+    None,
+    ScopeTemplates.VIEW_SCOPE,
+  )
+  g_entitiesFactories.addSettings(settingsViewSettings)
+
+
+def show():
+  appLoader = dependency.instance(IAppLoader) # type: IAppLoader
+  app = appLoader.getApp() # type: AppEntry
+  app.loadView(SFViewLoadParams(HELLO_WORLD_WINDOW))
+```
+:::
+
+Функция `setup()` регистрирует `SWF` файл в системе, а функция `show()` отображает окно в интерфейсе.
+
+Аналогично с `Python` у вас должны быть всплывающие подсказки по наведению мышки:
+![hint](./assets/hint.png){width=400}
+
+И автодополнение по нажатию `.` (точка)
+![suggestion](./assets/suggestion.png){width=400}
+
+В основном файле вашего мода (`res/scripts/client/gui/mods/mod_myFirstMod.py`) добавьте следующий код:
+
+:::code-group
+```python [mod_myFirstMod.py]
+from gui import SystemMessages
+from helpers import dependency
+from skeletons.gui.shared.utils import IHangarSpace
+from .my_first_mod.HelloWorldWindow import setup, show # [!code ++]
+
+MOD_VERSION = '{{VERSION}}'
+
+# получаем ссылку на IHangarSpace
+hangarSpace = dependency.instance(IHangarSpace) # type: IHangarSpace
+
+# Мод загрузился
+def init():
+  print("[MY_FIRST_MOD] Hello, World! Mod version is %s" % MOD_VERSION)
+  # Регистрируем SWF файл
+  setup() # [!code ++]
+
+  # Подписываемся на загрузку ангара
+  hangarSpace.onSpaceCreate += onHangarSpaceCreate
+
+def onHangarSpaceCreate():
+  # Отписываемся от загрузки ангара
+  hangarSpace.onSpaceCreate -= onHangarSpaceCreate
+
+  # Выводим уведомление в ангаре
+  SystemMessages.pushMessage(
+    text='Привет мир! Версия мода: %s' % MOD_VERSION,
+    type=SystemMessages.SM_TYPE.InformationHeader,
+    messageData={ 'header': 'MY_FIRST_MOD' }
+  )
+
+  # Отображаем окно в интерфейсе
+  show() # [!code ++]
+```
+:::
+
+## Проверочный запуск {#test-run}
+Скомпилируйте мод с помощью `build.bat` из корня проекта:
+```cmd
+build -v 1.0.1
+```
+
+:::tip СОВЕТ
+Обратите внимание, что должна использоваться оболочка `CMD`. Если у вас используется `PowerShell`, вы можете переключиться на `CMD`, нажав на стрелочку рядом с кнопкой `+` в окне терминала и выбрать `Command Prompt`.
+:::
+
+В случае успешной компиляции вы увидите следующий вывод:
+![build-success](./assets/build-success.png)
+
+А так же файл мода `my.first-mod_1.0.1.mtmod`, перенесите его в папку с игрой `/mods/<актуальная версия игры>/`. И запустите игру.
+
+После загрузки ангара вы увидите ваше первое графическое окно :tada:
+
+![result](./assets/result.png){width=400}
+
+
+## Итоговая структура проекта {#final-structure}
+В результате, после выполнения всех шагов, структура вашего проекта должна выглядеть так:
+```
+my-first-mod/
+├── .vscode
+│   └── settings.json
+├── wot-src
+│   └── ... (исходный код игры)
+├── build.bat
+├── meta.xml
+├── as3/
+│   ├── bin/
+│   ├── lib/
+│   │   └── ... (.swc библиотеки игры 11 штук + playerglobal.swc)
+│   ├── src/
+│   │   └── my/
+│   │       └── first_mod/
+│   │           └── HelloWorldWindow.as
+│   ├── build-config.xml
+│   ├── asconfig.json
+│   └── build.bat
+└── res
+    └── scripts
+        └── client
+            └── gui
+                └── mods
+                    ├── mod_myFirstMod.py
+                    └── my_first_mod
+                        ├── __init__.py
+                        └── HelloWorldWindow.py
+```
+Теперь на основе этого тестового проекта вы можете создавать свои собственные моды как с графической частью, так и без.
+
+## Советы {#tips}
+
+- У ActionScript есть автоформатирование когда, рекомендуется включить в настройках VSCode опцию `Editor: Format On Save` (Форматировать при сохранении)
