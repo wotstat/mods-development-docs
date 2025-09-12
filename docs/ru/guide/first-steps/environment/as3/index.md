@@ -28,16 +28,16 @@
 ```
 my-first-mod/
 └── as3/
-├── bin/
-├── lib/
-│   └── ... (сторонние библиотеки)
-├── src/
-│   └── my/
-│       └── first_mod/
-│           └── ... (исходный код AS3 мода)
-├── build-config.xml
-├── asconfig.json
-└── build.bat
+    ├── bin/
+    ├── lib/
+    │   └── ... (сторонние библиотеки)
+    ├── src/
+    │   └── my/
+    │       └── first_mod/
+    │           └── ... (исходный код AS3 мода)
+    ├── build-config.xml
+    ├── asconfig.json
+    └── build.bat
 ```
 
 ### Библиотеки игры SWC {#game-swc}
