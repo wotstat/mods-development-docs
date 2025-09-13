@@ -3,6 +3,8 @@ import {
   GitChangelog,
   GitChangelogMarkdownSection,
 } from '@nolebase/vitepress-plugin-git-changelog/vite'
+import { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
+
 
 
 export default defineConfig({
@@ -10,6 +12,12 @@ export default defineConfig({
 
   rewrites: {
     'ru/:rest*': ':rest*'
+  },
+
+  markdown: {
+    config(md) {
+      md.use(groupIconMdPlugin)
+    },
   },
 
   vite: {
@@ -28,6 +36,13 @@ export default defineConfig({
         ]
       }),
       GitChangelogMarkdownSection(),
+      groupIconVitePlugin({
+        customIcon: {
+          '.as': 'vscode-icons:file-type-actionscript',
+          '.xml': 'vscode-icons:file-type-xml',
+          '.bat': localIconLoader(import.meta.url, './theme/assets/devicon:windows8.svg')
+        },
+      })
     ],
   },
 

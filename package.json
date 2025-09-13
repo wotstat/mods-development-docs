@@ -2,7 +2,8 @@
   "devDependencies": {
     "@nolebase/vitepress-plugin-git-changelog": "^2.18.2",
     "vitepress": "^2.0.0-alpha.12",
-    "vitepress-plugin-comment-with-giscus": "^1.1.15"
+    "vitepress-plugin-comment-with-giscus": "^1.1.15",
+    "vitepress-plugin-group-icons": "^1.6.3"
   },
   "scripts": {
     "setup": "npm install",

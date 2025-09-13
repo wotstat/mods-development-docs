@@ -78,7 +78,6 @@ my-first-mod/
 
 ### Скрипт сборки {#build-script}
 Заполните файл `as3/build.bat` следующим содержимым:
-::: code-group
 ```bat [build.bat]:line-numbers
 @echo off
 
@@ -88,7 +87,6 @@ set "MXML_PATH=C:\apache-royale"
 rem ==== компиляция ====
 "%MXML_PATH%\royale-asjs\js\bin\mxmlc" -load-config+=build-config.xml --output=bin/my.first_mod.swf src/my/first_mod/HelloWorldWindow.as
 ```
-:::
 
 На 7 строке команда с помощью которой мы компилируем `SWF`:
 - `-load-config+=build-config.xml` – указывает на файл с настройками компиляции
@@ -115,7 +113,6 @@ if exist ".\as3\build.bat" (
 Для проверки работоспособности отобразим в ангаре игровое окно.
 
 Создадим в папке `as3/src/my/first_mod/` файл `HelloWorldWindow.as` со следующим содержимым:
-:::code-group
 ```actionscript-3 [HelloWorldWindow.as]
 package my.first_mod
 {
@@ -149,14 +146,12 @@ package my.first_mod
   }
 }
 ```
-:::
 
 ### Отображение окна из Python {#show-window}
 Для того, что бы окно появилось в игре, нужно из `Python` скрипта добавить его на экран. Для этого, в создадим управляющий `Python`-класс (подробнее в [теории AS3](../../../scripting/as3-theory/)).
 
 Создайте файл `res/scripts/client/gui/mods/my_first_mod/HelloWorldWindow.py` со следующим содержимым:
 
-:::code-group
 ```python [HelloWorldWindow.py]
 from frameworks.wulf.gui_constants import WindowLayer
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
@@ -189,7 +184,6 @@ def show():
   app = appLoader.getApp() # type: AppEntry
   app.loadView(SFViewLoadParams(HELLO_WORLD_WINDOW))
 ```
-:::
 
 Функция `setup()` регистрирует `SWF` файл в системе, а функция `show()` отображает окно в интерфейсе.
 
@@ -201,7 +195,6 @@ def show():
 
 В основном файле вашего мода (`res/scripts/client/gui/mods/mod_myFirstMod.py`) добавьте следующий код:
 
-:::code-group
 ```python [mod_myFirstMod.py]
 from gui import SystemMessages
 from helpers import dependency
@@ -236,7 +229,6 @@ def onHangarSpaceCreate():
   # Отображаем окно в интерфейсе
   show() # [!code ++]
 ```
-:::
 
 ## Проверочный запуск {#test-run}
 Скомпилируйте мод с помощью `build.bat` из корня проекта:

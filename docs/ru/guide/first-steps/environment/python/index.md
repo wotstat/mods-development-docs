@@ -215,7 +215,7 @@ c:\Python27\python.exe -m compileall ".\build"
   ![notification](./assets/notification.png){width=400}
 
   Откройте файл `python.log` и убедитесь, что там есть вывод вашего мода:
-```log
+```log [python.log]
 /------------------------------------------------------------------------------------------\
 Tanki(x64) Build: 1.37.0.10 #2189918 starting on Mon Sep  8 04:43:39 2025
 ...
