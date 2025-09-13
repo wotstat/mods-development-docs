@@ -42,11 +42,11 @@ const sidebar: DefaultTheme.Sidebar = {
         text: 'Прицелы',
       },
       {
-        text: 'Ремоделлинг',
+        text: 'Ремоделинг',
         collapsed: false,
         base: '/guide/modelling',
         items: [
-          { text: 'Введение', link: '/' },
+          { text: 'Введение', link: '/introducing/' },
           { text: 'Blender', link: '/blender/' },
           {
             text: 'Unified Editor', items: [
