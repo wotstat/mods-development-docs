@@ -5,6 +5,7 @@
     "vitepress-plugin-comment-with-giscus": "^1.1.15"
   },
   "scripts": {
+    "setup": "npm install",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
