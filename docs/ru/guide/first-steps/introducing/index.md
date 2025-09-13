@@ -89,7 +89,7 @@
 В таком файле может быть определена функция `init()`, которая будет вызвана автоматически при загрузке игры и `fini()` для завершения работы мода.
 
 ::: details Пример файловой системы мода и `mod_` файла
-```python
+```
 .mtmod
 ├── meta.xml
 └── res/
@@ -97,7 +97,7 @@
         └── client/
             └── gui/
                 └── mods/
-                    ├── mod_demo.pyc  # [!code highlight]
+                    ├── mod_demo.pyc
                     └── mod_demo/
                         ├── __init__.pyc
                         ├── feature1.pyc

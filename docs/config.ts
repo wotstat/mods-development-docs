@@ -3,7 +3,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Главная', link: '/' },
-  { text: 'Руководство', link: '/guide/first-steps', activeMatch: '/guide/' },
+  { text: 'Руководство', link: '/guide/first-steps/introducing/', activeMatch: '/guide/' },
   { text: 'Статьи', link: '/articles/vehicle-moe' },
 ]
 
@@ -16,7 +16,7 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/guide/first-steps',
         items: [
-          { text: 'Введение', link: '/' },
+          { text: 'Введение', link: '/introducing/' },
           { text: 'Настройка PjOrion', link: '/pjorion/' },
           {
             text: 'Настройка окружения', items: [
@@ -25,21 +25,26 @@ const sidebar: DefaultTheme.Sidebar = {
               { text: 'Для AS3 c Animate', link: '/environment/animate/' },
             ]
           },
-          { text: 'Первый мод', link: '/first-mod' },
-          { text: 'Первый графический мод', link: '/first-ui-mod' }
+          { text: 'Первый мод', link: '/first-mod/' },
+          { text: 'Первый графический мод', link: '/first-ui-mod/' }
         ]
       },
       {
         text: 'Скриптинг',
+        collapsed: false,
         base: '/guide/scripting',
         items: [
-          { text: 'Организация репозитория', link: '/repo' },
-          { text: 'Исходный код', link: '/sources' },
-          { text: 'Теория AS3', link: '/as3-theory' },
+          { text: 'Исходный код', link: '/sources/' },
+          { text: 'Теория AS3', link: '/as3-theory/' },
         ]
       },
       {
         text: 'Прицелы',
+        collapsed: false,
+        base: '/guide/crosshair',
+        items: [
+          { text: 'Как работают', link: '/how-it-works/' },
+        ]
       },
       {
         text: 'Ремоделинг',
@@ -59,19 +64,29 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Дистрибьюция',
         collapsed: false,
-        base: '/guide/modpacks',
+        base: '/guide/distribution',
         items: [
-          { text: 'Форум', link: '/' },
-          { text: 'Модпаки', link: '/' },
-          { text: 'Свой модпак', link: '/' },
+          { text: 'Автоматизация', link: '/automatization/' },
+          { text: 'Форум', link: '/forum/' },
+          { text: 'Модпаки', link: '/modpacks/' },
+          { text: 'Свой модпак', link: '/create-modpack/' },
         ]
       },
       {
-        text: 'Виджеты для стримов',
+        text: 'Виджеты',
         collapsed: false,
         base: '/guide/widgets',
         items: [
-          { text: 'Это тема вотстата', link: '/' },
+          { text: 'Для стримов', link: '/stream/' },
+          { text: 'WotStat', link: '/wotstat/' },
+        ]
+      },
+      {
+        text: 'Другое',
+        collapsed: false,
+        base: '/guide/other',
+        items: [
+          { text: 'Как редактировать документацию', link: '/edit-docs/' },
         ]
       }
     ]
