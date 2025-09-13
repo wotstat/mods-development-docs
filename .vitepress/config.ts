@@ -48,5 +48,7 @@ export default defineConfig({
     outline: { level: 'deep' },
   },
 
+  ignoreDeadLinks: 'localhostLinks',
+
   cleanUrls: true
 })
