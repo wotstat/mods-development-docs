@@ -26,7 +26,8 @@ const sidebar: DefaultTheme.Sidebar = {
             ]
           },
           { text: 'Первый мод', link: '/first-mod/' },
-          { text: 'Первый графический мод', link: '/first-ui-mod/' }
+          { text: 'Первый графический мод', link: '/first-ui-mod/' },
+          { text: 'Автоматизация', link: '/automatization/' },
         ]
       },
       {
@@ -66,7 +67,6 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/guide/distribution',
         items: [
-          { text: 'Автоматизация', link: '/automatization/' },
           { text: 'Форум', link: '/forum/' },
           { text: 'Модпаки', link: '/modpacks/' },
           { text: 'Свой модпак', link: '/create-modpack/' },
