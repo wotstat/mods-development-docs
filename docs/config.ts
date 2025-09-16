@@ -97,7 +97,8 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Статьи',
         items: [
-          { text: 'Статистические данные среднего урона', link: '/vehicle-moe' }
+          { text: 'Статистические данные среднего урона', link: '/vehicle-moe' },
+          { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu' }
         ]
       }
     ]
