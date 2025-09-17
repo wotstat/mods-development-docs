@@ -328,3 +328,48 @@ OptDeviceItemContextMenu._generateOptions = new_generateOptionsRealVehicles
 
 ## Вызов демонтажа оборудования {#call-demount-equipment}
 Остался последний шаг, нужно научиться программно демонтировать оборудование с танка, который не выбран в данный момент.
+
+В игре, демонтаж оборудования происходит с помощью `CGF` кнопки, однако, найти что она вызывает может быть проблематично. Можно было бы попробовать через поиск по `demount`, но в игре есть много чего связанного с демонтажом, и найти именно то что нужно может быть сложно.
+
+Можно вспомнить, что демонтировать оборудование можно из контекстного меню в ангаре:
+![demount-from-hangar](./assets/demount-from-hangar.png){width=400}
+
+Можно было бы поискать другие `...OptDevice...ContextMenu`, но нам повезло, и `HangarOptDeviceSlotContextMenu` находится прямо рядом с `OptDeviceItemContextMenu`, в том же файле `.../tank_setup/context_menu/opt_device.py`.
+
+В этом классе объявляется раздел меню `demountFromSetup`, который вызывает метод `_demountProcess`, который и занимается демонтажом оборудования.
+
+```python
+from gui.shared.gui_items.items_actions import factory as ActionsFactory
+
+@option(_sqGen.next(), TankSetupCMLabel.DEMOUNT_FROM_SETUP)
+def demountFromSetup(self):
+    self._demountProcess(isDestroy=False, everywhere=False)
+    
+@adisp_process
+def _demountProcess(self, isDestroy=False, everywhere=True):
+    item = self._itemsCache.items.getItemByCD(self._intCD)
+    action = ActionsFactory.getAction(
+        ActionsFactory.REMOVE_OPT_DEVICE,
+        self._getVehicle(),
+        item,
+        self._installedSlotId,
+        isDestroy,
+        forFitting=False,
+        everywhere=everywhere
+    )
+    result = yield ActionsFactory.asyncDoAction(action)
+    ...
+```
+
+::: tip Совет
+Как работать с `adisp_process` можно почитать в статье [Асинхронное программирование](/articles/adisp/)
+:::
+
+Как видно из кода, нам необходимо вызвать действие `REMOVE_OPT_DEVICE` с помощью `ActionsFactory`. В которое нужно передать:
+- танк, с которого нужно демонтировать оборудование (объект `self._getVehicle()`)
+- оборудование, которое нужно демонтировать (объект `self._itemsCache.items.getItemByCD(self._intCD)`)
+- id слота, с которого нужно демонтировать оборудование (`self._installedSlotId`)
+
+Как получить танк и оборудование мы уже знаем, осталось понять как получить id слота.
+> При этом стоит учитывать, что у с полевой модернизацией может быть несколько комплектов оборудования, и нужное нам может быть как в первом слоте, так и в пятом (второй слот второго комплекта).
+
