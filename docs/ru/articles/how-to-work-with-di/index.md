@@ -22,6 +22,8 @@ from gui.shared import g_eventBus
 - dependency.instance – получить экземпляр здесь и сейчас
 - dependency.descriptor – определить зависимость как дескриптор класса
 
+Если у вас настроен VSCode с подсказками для игры, то необходимо ставить аннотации типов, чтобы редактор понимал, какой тип будет возвращён. Аннотация типов ставятся через комментарий `# type: <тип>`
+
 ### @dependency.replace_none_kwargs
 Позволяет автоматически внедрять зависимости в параметры функции или метода, если они не были переданы явно.
 ```python
@@ -30,6 +32,7 @@ from skeletons.gui.shared import IItemsCache
 
 @dependency.replace_none_kwargs(itemsCache=IItemsCache)
 def demo(foo, bar, itemsCache=None):
+    # type: (str, str, IItemsCache) -> None
     print(itemsCache)
 
 demo('foo', 'bar')  # itemsCache будет автоматически внедрён
@@ -41,7 +44,7 @@ demo('foo', 'bar')  # itemsCache будет автоматически внед�
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 
-itemsCache = dependency.instance(IItemsCache)
+itemsCache = dependency.instance(IItemsCache) # type: IItemsCache
 print(itemsCache)
 ```
 
@@ -53,7 +56,7 @@ from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 
 class Demo:
-    itemsCache = dependency.descriptor(IItemsCache)
+    itemsCache = dependency.descriptor(IItemsCache) # type: IItemsCache
 
     def showItemsCache(self):
         print(self.itemsCache)
@@ -75,7 +78,7 @@ demo = Demo()
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 
-itemsCache = dependency.instance(IItemsCache)
+itemsCache = dependency.instance(IItemsCache) # type: IItemsCache
 
 print(itemsCache.items.stats)  # Доступ к статистике игрока
 print(itemsCache.items.getVehicles())  # Доступ к танкам игрока
@@ -89,11 +92,25 @@ print(itemsCache.items.getVehicles())  # Доступ к танкам игрок
 from helpers import dependency
 from skeletons.gui.shared.utils import IHangarSpace
 
-hangarSpace = dependency.instance(IHangarSpace)
+hangarSpace = dependency.instance(IHangarSpace) # type: IHangarSpace
 
 hangarSpace.onSpaceCreate += lambda: print("Ангар создан")
 hangarSpace.onSpaceDestroy += lambda: print("Ангар уничтожен")
 hangarSpace.onVehicleChanged += lambda: print("Танк в ангаре изменён")
+```
+
+### `IBattleSessionProvider` {#ibattlesessionprovider}
+Предоставляет доступ к данным о бое, позволяет подписываться на события начала и окончания боя.
+
+```python
+from helpers import dependency
+from skeletons.gui.battle_session import IBattleSessionProvider
+
+sessionProvider = dependency.instance(IBattleSessionProvider) # type: IBattleSessionProvider
+sessionProvider.onBattleSessionStart += lambda: print("Бой начался")
+sessionProvider.onBattleSessionStop += lambda: print("Бой закончился")
+
+print(sessionProvider.isReplayPlaying)  # Проверка, находится ли в данный момент воспроизведение реплея
 ```
 
 ### `IEventsCache` {#ieventscache}
@@ -103,7 +120,7 @@ hangarSpace.onVehicleChanged += lambda: print("Танк в ангаре изме
 from helpers import dependency
 from gui.server_events import IEventsCache
 
-eventsCache = dependency.instance(IEventsCache)
+eventsCache = dependency.instance(IEventsCache) # type: IEventsCache
 
 print(eventsCache.getAllQuests())  # Доступ ко всем задачам
 print(eventsCache.getPersonalMissions())  # Доступ к ЛБЗ
@@ -117,5 +134,5 @@ print(eventsCache.getPersonalMissions())  # Доступ к ЛБЗ
 from helpers import dependency
 from skeletons.gui.lobby_context import ILobbyContext
 
-lobbyContext = dependency.instance(ILobbyContext)
+lobbyContext = dependency.instance(ILobbyContext) # type: ILobbyContext
 ```
