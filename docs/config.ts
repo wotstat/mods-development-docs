@@ -4,7 +4,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Главная', link: '/' },
   { text: 'Руководство', link: '/guide/first-steps/introducing/', activeMatch: '/guide/' },
-  { text: 'Статьи', link: '/articles/vehicle-moe' },
+  { text: 'Статьи', link: '/articles/vehicle-moe', activeMatch: '/articles/' },
 ]
 
 const sidebar: DefaultTheme.Sidebar = {
@@ -98,7 +98,8 @@ const sidebar: DefaultTheme.Sidebar = {
         text: 'Статьи',
         items: [
           { text: 'Статистические данные среднего урона', link: '/vehicle-moe' },
-          { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu' }
+          { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu/' },
+          { text: 'Как работать с Dependency Injections', link: '/how-to-work-with-di/' },
         ]
       }
     ]
