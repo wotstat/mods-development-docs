@@ -74,7 +74,7 @@ if app:
 App.contextMenuMgr.show('DEMO_CONTEXT_MENU');
 ```
 
-## Декларативный подход {$declarative-way}
+## Декларативный подход {#declarative-way}
 
 Наследоваться от `ContextMenu` и использовать декоратор `@option(order, 'Label')` для методов-обработчиков кнопок.
 
