@@ -70,7 +70,7 @@ if app:
 ```
 
 ### Вызываем из флеша {#call-from-flash}
-```actionscript
+```actionscript-3
 App.contextMenuMgr.show('DEMO_CONTEXT_MENU');
 ```
 
