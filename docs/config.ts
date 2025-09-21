@@ -101,6 +101,7 @@ const sidebar: DefaultTheme.Sidebar = {
           { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu/' },
           { text: 'Как работать с Dependency Injections', link: '/how-to-work-with-di/' },
           { text: 'Асинхронное программирование', link: '/adisp/' },
+          { text: 'Мультизапуск', link: '/multilaunch/' },
         ]
       }
     ]
