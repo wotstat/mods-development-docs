@@ -147,3 +147,180 @@ def init():
 ![green-line](./assets/green-line.png)
 :::
 
+## Вычисление брони и пробития {#calculate-armor-penetration}
+
+Для тестирования функции вычисления брони вам потребуется запустить тренировочную комнату. Позовите друга или воспользуйтесь [мультизапуском](/articles/multilaunch/).
+
+В игре уже реализован механизм вычисления брони в точке прицеливания (цветовая индикация в прицеле о вероятности пробития). Нам нужно воспользоваться этим же механизмом. Реализовано это по средствам класса `_CrosshairShotResults`.
+
+В нём присутствуют функции:
+- `_shouldRicochet` — проверяет, отрикошетит ли снаряд от брони
+- `getShotResult` - вычисляет о вероятности пробития (низкая, средняя, высокая). В процессе определения вычисления фактическая толщина брони с учётом типа снаряда.
+  - `__shotResultModernHE` – для осколочно-фугасных снарядов
+  - `__shotResultDefault` – для всех остальных типов снарядов
+
+Нам потребуется реализовать похожий механизм, но с вычислением фактической толщины брони, а не вероятности пробития.
+
+За цветовую индикацию в прицеле отвечает класс `ShotResultIndicatorPlugin`, в нём можно подсмотреть в какой момент происходит перерасчёт брони.
+```python [ShotResultIndicatorPlugin.py]
+from skeletons.gui.battle_session import IBattleSessionProvider
+from helpers import dependency
+...
+sessionProvider = dependency.descriptor(IBattleSessionProvider)
+...
+def start(self):
+  ...
+  ctrl = self.sessionProvider.shared.crosshair
+  ctrl.onGunMarkerStateChanged += self.__onGunMarkerStateChanged
+...
+def __onGunMarkerStateChanged(self, markerType, position, direction, collision):
+  ...
+```
+
+От сюда мы видим, что необходимо подписаться на событие `onGunMarkerStateChanged` из `IBattleSessionProvider.shared.crosshair`.
+
+### Тестирование через PjOrion {#testing-with-pjorion}
+Во время тестов мы будем часто менять код обработчика события, если каждый раз подписываться заново, то будет накапливаться всё больше и больше подписок, что приведёт к множественному срабатыванию обработчика.
+
+Чтоб переопределить обработчик сделаем обёртку:
+
+```python
+from skeletons.gui.battle_session import IBattleSessionProvider
+from helpers import dependency
+
+sessionProvider = dependency.instance(IBattleSessionProvider) # type: IBattleSessionProvider
+
+def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
+    print("onGunMarkerStateChanged", markerType, hitPoint, direction, collision)
+
+def wrapper(*a, **k):
+    onGunMarkerStateChanged(*a, **k)
+
+sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
+```
+
+Запустите тренировочную комнату и в `PjOrion` выполните этот код. После этого закомментируйте строку с подпиской.
+```python
+# sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
+```
+Теперь вы можете изменить функцию `onGunMarkerStateChanged` и выполнять её в `PjOrion`, не боясь, что будет накапливаться количество подписок.
+```python
+def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
+    print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision)
+```
+
+Вместо старой функции теперь будет вызываться новая.
+
+### Реализация вычислений {#calculate-penetration}
+
+Создадим функцию `computeResult(hitPoint, direction, collision)` в которой будет производить все вычисления.
+
+```python
+def computeResult(hitPoint, direction, collision):
+  print("computeResult", hitPoint, direction, collision)
+
+def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
+    print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision) # [!code --]
+    computeResult(hitPoint, direction, collision) # [!code ++]
+```
+
+Будем работать только с ней. Добавим базовые проверки и получим информацию о снаряде и игроке.
+
+```python
+from Vehicle import Vehicle as VehicleEntity
+from DestructibleEntity import DestructibleEntity
+
+def computeResult(hitPoint, direction, collision):
+    if not collision: return
+
+    entity = collision.entity
+    if not isinstance(entity, (VehicleEntity, DestructibleEntity)): return
+
+    player = BigWorld.player()
+    if player is None: return
+
+    vDesc = player.getVehicleDescriptor()
+    shell = vDesc.shot.shell
+    shellKind = shell.kind
+    ppDesc = vDesc.shot.piercingPower
+    maxDist = vDesc.shot.maxDistance
+    dist = (hitPoint - player.getOwnVehiclePosition()).length
+```
+
+Получим ссылку на `_CrosshairShotResults` и вызовем его методы для вычисления брони.
+
+```python
+from AvatarInputHandler import gun_marker_ctrl
+shotResultResolver = gun_marker_ctrl.createShotResultResolver()
+
+def computeResult(hitPoint, direction, collision):
+    ...
+    # Актуальное пробитие на дистанции
+    distPiercingPower = shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
+
+    # Список всех столкновений с колиженом танка
+    collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity)
+    if collisionsDetails is None: return
+```
+
+`collisionsDetails` это список всех `EntityCollisionData` на пути снаряда. В каждом из них есть информация о дистанции от референсной `hitPoint`, косинус угла попадания, типе брони и её толщине.
+
+Причём в этом списке будет и входное и выходное столкновение с бронёй танка.
+
+Сделаем функцию, которая будет вычислять суммарную приведённую броню до первого столкновения с танком (`vehicleDamageFactor == 1`). Дополнительно, на каждом шаге будет проверяться, не отрикошетит ли снаряд от брони.
+
+```python
+def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
+  # type: (Math.Vector3, typing.Optional[EntityCollisionData], Math.Vector3, Shell) -> (float, Boolean)
+
+  if collision is None: return (0.0, False, False, 0.0)
+
+  entity = collision.entity
+  collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity) # type: typing.List[SegmentCollisionResultExt]
+  if not collisionsDetails: return (0.0, False, False, 0.0)
+
+  totalArmor = 0.0
+  ignoredMaterials = set()
+  isRicochet = False
+  hitArmor = False
+  jetStartDist = None
+  jetLoss = 0.0
+  jetLossPPByDist = shotResultResolver._SHELL_EXTRA_DATA[shell.kind].jetLossPPByDist # сколько теряет кумулятивная струя в воздухе на метр
+
+  for c in collisionsDetails:
+    if not shotResultResolver._CrosshairShotResults__isDestructibleComponent(entity, c.compName): break
+
+    material = c.matInfo # type: MaterialInfo
+    if material is None or material.armor is None: continue
+
+    key = (c.compName, material.kind)
+    if key in ignoredMaterials: continue
+
+    hitAngleCos = c.hitAngleCos if material.useHitAngle else 1.0
+    totalArmor += shotResultResolver._computePenetrationArmor(shell, hitAngleCos, material)
+
+    isRicochet |= shotResultResolver._shouldRicochet(shell, hitAngleCos, material)
+
+    if material.collideOnceOnly: ignoredMaterials.add(key)
+    if material.vehicleDamageFactor:
+      # вычисляем потери кумулятивной струи в воздухе ПЕРЕД основным слоем
+      if jetStartDist: jetLoss = (c.dist - jetStartDist) * jetLossPPByDist
+      hitArmor = True
+      break
+
+    if jetStartDist is None and jetLossPPByDist > 0.0:
+      jetStartDist = c.dist + material.armor * 0.001 # точка старта за бронёй
+
+  return (float(totalArmor), isRicochet, hitArmor, jetLoss)
+```
+
+Вызовем эту функцию из `computeResult` и выведем результат в консоль.
+
+```python
+def computeResult(hitPoint, direction, collision):
+    ...
+    totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
+    print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.1f" % (
+      dist, distPiercingPower, totalArmor, isRicochet, hitArmor, jetLoss
+    ))
+```
