@@ -62,7 +62,7 @@
 ### Пример 1: Вывод версии игры {#example-game-version}
 Напечатайте в консоли следующий код и выполните его:
 
-```python
+```python [PjOrion]
 from helpers import getShortClientVersion
 
 print(getShortClientVersion())
@@ -76,7 +76,7 @@ print(getShortClientVersion())
 
 Функция `BigWorld.player()` возвращает объект игрока, который в **ангаре** является экземпляром класса [`PlayerAccount`](https://github.com/izeberg/wot-src/blob/709a8c2b9ede8a7515b45b92bdc2d3eacf14f784/sources/res/scripts/client/Account.py#L130). У этого объекта есть атрибут `name`, в котором хранится никнейм игрока.
 
-```python
+```python [PjOrion]
 import BigWorld
 
 print(BigWorld.player().name)

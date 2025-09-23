@@ -1,6 +1,6 @@
 # Первый реальный мод {#first-real-mod}
 
-В этом руководстве мы пройдём все этапы создания реального Python-мода, в качестве примера, будет повторён мод [Быстрый демонтаж оборудования 2.0](http://forum.tanki.su/index.php?/topic/2204705-13700-quick-demount-20-быстрый-демонтаж-оборудования-20/). Будут разобраны не только шаги, которые необходимы для разработки мода, но и объяснен принцип, как до этих шагов нужно догадаться. 
+В этом руководстве мы пройдём все этапы создания реального Python-мода, в качестве примера, будет повторён мод [Быстрый демонтаж оборудования 2.0](http://forum.tanki.su/index.php?/topic/2204705-13700-quick-demount-20-быстрый-демонтаж-оборудования-20/). Будут разобраны не только шаги, которые необходимы для разработки мода, но и объяснен принцип, как до этих шагов нужно догадаться.
 
 Этот мод позволяет быстро демонтировать оборудование с танка находясь в меню установки оборудования на другой танк.
 
@@ -105,7 +105,7 @@ SomeClass.some_method = my_method
 Эта функция определена в прородителе класса `OptDeviceItemContextMenu` -> `BaseEquipmentItemContextMenu` -> `BaseItemContextMenu` -> `BaseTankSetupContextMenu` -> `ContextMenu` -> `AbstractContextMenuHandler`
 
 Проверим так ли это через `PjOrion`. Дня начала сохраним оригинальный метод
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 orig_generateOptions = OptDeviceItemContextMenu._generateOptions
 
@@ -121,7 +121,7 @@ print('Original _generateOptions:', orig_generateOptions)
 
 Теперь мы можем попробовать переопределить `OptDeviceItemContextMenu._generateOptions` на свою реализацию, для начала просто выведем в консоль что мы туда попали. Внутри новой функции нужно вернуть результат оригинального метода `orig_generateOptions`, чтобы не сломать существующую логику.
 
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 #orig_generateOptions = OptDeviceItemContextMenu._generateOptions
 
@@ -138,7 +138,7 @@ OptDeviceItemContextMenu._generateOptions = new_generateOptions
 
 Теперь можно посмотреть что именно возвращает оригинальный метод, для этого выведем его результат в консоль.
 
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 #orig_generateOptions = OptDeviceItemContextMenu._generateOptions
 
@@ -161,7 +161,7 @@ OptDeviceItemContextMenu._generateOptions = new_generateOptions
 
 Для нашей реализации, нам нужно в конец списка подменю `Демонтировать с другого танка`, в котором будет печеречисление танков с установленным оборудованием. Пока добавим подменю из трёх тестовых танков.
 
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 #orig_generateOptions = OptDeviceItemContextMenu._generateOptions
 
@@ -190,13 +190,13 @@ OptDeviceItemContextMenu._generateOptions = new_generateOptions
 Для этого в самом базовом классе `AbstractContextMenuHandler` есть метод `onOptionSelect(optionId)`, который вызывается при нажатии на любой пункт меню, и в него передаётся этот самый идентификатор.
 
 Сохраним его известным способом, после чего закомментируем сохранение, чтобы не перезаписать его случайно в дальнейшем.
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 orig_onOptionSelect = OptDeviceItemContextMenu.onOptionSelect
 ```
 
 Теперь определим свою реализацию, в которой мы будем обрабатывать наши пункты меню.
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import OptDeviceItemContextMenu
 #orig_onOptionSelect = OptDeviceItemContextMenu.onOptionSelect
 
@@ -225,7 +225,7 @@ OptDeviceItemContextMenu.onOptionSelect = new_onOptionSelect
 ### Исследуем OptDeviceItemContextMenu {#explore-game-objects}
 Для этого, модифицируем наш `new_generateOptions`, чтобы вывести объект `obj` в глобальную область видимости `PjOrion`, чтобы можно было его исследовать.
 
-```python
+```python [PjOrion]
 def new_generateOptionsSaveObj(obj, *a, **k):
     global last_OptDeviceItemContextMenu
     last_OptDeviceItemContextMenu = obj
@@ -252,7 +252,7 @@ OptionalDevice<intCD:23801, type:optionalDevice, nation:15>
 Воспользовшись поиском по `getInstalledVehicles` можно найти множество примеров, где этот метод вызывается с двумя аргументами, первым из которых является `self`, а вторым `vehicles` (массив танков).
 
 Например в `InventoryBlockConstructor`:
-```python
+```python [PjOrion]
 ...
 def _getInstalledVehicles(self, module, inventoryVehicles):
     return module.getInstalledVehicles(inventoryVehicles.itervalues())
@@ -264,7 +264,7 @@ installedVehicles = self._getInstalledVehicles(module, inventoryVehicles)
 ```
 
 Попробуем сделать так же, для этого получим список всех танков в ангаре с помощью `itemsCache`:
-```python
+```python [PjOrion]
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 from gui.shared.utils.requesters import REQ_CRITERIA
@@ -288,7 +288,7 @@ set([
 ```
 
 Преобразуем его в массив (`intCD`, `name`) и выведем в консоль.
-```python
+```python [PjOrion]
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 from gui.shared.utils.requesters import REQ_CRITERIA
@@ -305,7 +305,7 @@ print([(v.intCD, v.userName) for v in installedVehicles])x
 ### Обновление контекстного меню {#update-context-menu}
 Обновим контекстное меню, чтобы оно показывало реальные танки с установленным оборудованием.
 
-```python
+```python [PjOrion]
 itemsCache = dependency.instance(IItemsCache) # type: IItemsCache
 inventoryVehicles = itemsCache.items.getVehicles(REQ_CRITERIA.INVENTORY)
 
@@ -377,12 +377,12 @@ def _demountProcess(self, isDestroy=False, everywhere=True):
 Что именно это за id не очень понятно, в этом случае можно попробовать переопределить метод `_demountProcess` и вывести в консоль что находится в нужных паратметрах.
 
 Сохраняем оригинальный метод
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import HangarOptDeviceSlotContextMenu
 orig_demountProcess = HangarOptDeviceSlotContextMenu._demountProcess
 ```
 Переопределяем его
-```python
+```python [PjOrion]
 from gui.Scaleform.daapi.view.lobby.tank_setup.context_menu.opt_device import HangarOptDeviceSlotContextMenu
 #orig_demountProcess = HangarOptDeviceSlotContextMenu._demountProcess
 
@@ -395,14 +395,14 @@ def new_demountProcess(obj, *a, **k):
 HangarOptDeviceSlotContextMenu._demountProcess = new_demountProcess
 ```
 
-После этого, можно поэкспериментировать с демонтажом оборудования из контекстного меню в ангаре, в том числе из разных комплектов оборудования, чтобы понять что именно приходит в `self._installedSlotId`. 
+После этого, можно поэкспериментировать с демонтажом оборудования из контекстного меню в ангаре, в том числе из разных комплектов оборудования, чтобы понять что именно приходит в `self._installedSlotId`.
 В результате, можно понять, что `self._installedSlotId` это просто порядковый номер слота, начиная с нуля, в том числе и в дополнительном комплекте оборудования.
 
 ### Пробуем демонтировать {#try-demount}
 Теперь, когда мы поняли что нужно передавать в `ActionsFactory.getAction`, можно реализовать демонтаж оборудования с выбранного танка.
 
 Нам понадобится `intCD` танка и `intCD` оборудования, которое мы хотим демонтировать. Воспользуемся текущей техникой в ангаре (`g_currentVehicle`) и получим её `intCD` и оборудование из второго слота
-```python
+```python [PjOrion]
 from CurrentVehicle import g_currentVehicle
 print(g_currentVehicle.intCD)
 print(g_currentVehicle.item.optDevices.installed[1].intCD)
@@ -418,7 +418,7 @@ print(g_currentVehicle.item.optDevices.installed[1].intCD)
 - `id` слота `1` (второй слот, так как нумерация с нуля)
 
 Вызовем демонтаж, как в примере из `HangarOptDeviceSlotContextMenu._demountProcess`, но с нашими параметрами.
-```python
+```python [PjOrion]
 from gui.shared.gui_items.items_actions import factory as ActionsFactory
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
@@ -449,13 +449,13 @@ demount(4737, 25593, 1) # подставьте свои значения
 :::
 
 
-В результате получаем зависший экран с размытием. Такое бывает. В данном случае, поможет `ESC` -> `Сменить сервер`, что полностью перезагрузит интерфейс ангара. Иногда может понадобиться полная перезагрузка игры. 
+В результате получаем зависший экран с размытием. Такое бывает. В данном случае, поможет `ESC` -> `Сменить сервер`, что полностью перезагрузит интерфейс ангара. Иногда может понадобиться полная перезагрузка игры.
 
 Когда код написан точно правильно, вы его несколько раз проверили, а он всё равно не работает, то проблема может быть в способе запуска. В данном случае в `PjOrion`, скорее всего, код запускается не в главном потоке, и интерфейс не может проинициализироваться.
 
 Можно принудительно запустить код в главном потоке с помощью трюка с `BigWorld.callback(time, callback)`, этот механизм используется что бы отложить запуск функции на указанное время, при этом запуск происходит от имени движка в главном потоке.
 
-```python
+```python [PjOrion]
 BigWorld.callback(0, lambda: demount(4737, 25593, 1))
 ```
 ::: details Результат
@@ -467,7 +467,7 @@ BigWorld.callback(0, lambda: demount(4737, 25593, 1))
 ### Получение индекса слота {#get-slot-id}
 Остаётся научиться автоматически определять `slotId` по оборудованию и танку.
 В теории это делается легко с помощью перебора `optDevices.installed` как мы делали в пошлом разделе для `g_currentVehicle`
-```python
+```python [PjOrion]
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache
 
@@ -501,7 +501,7 @@ def __doChangeSetupIndex(self, groupId, currentIndex):
 
 Применим это знание к нашей функции `getInstalledSlotIdx`, чтобы она могла находить оборудование в любом комплекте.
 
-```python
+```python [PjOrion]
 from adisp import adisp_process, adisp_async
 from helpers import dependency
 from skeletons.gui.shared import IItemsCache

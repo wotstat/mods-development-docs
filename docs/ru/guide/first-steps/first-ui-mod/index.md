@@ -54,7 +54,7 @@ def __onGunMarkerStateChanged(self, markerType, position, direction, collision):
 
 Чтоб переопределить обработчик сделаем обёртку:
 
-```python
+```python [PjOrion]
 from skeletons.gui.battle_session import IBattleSessionProvider
 from helpers import dependency
 
@@ -70,11 +70,11 @@ sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 ```
 
 Запустите тренировочную комнату и в `PjOrion` выполните этот код. После этого закомментируйте строку с подпиской.
-```python
+```python [PjOrion]
 # sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 ```
 Теперь вы можете изменить функцию `onGunMarkerStateChanged` и выполнять её в `PjOrion`, не боясь, что будет накапливаться количество подписок.
-```python
+```python [PjOrion]
 def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
     print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision)
 ```
@@ -85,7 +85,7 @@ def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
 
 Создадим функцию `computeResult(hitPoint, direction, collision)` в которой будет производить все вычисления.
 
-```python
+```python [PjOrion]
 def computeResult(hitPoint, direction, collision):
   print("computeResult", hitPoint, direction, collision)
 
@@ -96,7 +96,7 @@ def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
 
 Будем работать только с ней. Добавим базовые проверки и получим информацию о снаряде и игроке.
 
-```python
+```python [PjOrion]
 from Vehicle import Vehicle as VehicleEntity
 from DestructibleEntity import DestructibleEntity
 
@@ -120,7 +120,7 @@ def computeResult(hitPoint, direction, collision):
 
 Получим ссылку на `_CrosshairShotResults` и вызовем его методы для вычисления брони.
 
-```python
+```python [PjOrion]
 from AvatarInputHandler import gun_marker_ctrl
 shotResultResolver = gun_marker_ctrl.createShotResultResolver()
 
@@ -144,7 +144,7 @@ def computeResult(hitPoint, direction, collision):
 
 Так же не забудем учесть потери кумулятивной струи в воздухе (`jetLoss`, после выхода из первого слоя брони, начинает терять 50% пробития за каждый метр).
 
-```python
+```python [PjOrion]
 def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
   # type: (Math.Vector3, typing.Optional[EntityCollisionData], Math.Vector3, Shell) -> (float, Boolean)
 
@@ -191,7 +191,7 @@ def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
 
 Вызовем эту функцию из `computeResult` и выведем результат в консоль.
 
-```python
+```python [PjOrion]
 def computeResult(hitPoint, direction, collision):
     ...
     totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
@@ -202,8 +202,7 @@ def computeResult(hitPoint, direction, collision):
 
 
 ::: details Весь код целиком
-```python
-
+```python [PjOrion]
 from AvatarInputHandler import gun_marker_ctrl
 from Vehicle import Vehicle as VehicleEntity
 from DestructibleEntity import DestructibleEntity
@@ -791,7 +790,7 @@ from .color import lerpColor
 ```
 
 ::: details Весь код `my_first_mod/PiercingMainView.py` целиком
-```python
+```python [my_first_mod/PiercingMainView.py]
 import typing
 import math
 from ProjectileMover import EntityCollisionData
