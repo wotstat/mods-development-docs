@@ -555,7 +555,7 @@ package my.first_mod {
 
 ::: details Весь код `PiercingMainView.as` целиком
 ```actionscript-3
-package wotstat.widgets {
+package my.first_mod {
   import flash.display.Sprite;
   import flash.display.DisplayObject;
   import net.wg.infrastructure.base.AbstractView;
@@ -985,4 +985,7 @@ def setup():
 ```
 :::
 
-Теперь можно скомпилировать мод и запустить игру.
+## Результат
+Готово, теперь можно скомпилировать мод и попробовать его в игре.
+
+<video autoplay loop playsinline><source src="./assets/result.webm" type="video/webm"></source></video>
