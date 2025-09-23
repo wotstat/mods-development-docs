@@ -698,7 +698,7 @@ OptDeviceItemContextMenu.onOptionSelect = new_onOptionSelect
 from .my_first_mod.contextMenuOverride import new_onOptionSelect
 ```
 
-### Результат {#result}
+## Результат {#result}
 Готово, теперь можно скомпилировать мод и попробовать его в игре.
 
 ![final-result](./assets/final-result.png)
