@@ -43,6 +43,11 @@ features:
 
 
 # Motivation
+
+::: warning Help translate
+The original language of the documentation is Russian. Most of the documentation has not been translated into English. If you know how to develop modifications, you can translate the articles using AI and review them for accuracy.
+:::
+
 World of Tanks is a game that’s very well suited for creating mods. However, the entry barrier is quite high: there’s no official documentation, and community guides are incomplete or outdated.
 
 This site aims to help both newcomers and experienced developers quickly set up everything needed for mod creation and find answers to common questions.
