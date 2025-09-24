@@ -1,8 +1,8 @@
 # Первый графический мод {#first-ui-mod}
 
-В этом руководстве мы пройдём все этапы создания реального AS3-мода, в качестве примера, будет повторён мод **калькулятор бронепробития**.
+В этом руководстве мы пройдём все этапы создания реального AS3-мода — в качестве примера будет повторён мод **калькулятор бронепробития**.
 
-Этот мод повышает информативность игрового "светофора", отображая в прицеле информацию о текущем бронепробитии с учётом расстояния до цели, а также о приведённой броне танка, в точке, в которую вы целитесь.
+Этот мод повышает информативность игрового "светофора", отображая в прицеле информацию о текущем бронепробитии с учётом расстояния до цели, а также о приведённой броне танка в точке, в которую вы целитесь.
 
 ![hero](./assets/hero.png)
 
@@ -10,18 +10,18 @@
 
 ## Идея мода {#mod-idea}
 
-Мод должен выводить в прицеле информацию о текущем бронепробитии с учётом расстояния до цели, а также о приведённой броне танка, в точке, в которую вы целитесь.
+Мод должен выводить в прицеле информацию о текущем бронепробитии с учётом расстояния до цели, а также о приведённой броне танка в точке, в которую вы целитесь.
 
 ## Шаги для реализации {#implementation-steps}
 - Добавить на экран интерфейс вывода информации (текстовое поле в прицеле)
-- В момент перемещения прицела, определять, на какую цель он наведен и сколько брони в этой точке
+- В момент перемещения прицела определять, на какую цель он наведён и сколько брони в этой точке
 
 
 ## Вычисление брони и пробития {#calculate-armor-penetration}
 
 Для тестирования функции вычисления брони вам потребуется запустить тренировочную комнату. Позовите друга или воспользуйтесь [мультизапуском](/articles/multilaunch/).
 
-В игре уже реализован механизм вычисления брони в точке прицеливания (цветовая индикация в прицеле о вероятности пробития). Нам нужно воспользоваться этим же механизмом. Реализовано это по средствам класса `_CrosshairShotResults`.
+В Мир Танков уже реализован механизм вычисления брони в точке прицеливания (цветовая индикация в прицеле о вероятности пробития). Нам нужно воспользоваться этим же механизмом. Реализовано это посредством класса `_CrosshairShotResults`.
 
 В нём присутствуют функции:
 - `_shouldRicochet` — проверяет, отрикошетит ли снаряд от брони
@@ -47,12 +47,12 @@ def __onGunMarkerStateChanged(self, markerType, position, direction, collision):
   ...
 ```
 
-От сюда мы видим, что необходимо подписаться на событие `onGunMarkerStateChanged` из `IBattleSessionProvider.shared.crosshair`.
+Отсюда мы видим, что необходимо подписаться на событие `onGunMarkerStateChanged` из `IBattleSessionProvider.shared.crosshair`.
 
 ### Тестирование через PjOrion {#testing-with-pjorion}
 Во время тестов мы будем часто менять код обработчика события, если каждый раз подписываться заново, то будет накапливаться всё больше и больше подписок, что приведёт к множественному срабатыванию обработчика.
 
-Чтоб переопределить обработчик сделаем обёртку:
+Чтобы переопределить обработчик, сделаем обёртку:
 
 ```python [PjOrion]
 from skeletons.gui.battle_session import IBattleSessionProvider
@@ -83,7 +83,7 @@ def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
 
 ### Реализация вычислений {#calculate-penetration}
 
-Создадим функцию `computeResult(hitPoint, direction, collision)` в которой будет производить все вычисления.
+Создадим функцию `computeResult(hitPoint, direction, collision)`, в которой будут выполняться все вычисления.
 
 ```python [PjOrion]
 def computeResult(hitPoint, direction, collision):
@@ -138,11 +138,11 @@ def computeResult(hitPoint, direction, collision):
 
 ![collisionsDetails](./assets/collisions-details.webp)
 
-Причём в этом списке будет и входное и выходное столкновение с бронёй танка.
+Причём в этом списке будет и входное, и выходное столкновение с бронёй танка.
 
 Сделаем функцию, которая будет вычислять суммарную приведённую броню до первого столкновения с танком (`vehicleDamageFactor == 1`). Дополнительно, на каждом шаге будет проверяться, не отрикошетит ли снаряд от брони.
 
-Так же не забудем учесть потери кумулятивной струи в воздухе (`jetLoss`, после выхода из первого слоя брони, начинает терять 50% пробития за каждый метр).
+Также не забудем учесть потери кумулятивной струи в воздухе (`jetLoss`: после выхода из первого слоя брони струя начинает терять 50% пробития за каждый метр).
 
 ```python [PjOrion]
 def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
@@ -304,11 +304,11 @@ sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 
 ## Добавление интерфейса {#adding-ui}
 Теперь, когда у нас есть вычисления, нужно вывести результат на экран.
-Будем делать на основе `my.first_mod` из обучения по [настройке AS3 окружения](../environment/as3/).
+Будем делать на основе `my.first_mod` из обучения по [настройке AS3-окружения](../environment/as3/).
 
-Основная идея состоит в том, чтоб подключится к игре в момент начала боя, найти в иерархии интерфейса `BaseBattlePage` и добавить туда наше `View` которое будет отображать информацию.
+Основная идея состоит в том, чтобы подключиться к Мир Танков в момент начала боя, найти в иерархии интерфейса `BaseBattlePage` и добавить туда наше `View`, которое будет отображать информацию.
 
-Дня начала просто добавим на экран полупрозрачный прямоугольник, чтоб понять, что всё работает. Для этого создайте в вашем проекте файл `as3/src/my/first_mod/PiercingMainView.as`
+Для начала просто добавим на экран полупрозрачный прямоугольник, чтобы понять, что всё работает. Для этого создайте в вашем проекте файл `as3/src/my/first_mod/PiercingMainView.as`
 
 ```actionscript-3 [PiercingMainView.as]
 package my.first_mod {
@@ -375,9 +375,9 @@ call "%MXMLC%" -load-config+=build-config.xml --output=bin/my.first_mod.Piercing
 ```
 :::
 
-После компиляции, в `as3/bin` появится файл `my.first_mod.PiercingMainView.swf`.
+После компиляции в `as3/bin` появится файл `my.first_mod.PiercingMainView.swf`.
 
-Теперь создадим контролирующий Python скрипт `.../my_first_mod/PiercingMainView.py`, который будет связан с `SWF`.
+Теперь создадим контролирующий Python-скрипт `.../my_first_mod/PiercingMainView.py`, который будет связан с `SWF`.
 
 ```python [my_first_mod/PiercingMainView.py]:
 from frameworks.wulf import WindowLayer
@@ -410,7 +410,7 @@ def setup():
   g_eventBus.addListener(events.AppLifeCycleEvent.INITIALIZED, onAppInitialized, EVENT_BUS_SCOPE.GLOBAL)
 ```
 
-В функции `setup()` мы подписываемся на событие инициализации Scaleform приложения, проверяем, что загруженное приложение это боевой интерфейс (`SF_BATTLE`) и загружаем наш `PiercingMainView.swf`.
+В функции `setup()` мы подписываемся на событие инициализации Scaleform‑приложения, проверяем, что загруженное приложение — боевой интерфейс (`SF_BATTLE`), и загружаем наш `PiercingMainView.swf`.
 
 Теперь в точке входа мода `mod_myFirstMod.py` нужно вызвать `setup()`:
 
@@ -423,10 +423,10 @@ def init():
   setupPiercingMainView()
 ```
 
-Теперь можно скомпилировать мод и запустить игру.
+Теперь можно скомпилировать мод и запустить Мир Танков.
 
 ::: danger Внимание!
-Проверяйте моды только в тренировочных комнатах, на тестовых серверах или в режиме "Полигон". Ошибки в модах могут привести к сбоям игры.
+Проверяйте моды только в тренировочных комнатах, на тестовых серверах или в режиме "Полигон". Ошибки в модах могут привести к сбоям Мир Танков.
 :::
 
 ::: details Результат
@@ -439,11 +439,11 @@ def init():
 Будем выводить в формате `{актуальное пробитие}/{фактическая броня}`. Цвет текста будет зависеть от вероятности пробития:
 - Серый – на пути снаряда нет брони
 - Фиолетовый – рикошет
-- Ярко красный – гарантированное непробитие
-- Ярко зелёный – гарантированное пробитие
+- Ярко-красный – гарантированное непробитие
+- Ярко-зелёный – гарантированное пробитие
 - Градиент от мягко красного к мягко зелёному – вероятность пробития от 0% до 100%
 
-Значение текстового поля и его цвет будет передаваться из контролирующего Python скрипта в AS3 `PiercingMainView`.
+Значение текстового поля и его цвет будут передаваться из контролирующего Python-скрипта в AS3 `PiercingMainView`.
 
 #### Изменение AS3 кода {#as3-code-changes}
 В `PiercingMainView.as` добавим инициализацию текстового поля и метод для обновления текста и его цвета.
@@ -537,7 +537,7 @@ package my.first_mod {
 }
 ```
 
-Далее нужно объявить метод, который будет вызываться из Python кода для обновления текста и его цвета.
+Далее нужно объявить метод, который будет вызываться из Python-кода для обновления текста и его цвета.
 
 ```actionscript-3 [PiercingMainView.as]
 package my.first_mod {
@@ -726,7 +726,7 @@ class PiercingMainView(View):
 
   def computeTotalEffectiveArmor(self, hitPoint, collision, direction, shell):
     ...
-  
+
   def computeResult(self, hitPoint, direction, collision):
     ...
     print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.2f" % (  # [!code --]
@@ -737,7 +737,7 @@ class PiercingMainView(View):
 
 ```
 
-Подпишемся на событие `onGunMarkerStateChanged` в `__init__` и будем обновлять текст в этой функции
+Подпишемся на событие `onGunMarkerStateChanged` в `__init__` и будем обновлять текст в этом методе
 
 ```python [my_first_mod/PiercingMainView.py]
 ...
@@ -782,7 +782,7 @@ class PiercingMainView(View):
 
 Для работы плавного перехода цвета необходима функция `lerpColor`. Скачайте [файл `color.py`](/download/first-ui-mod/color.py){target=_blank download} и поместите его в папку `my_first_mod`. В этом файле объявлены функции для работы с цветами.
 
-Импортируйте её в `PiercingMainView.py`:
+Импортируйте его в `PiercingMainView.py`:
 
 ```python [my_first_mod/PiercingMainView.py]
 from .color import lerpColor
@@ -860,7 +860,7 @@ def penetrationProbability(piercing, totalArmor, piercingPowerRandomization):
 class PiercingMainView(View):
 
   sessionProvider = dependency.descriptor(IBattleSessionProvider) # type: IBattleSessionProvider
-  
+
   def __init__(self, *args, **kwargs):
     super(PiercingMainView, self).__init__(*args, **kwargs)
     self.shotResultResolver = gun_marker_ctrl.createShotResultResolver() # type: gun_marker_ctrl._CrosshairShotResults
@@ -924,7 +924,7 @@ class PiercingMainView(View):
     maxDist = vDesc.shot.maxDistance
     piercingPowerRandomization = shell.piercingPowerRandomization
     dist = (hitPoint - player.getOwnVehiclePosition()).length
-    
+
 
     # Актуальное пробитие на дистанции
     distPiercingPower = self.shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
@@ -985,12 +985,12 @@ def setup():
 :::
 
 ## Результат
-Готово, теперь можно скомпилировать мод и попробовать его в игре.
+Готово — теперь можно скомпилировать мод и попробовать его в Мир Танков.
 
 <video autoplay loop playsinline><source src="./assets/result.webm" type="video/webm"></source></video>
 
 ## Улучшения
-Данный мод можно улучшить следующими способами:
+Этот мод можно улучшить следующими способами:
 - Отключить отображение пробития при наведении на союзников и трупы (проверять по `isinstance(entity, Vehicle)`, `entity.isAlive()`, `entity.health`)
 - Для БОПСов отображать "глубину" танка (с помощью `collisionsDetails[x].dist`)
 - Сделать отображение в виде процента вероятности пробить (`prob = penetrationProbability...`)
