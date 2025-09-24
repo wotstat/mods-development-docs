@@ -91,6 +91,14 @@ const sidebar: DefaultTheme.Sidebar = {
         ]
       },
       {
+        text: 'Полезные программы',
+        collapsed: false,
+        base: '/guide/programs',
+        items: [
+          { text: 'FFDec', link: '/ffdec/' },
+        ]
+      },
+      {
         text: 'Другое',
         collapsed: false,
         base: '/guide/other',
