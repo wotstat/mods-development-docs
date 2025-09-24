@@ -12,10 +12,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /guide/first-steps
+      link: /en/guide/first-steps/introducing/
     - theme: alt
       text: Useful Articles
-      link: /articles/vehicle-moe
+      link: /en/articles/vehicle-moe
   image:
     light: /wot-logo-light.svg
     dark: /wot-logo.svg
@@ -23,18 +23,28 @@ hero:
 
 
 features:
-  - title: Python Mods
-    details: Create mods using Python to enhance gameplay
-  - title: Graphic Mods
-    details: Create new interface components or modify existing ones
-  - title: Remodelling
-    details: Learn to export models from the game, edit them, and import them back
+  - title: Environment Setup
+    icon: '⚙️'
+    details: Set up a productive environment with syntax highlighting and code completion
+    link: /en/guide/first-steps/environment/python/
+  - title: Fast Equipment Demount
+    icon: '🔧'
+    details: Recreate a popular helper mod from scratch and learn the basics
+    link: /en/guide/first-steps/first-mod/
+  - title: Armor Penetration Calculator
+    icon: '🎨'
+    details: Build your first UI mod – an armor penetration calculator
+    link: /en/guide/first-steps/first-ui-mod/
 ---
 
-----
-# Welcome to WoT Mods Documentation
-This documentation is for Lesta's Mir Tankov first. If you are looking for modding documentation for Wargaming's World of Tanks, please say me and I will try to help you.
+<style>
+.VPHomeFeatures { margin-bottom: 3em; }
+</style>
 
-Some parts of docs already translated to English, but most of them are still in Russian.
 
-If you know about mods development and can help with translation on [GitHub repo](https://github.com/wotstat/mods-development-docs).
+# Motivation
+World of Tanks is a game that’s very well suited for creating mods. However, the entry barrier is quite high: there’s no official documentation, and community guides are incomplete or outdated.
+
+This site aims to help both newcomers and experienced developers quickly set up everything needed for mod creation and find answers to common questions.
+
+In the First Steps section you will set up your environment (syntax highlighting, code completion, automatic compilation) and then step‑by‑step build two popular mods: a fast equipment demount helper and an armor penetration calculator.

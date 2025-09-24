@@ -2,74 +2,105 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 
 const nav: DefaultTheme.NavItem[] = [
-  { text: 'Main', link: '/en' },
-  { text: 'Guide', link: '/en/guide/first-steps', activeMatch: '/en/guide/' },
-  { text: 'Articles', link: '/en/articles/vehicle-moe' },
+  { text: 'Home', link: '/en/' },
+  { text: 'Guide', link: '/en/guide/first-steps/introducing/', activeMatch: '/en/guide/' },
+  { text: 'Articles', link: '/en/articles/vehicle-moe', activeMatch: '/en/articles/' },
 ]
 
 const sidebar: DefaultTheme.Sidebar = {
-  '/guide': {
-    base: '/guide',
+  '/en/guide': {
+    base: '/en/guide',
     items: [
       {
-        text: 'Первые шаги',
+        text: 'First Steps',
         collapsed: false,
-        base: '/guide/first-steps',
+        base: '/en/guide/first-steps',
         items: [
-          { text: 'Введение', link: '/' },
-          { text: 'Настройка PjOrion', link: '/pjorion/' },
-          { text: 'Исходный код', link: '/sources' },
+          { text: 'Introduction', link: '/introducing/' },
+          { text: 'PjOrion Setup', link: '/pjorion/' },
           {
-            text: 'Настройка окружения', items: [
-              { text: 'Для Python', link: '/python-setup' },
-              { text: 'Для AS3', link: '/as3-setup' },
-              { text: 'Для AS3 c Animate', link: '/animate-setup' },
+            text: 'Environment Setup', items: [
+              { text: 'Python', link: '/environment/python/' },
+              { text: 'AS3', link: '/environment/as3/' },
+              { text: 'AS3 with Animate', link: '/environment/animate/' },
             ]
           },
-          { text: 'Первый мод', link: '/first-mod' },
-          { text: 'Первый графический мод', link: '/first-ui-mod' }
+          { text: 'First Mod', link: '/first-mod/' },
+          { text: 'First UI Mod', link: '/first-ui-mod/' },
+          { text: 'Automation', link: '/automatization/' },
         ]
       },
       {
-        text: 'Прицелы',
+        text: 'Scripting',
+        collapsed: false,
+        base: '/en/guide/scripting',
+        items: [
+          { text: 'Source Code', link: '/sources/' },
+          { text: 'AS3 Theory', link: '/as3-theory/' },
+        ]
       },
       {
-        text: 'Ремоделлинг',
+        text: 'Crosshairs',
         collapsed: false,
-        base: '/guide/modelling',
+        base: '/en/guide/crosshair',
         items: [
-          { text: 'Введение', link: '/' },
-          { text: 'Unified Editor', link: '/' },
+          { text: 'How They Work', link: '/how-it-works/' },
+        ]
+      },
+      {
+        text: 'Remodelling',
+        collapsed: false,
+        base: '/en/guide/modelling',
+        items: [
+          { text: 'Introduction', link: '/introducing/' },
           { text: 'Blender', link: '/blender/' },
+          {
+            text: 'Unified Editor', items: [
+              { text: 'First Steps', link: '/unified-editor/first-steps/' },
+              { text: 'Interface', link: '/unified-editor/interface/' }
+            ]
+          },
         ]
       },
       {
-        text: 'Модпаки',
+        text: 'Distribution',
         collapsed: false,
-        base: '/guide/modpacks',
+        base: '/en/guide/distribution',
         items: [
-          { text: 'Введение', link: '/' },
-          { text: 'Свой модпак', link: '/' },
-          { text: 'МОСТ', link: '/' },
+          { text: 'Forum', link: '/forum/' },
+          { text: 'Modpacks', link: '/modpacks/' },
+          { text: 'Own Modpack', link: '/create-modpack/' },
         ]
       },
       {
-        text: 'Виджеты для стримов',
+        text: 'Widgets',
         collapsed: false,
-        base: '/guide/widgets',
+        base: '/en/guide/widgets',
         items: [
-          { text: 'Это тема вотстата', link: '/' },
+          { text: 'For Streams', link: '/stream/' },
+          { text: 'WotStat', link: '/wotstat/' },
+        ]
+      },
+      {
+        text: 'Other',
+        collapsed: false,
+        base: '/en/guide/other',
+        items: [
+          { text: 'Editing Documentation', link: '/edit-docs/' },
         ]
       }
     ]
   },
-  '/articles': {
-    base: '/articles',
+  '/en/articles': {
+    base: '/en/articles',
     items: [
       {
         text: 'Articles',
         items: [
-          { text: 'Статистические данные среднего урона', link: '/vehicle-moe' }
+          { text: 'Create Context Menu', link: '/how-to-create-context-menu/' },
+          { text: 'Working with Dependency Injection', link: '/how-to-work-with-di/' },
+          { text: 'Asynchronous Programming', link: '/adisp/' },
+          { text: 'Multi Launch', link: '/multilaunch/' },
         ]
       }
     ]
@@ -130,7 +161,7 @@ export default defineAdditionalConfig({
     },
 
     outline: {
-      label: 'Page Contentss',
+      label: 'Page Contents',
     },
 
     darkModeSwitchLabel: 'Theme',

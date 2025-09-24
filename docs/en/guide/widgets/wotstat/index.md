@@ -1,0 +1,1 @@
+# WotStat Widget
