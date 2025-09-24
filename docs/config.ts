@@ -40,6 +40,15 @@ const sidebar: DefaultTheme.Sidebar = {
         ]
       },
       {
+        text: 'Интеграции',
+        collapsed: false,
+        base: '/guide/integrations',
+        items: [
+          { text: 'Настройки модов', link: '/mods-settings/' },
+          { text: 'Список модов', link: '/mods-list/' },
+        ]
+      },
+      {
         text: 'Прицелы',
         collapsed: false,
         base: '/guide/crosshair',
