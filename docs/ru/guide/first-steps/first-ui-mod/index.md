@@ -37,12 +37,12 @@ from skeletons.gui.battle_session import IBattleSessionProvider
 from helpers import dependency
 ...
 sessionProvider = dependency.descriptor(IBattleSessionProvider)
-...
+
 def start(self):
   ...
   ctrl = self.sessionProvider.shared.crosshair
   ctrl.onGunMarkerStateChanged += self.__onGunMarkerStateChanged
-...
+
 def __onGunMarkerStateChanged(self, markerType, position, direction, collision):
   ...
 ```
@@ -61,10 +61,10 @@ from helpers import dependency
 sessionProvider = dependency.instance(IBattleSessionProvider) # type: IBattleSessionProvider
 
 def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
-    print("onGunMarkerStateChanged", markerType, hitPoint, direction, collision)
+  print("onGunMarkerStateChanged", markerType, hitPoint, direction, collision)
 
 def wrapper(*a, **k):
-    onGunMarkerStateChanged(*a, **k)
+  onGunMarkerStateChanged(*a, **k)
 
 sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 ```
@@ -76,7 +76,7 @@ sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 Теперь вы можете изменить функцию `onGunMarkerStateChanged` и выполнять её в `PjOrion`, не боясь, что будет накапливаться количество подписок.
 ```python [PjOrion]
 def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
-    print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision)
+  print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision)
 ```
 
 Вместо старой функции теперь будет вызываться новая.
@@ -90,8 +90,8 @@ def computeResult(hitPoint, direction, collision):
   print("computeResult", hitPoint, direction, collision)
 
 def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
-    print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision) # [!code --]
-    computeResult(hitPoint, direction, collision) # [!code ++]
+  print("onGunMarkerStateChanged_new", markerType, hitPoint, direction, collision) # [!code --]
+  computeResult(hitPoint, direction, collision) # [!code ++]
 ```
 
 Будем работать только с ней. Добавим базовые проверки и получим информацию о снаряде и игроке.
@@ -101,21 +101,21 @@ from Vehicle import Vehicle as VehicleEntity
 from DestructibleEntity import DestructibleEntity
 
 def computeResult(hitPoint, direction, collision):
-    if not collision: return
+  if not collision: return
 
-    entity = collision.entity
-    if not isinstance(entity, (VehicleEntity, DestructibleEntity)): return
+  entity = collision.entity
+  if not isinstance(entity, (VehicleEntity, DestructibleEntity)): return
 
-    player = BigWorld.player()
-    if player is None: return
+  player = BigWorld.player()
+  if player is None: return
 
-    vDesc = player.getVehicleDescriptor()
-    shell = vDesc.shot.shell
-    shellKind = shell.kind
-    ppDesc = vDesc.shot.piercingPower
-    maxDist = vDesc.shot.maxDistance
-    piercingPowerRandomization = shell.piercingPowerRandomization
-    dist = (hitPoint - player.getOwnVehiclePosition()).length
+  vDesc = player.getVehicleDescriptor()
+  shell = vDesc.shot.shell
+  shellKind = shell.kind
+  ppDesc = vDesc.shot.piercingPower
+  maxDist = vDesc.shot.maxDistance
+  piercingPowerRandomization = shell.piercingPowerRandomization
+  dist = (hitPoint - player.getOwnVehiclePosition()).length
 ```
 
 Получим ссылку на `_CrosshairShotResults` и вызовем его методы для вычисления брони.
@@ -125,13 +125,13 @@ from AvatarInputHandler import gun_marker_ctrl
 shotResultResolver = gun_marker_ctrl.createShotResultResolver()
 
 def computeResult(hitPoint, direction, collision):
-    ...
-    # Актуальное пробитие на дистанции
-    distPiercingPower = shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
+  ...
+  # Актуальное пробитие на дистанции
+  distPiercingPower = shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
 
-    # Список всех столкновений с колиженом танка
-    collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity)
-    if collisionsDetails is None: return
+  # Список всех столкновений с колиженом танка
+  collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity)
+  if collisionsDetails is None: return
 ```
 
 `collisionsDetails` это список всех `EntityCollisionData` на пути снаряда. В каждом из них есть информация о дистанции от референсной `hitPoint`, косинус угла попадания, типе брони и её толщине.
@@ -193,11 +193,11 @@ def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
 
 ```python [PjOrion]
 def computeResult(hitPoint, direction, collision):
-    ...
-    totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
-    print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.2f" % (
-      dist, distPiercingPower, totalArmor, isRicochet, hitArmor, jetLoss
-    ))
+  ...
+  totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
+  print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.2f" % (
+    dist, distPiercingPower, totalArmor, isRicochet, hitArmor, jetLoss
+  ))
 ```
 
 
@@ -258,39 +258,39 @@ def computeTotalEffectiveArmor(hitPoint, collision, direction, shell):
   return (float(totalArmor), isRicochet, hitArmor, jetLoss)
 
 def computeResult(hitPoint, direction, collision):
-    if not collision: return
+  if not collision: return
 
-    entity = collision.entity
-    if not isinstance(entity, (VehicleEntity, DestructibleEntity)): return
+  entity = collision.entity
+  if not isinstance(entity, (VehicleEntity, DestructibleEntity)): return
 
-    player = BigWorld.player()
-    if player is None: return
+  player = BigWorld.player()
+  if player is None: return
 
-    vDesc = player.getVehicleDescriptor()
-    shell = vDesc.shot.shell
-    shellKind = shell.kind
-    ppDesc = vDesc.shot.piercingPower
-    maxDist = vDesc.shot.maxDistance
-    piercingPowerRandomization = shell.piercingPowerRandomization
-    dist = (hitPoint - player.getOwnVehiclePosition()).length
+  vDesc = player.getVehicleDescriptor()
+  shell = vDesc.shot.shell
+  shellKind = shell.kind
+  ppDesc = vDesc.shot.piercingPower
+  maxDist = vDesc.shot.maxDistance
+  piercingPowerRandomization = shell.piercingPowerRandomization
+  dist = (hitPoint - player.getOwnVehiclePosition()).length
 
-    # Актуальное пробитие на дистанции
-    distPiercingPower = shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
+  # Актуальное пробитие на дистанции
+  distPiercingPower = shotResultResolver._computePiercingPowerAtDist(ppDesc, dist, maxDist, 1)
 
-    # Список всех столкновений с колиженом танка
-    collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity)
-    if collisionsDetails is None: return (distPiercingPower, None, None, None, None, None)
+  # Список всех столкновений с колиженом танка
+  collisionsDetails = shotResultResolver._getAllCollisionDetails(hitPoint, direction, entity)
+  if collisionsDetails is None: return (distPiercingPower, None, None, None, None, None)
 
-    totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
-    print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.2f" % (
-      dist, distPiercingPower, totalArmor, isRicochet, hitArmor, jetLoss
-    ))
+  totalArmor, isRicochet, hitArmor, jetLoss = computeTotalEffectiveArmor(hitPoint, collision, direction, shell)
+  print("Result: dist=%.1f distPP=%.1f armor=%.1f ricochet=%s hitArmor=%s jetLoss=%.2f" % (
+    dist, distPiercingPower, totalArmor, isRicochet, hitArmor, jetLoss
+  ))
 
 def onGunMarkerStateChanged(markerType, hitPoint, direction, collision):
-    computeResult(hitPoint, direction, collision)
+  computeResult(hitPoint, direction, collision)
 
 def wrapper(*a, **k):
-    onGunMarkerStateChanged(*a, **k)
+  onGunMarkerStateChanged(*a, **k)
 
 sessionProvider.shared.crosshair.onGunMarkerStateChanged += wrapper
 

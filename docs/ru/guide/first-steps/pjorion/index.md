@@ -2,7 +2,7 @@
 
 Программа `PjOrion` — *Project "ORION"* — это инструмент, упрощающий разработку модификаций для игры «Мир Танков».
 
-Наиболее полезная функция `PjOrion` — `REPL` (Read-Eval-Print Loop) для `Python`‑скриптов игры. Она позволяет в реальном времени изменять и отлаживать скрипты без перезапуска клиента.
+Наиболее полезная функция `PjOrion` — `REPL` (Read-Eval-Print Loop) для `Python`‑скриптов игры. Она позволяет подключиться к процессу игры и выполнять код в его контексте без перезапуска клиента.
 
 ## Установка {#installation}
 1. Скачайте последнюю версию `PjOrion` из официальной [темы на форуме](https://koreanrandom.com/forum/topic/15280-pjorion-редактирование-компиляция-декомпиляция-обфускация-модов-версия-135-дата-11082019/). Нас интересует архив `PjOrion_1.3.5_11.08.2019.zip (архив с DLL)`.
@@ -22,12 +22,25 @@
 ![main](./assets/wotexe.png)
 :::
 
-5. В `PjOrion` нажмите `WOT-Transmission -> Options...`, во всплывающем окне уберите галочку с `Automatically search a WOT`, после чего выберите путь до папки с игрой и подпапки `win64`:
+5. Создайте две символические ссылки (`symlink`) из корня игры в папку `/win64` для файлов `paths.xml` и `version.xml`. Это нужно для того, чтобы `PjOrion` мог найти конфигурационные файлы игры.
+
+   Что бы создать такие ссылки, запустите `cmd.exe` (командную строку) **от имени администратора** и выполните следующие команды:
+   ```cmd
+   mklink C:\Games\Tanki\win64\paths.xml C:\Games\Tanki\paths.xml
+   mklink C:\Games\Tanki\win64\version.xml C:\Games\Tanki\version.xml
+   ```
+   Замените `C:\Games\Tanki` на путь до вашей папки с игрой.
+
+::: details Пример создания символических ссылок
+![mklink-result](./assets/mklink-result.png)
+:::
+
+6. В `PjOrion` нажмите `WOT-Transmission -> Options...`, во всплывающем окне уберите галочку с `Automatically search a WOT`, после чего выберите путь до папки с игрой и подпапки `win64`:
 ::: details Окно настроек
 ![options](./assets/options.png){width=400}
 :::
 
-6. Запустите игру через `PjOrion`, нажав `WOT-Transmission -> Run WOT-Client -> WorldOfTanks`. Игра запустится, а в консоли `PjOrion` должен появиться лог игры:
+7. Запустите игру через `PjOrion`, нажав `WOT-Transmission -> Run WOT-Client -> WorldOfTanks`. Игра запустится, а в консоли `PjOrion` должен появиться лог игры:
 ::: details Консоль `PjOrion`
 ![game-launched](./assets/game-launched.png)
 :::
