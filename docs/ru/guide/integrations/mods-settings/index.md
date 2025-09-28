@@ -351,7 +351,7 @@ template = {
 
 ```python
 {
-  'type': 'Spacer' # Тип элемента
+  'type': 'Empty' # Тип элемента
 }
 ```
 
