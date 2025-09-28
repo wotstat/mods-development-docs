@@ -58,13 +58,13 @@ my-first-mod/
 - `battle.swc`
 - `common_i18n_library-1.0-SNAPSHOT.swc`
 - `common-1.0-SNAPSHOT.swc`
-- `damageIndicator.swc`
-- `directionIndicator.swc`
 - `gui_base-1.0-SNAPSHOT.swc`
 - `gui_battle-1.0-SNAPSHOT.swc`
 - `gui_lobby-1.0-SNAPSHOT.swc`
 - `lobby.swc`
-- `predictionIndicator.swc`
+- `damageIndicator.swc` (на самом деле не используется, можно не добавлять)
+- `directionIndicator.swc` (на самом деле не используется, можно не добавлять)
+- `predictionIndicator.swc` (на самом деле не используется, можно не добавлять)
 
 В дополнение к игровым библиотекам вам необходима ещё основная библиотека `playerglobal.swc`. [Скачайте](/download/playerglobal.swc){target="_blank"} её и поместите в папку `as3/lib/`.
 
