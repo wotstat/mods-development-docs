@@ -32,6 +32,11 @@ export default defineConfig({
               'soprachev@mail.ru',
               '13734096+SoprachevAK@users.noreply.github.com'
             ],
+          },
+          {
+            name: 'Kurzdor',
+            username: 'Kurzdor',
+            mapByEmailAliases: ['kurzdor@mail.ru'],
           }
         ]
       }),
