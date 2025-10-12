@@ -15,7 +15,7 @@ export default defineConfig({
   },
 
   sitemap: {
-    hostname: 'https://docs.wotstat.info'
+    hostname: 'https://docs.wotstat.info',
   },
 
   markdown: {
@@ -90,5 +90,6 @@ export default defineConfig({
         ym(104287252, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
       `
     ],
+    ['meta', { name: 'yandex-verification', content: 'c337ea970ac5c3c4' }]
   ]
 })
