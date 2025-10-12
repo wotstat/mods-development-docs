@@ -43,7 +43,7 @@ def demo(foo, bar, itemsCache=None):
 demo('foo', 'bar')  # itemsCache will be injected automatically
 ```
 
-### dependency.instance
+### dependency.instance {#instance}
 Get an instance immediately.
 ```python
 from helpers import dependency
@@ -53,7 +53,7 @@ itemsCache = dependency.instance(IItemsCache) # type: IItemsCache
 print(itemsCache)
 ```
 
-### dependency.descriptor
+### dependency.descriptor {#descriptor}
 Declare a dependency as a class descriptor. It will be injected when an instance is created.
 
 ```python

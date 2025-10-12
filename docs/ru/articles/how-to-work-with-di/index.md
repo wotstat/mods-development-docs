@@ -24,7 +24,7 @@ from gui.shared import g_eventBus
 
 Если у вас настроен VSCode с подсказками для игры, необходимо ставить аннотации типов, чтобы редактор понимал, какой тип будет возвращён. Аннотации ставятся через комментарий `# type: <тип>`.
 
-### @dependency.replace_none_kwargs
+### @dependency.replace_none_kwargs {#replace-none-kwargs}
 Позволяет автоматически внедрять зависимости в параметры функции или метода, если они не были переданы явно.
 ```python
 from helpers import dependency
@@ -38,7 +38,7 @@ def demo(foo, bar, itemsCache=None):
 demo('foo', 'bar')  # itemsCache будет автоматически внедрён
 ```
 
-### dependency.instance
+### dependency.instance {#instance}
 Позволяет получить экземпляр здесь и сейчас.
 ```python
 from helpers import dependency
@@ -48,7 +48,7 @@ itemsCache = dependency.instance(IItemsCache) # type: IItemsCache
 print(itemsCache)
 ```
 
-### dependency.descriptor
+### dependency.descriptor {#descriptor}
 Позволяет определить зависимость как дескриптор класса. Зависимость будет автоматически внедрена при создании экземпляра класса.
 
 ```python

@@ -993,12 +993,12 @@ def setup():
 ```
 :::
 
-## Результат
+## Результат {#result}
 Готово — теперь можно скомпилировать мод и проверить его в игре.
 
 <video autoplay loop playsinline><source src="./assets/result.webm" type="video/webm"></source></video>
 
-## Улучшения
+## Улучшения {#improvements}
 Этот мод можно улучшить следующими способами:
 - Отключить отображение пробития при наведении на союзников и трупы (проверять по `isinstance(entity, Vehicle)`, `entity.isAlive()`, `entity.health`)
 - Для БОПСов отображать "глубину" танка (с помощью `collisionsDetails[x].dist`)

@@ -36,7 +36,7 @@ def myAsyncFunction():
 myAsyncFunction()
 ```
 
-## Совмещение
+## Совмещение `adisp_process` и `adisp_async` {#combining-adisp-process-and-adisp-async}
 Декораторы `@adisp_process` и `@adisp_async` можно совмещать для создания сложных асинхронных цепочек.
 
 ```python
