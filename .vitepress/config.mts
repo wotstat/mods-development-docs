@@ -14,6 +14,10 @@ export default defineConfig({
     'ru/:rest*': ':rest*'
   },
 
+  sitemap: {
+    hostname: 'https://docs.wotstat.info'
+  },
+
   markdown: {
     config(md) {
       md.use(groupIconMdPlugin)
