@@ -1,4 +1,4 @@
-# AS3 Theory
+# AS3 Theory {#as3-mods}
 
 ::: tip Help translate
 If you know Russian you can help by translating this article from the Russian version.
