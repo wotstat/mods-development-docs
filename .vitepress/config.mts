@@ -49,8 +49,8 @@ export default defineConfig({
         customIcon: {
           '.as': 'vscode-icons:file-type-actionscript',
           '.xml': 'vscode-icons:file-type-xml',
-          '.bat': localIconLoader(import.meta.url, './theme/assets/devicon:windows8.svg'),
-          'pjorion': localIconLoader(import.meta.url, './theme/assets/icon:pjorion.svg')
+          '.bat': localIconLoader(import.meta.url, './theme/assets/devicon_windows8.svg'),
+          'pjorion': localIconLoader(import.meta.url, './theme/assets/icon_pjorion.svg')
         },
       })
     ],
