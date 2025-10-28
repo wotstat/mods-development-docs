@@ -18,6 +18,7 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Введение', link: '/introducing/' },
           { text: 'Настройка PjOrion', link: '/pjorion/' },
+          { text: 'Настройка DevTools', link: '/devtools/' },
           {
             text: 'Настройка окружения', items: [
               { text: 'Для Python', link: '/environment/python/' },
@@ -37,6 +38,7 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Исходный код', link: '/sources/' },
           { text: 'Теория AS3', link: '/as3-theory/' },
+          { text: 'Теория Gameface', link: '/gameface-theory/' },
         ]
       },
       {
