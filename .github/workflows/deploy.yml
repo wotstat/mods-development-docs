@@ -15,8 +15,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  translation-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm i
+      - uses: oven-sh/setup-bun@v2
+      - name: Run translation check
+        run: bun scripts/locales-checker.ts
+
   build:
     runs-on: ubuntu-latest
+    needs: translation-check
     steps:
       - name: Checkout
         uses: actions/checkout@v4

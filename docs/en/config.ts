@@ -78,7 +78,6 @@ const sidebar: DefaultTheme.Sidebar = {
         base: '/en/guide/widgets',
         items: [
           { text: 'For Streams', link: '/stream/' },
-          { text: 'WotStat', link: '/wotstat/' },
         ]
       },
       {
