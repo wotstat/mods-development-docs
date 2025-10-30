@@ -61,4 +61,4 @@ body {
 }
 ```
 
-Подробнее о разработке именно танковых виджетов можно прочитать в разделе [Интеграции -> WotStat виджеты](/guide/integrations/wotstat-widgets/introducing/).
+Подробнее о разработке именно танковых виджетов можно прочитать в разделе [Интеграции -> WotStat виджеты](/guide/integrations/wotstat-widgets/introduction/).

@@ -3,7 +3,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Главная', link: '/' },
-  { text: 'Руководство', link: '/guide/first-steps/introducing/', activeMatch: '/guide/' },
+  { text: 'Руководство', link: '/guide/first-steps/introduction/', activeMatch: '/guide/' },
   { text: 'Статьи', link: '/articles/vehicle-moe', activeMatch: '/articles/' },
 ]
 
@@ -16,7 +16,7 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/guide/first-steps',
         items: [
-          { text: 'Введение', link: '/introducing/' },
+          { text: 'Введение', link: '/introduction/' },
           { text: 'Настройка PjOrion', link: '/pjorion/' },
           { text: 'Настройка DevTools', link: '/devtools/' },
           {
@@ -53,7 +53,7 @@ const sidebar: DefaultTheme.Sidebar = {
             base: '/guide/integrations/wotstat-widgets/',
             collapsed: true,
             items: [
-              { text: 'Введение', link: '/introducing/' },
+              { text: 'Введение', link: '/introduction/' },
               { text: 'Взаимодействие с игрой', link: '/data-provider/' },
               { text: 'Удалённое управление', link: '/remote-control/' },
             ]
@@ -73,7 +73,7 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/guide/modelling',
         items: [
-          { text: 'Введение', link: '/introducing/' },
+          { text: 'Введение', link: '/introduction/' },
           { text: 'Blender', link: '/blender/' },
           {
             text: 'Unified Editor', items: [
@@ -125,7 +125,7 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Статьи',
         items: [
-          { text: 'Статистические данные среднего урона', link: '/vehicle-moe' },
+          { text: 'Статистические данные среднего урона', link: '/vehicle-moe/' },
           { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu/' },
           { text: 'Как работать с Dependency Injections', link: '/how-to-work-with-di/' },
           { text: 'Асинхронное программирование', link: '/adisp/' },

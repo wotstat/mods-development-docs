@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: С чего начать?
-      link: /guide/first-steps/introducing/
+      link: /guide/first-steps/introduction/
     - theme: alt
       text: Полезные статьи
       link: /articles/vehicle-moe

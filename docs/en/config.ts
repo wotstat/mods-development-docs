@@ -3,7 +3,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Home', link: '/en/' },
-  { text: 'Guide', link: '/en/guide/first-steps/introducing/', activeMatch: '/en/guide/' },
+  { text: 'Guide', link: '/en/guide/first-steps/introduction/', activeMatch: '/en/guide/' },
   { text: 'Articles', link: '/en/articles/how-to-create-context-menu/', activeMatch: '/en/articles/' },
 ]
 
@@ -16,8 +16,9 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/en/guide/first-steps',
         items: [
-          { text: 'Introduction', link: '/introducing/' },
+          { text: 'Introduction', link: '/introduction/' },
           { text: 'PjOrion Setup', link: '/pjorion/' },
+          { text: 'DevTools', link: '/devtools/' },
           {
             text: 'Environment Setup', items: [
               { text: 'Python', link: '/environment/python/' },
@@ -37,6 +38,26 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Source Code', link: '/sources/' },
           { text: 'AS3 Theory', link: '/as3-theory/' },
+          { text: 'Gameface Theory', link: '/gameface-theory/' },
+        ]
+      },
+      {
+        text: 'Integrations',
+        collapsed: false,
+        base: '/en/guide/integrations',
+        items: [
+          { text: 'Mods Settings', link: '/mods-settings/' },
+          { text: 'Mods List', link: '/mods-list/' },
+          {
+            text: 'WotStat Widgets',
+            base: '/en/guide/integrations/wotstat-widgets/',
+            collapsed: true,
+            items: [
+              { text: 'Introduction', link: '/introduction/' },
+              { text: 'Game Interaction', link: '/data-provider/' },
+              { text: 'Remote Control', link: '/remote-control/' },
+            ]
+          },
         ]
       },
       {
@@ -52,7 +73,7 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/en/guide/modelling',
         items: [
-          { text: 'Introduction', link: '/introducing/' },
+          { text: 'Introduction', link: '/introduction/' },
           { text: 'Blender', link: '/blender/' },
           {
             text: 'Unified Editor', items: [
@@ -81,6 +102,14 @@ const sidebar: DefaultTheme.Sidebar = {
         ]
       },
       {
+        text: 'Useful Programs',
+        collapsed: false,
+        base: '/en/guide/programs',
+        items: [
+          { text: 'FFDec', link: '/ffdec/' },
+        ]
+      },
+      {
         text: 'Other',
         collapsed: false,
         base: '/en/guide/other',
@@ -96,6 +125,7 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Articles',
         items: [
+          { text: 'Retrieving Average Damage Statistics for Vehicles from the Client', link: '/vehicle-moe/' },
           { text: 'Create Context Menu', link: '/how-to-create-context-menu/' },
           { text: 'Working with Dependency Injection', link: '/how-to-work-with-di/' },
           { text: 'Asynchronous Programming', link: '/adisp/' },

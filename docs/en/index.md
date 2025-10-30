@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /en/guide/first-steps/introducing/
+      link: /en/guide/first-steps/introduction/
     - theme: alt
       text: Useful Articles
       link: /en/articles/vehicle-moe
