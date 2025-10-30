@@ -104,9 +104,25 @@ for (const element of missingPaths) {
   }
 }
 
+const GITHUB_STEP_SUMMARY = process.env.$GITHUB_STEP_SUMMARY;
 const hasErrors = missingPaths.some(p => p.missing.length > 0);
 if (hasErrors) {
   console.error(output);
+
+  if (GITHUB_STEP_SUMMARY) {
+    const fs = require('fs');
+    fs.appendFileSync(GITHUB_STEP_SUMMARY, `## :warning: Localization Check Failed\n`);
+    fs.appendFileSync(GITHUB_STEP_SUMMARY, `The following locales are missing pages:\n\n`);
+    for (const element of missingPaths) {
+      if (element.missing.length === 0) continue;
+      fs.appendFileSync(GITHUB_STEP_SUMMARY, `### Locale '${element.locale}' (${element.lang}):\n`);
+      for (const path of element.missing) {
+        fs.appendFileSync(GITHUB_STEP_SUMMARY, `- ${path}\n`);
+      }
+      fs.appendFileSync(GITHUB_STEP_SUMMARY, `\n`);
+    }
+  }
+
   process.exit(1);
 } else {
   console.log("Localization check passed: all locales have the same set of pages.");
