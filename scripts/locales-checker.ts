@@ -95,14 +95,21 @@ const missingPaths = paths.map(p => {
   return { locale: p.locale, lang: p.lang, missing };
 })
 
+let output = ``;
 for (const element of missingPaths) {
-  if (element.missing.length === 0) console.log(`No missing pages for locale '${element.locale}'`);
+  if (element.missing.length === 0) continue
   else {
-    console.error(`Missing pages for locale '${element.locale}' (${element.lang}):`);
-    for (const path of element.missing) console.error(`  ${path}`)
+    output += `Missing pages for locale '${element.locale}' (${element.lang}):\n`;
+    for (const path of element.missing) output += `  ${path}\n`;
   }
-
 }
 
+const hasErrors = missingPaths.some(p => p.missing.length > 0);
+if (hasErrors) {
+  console.error(output);
+  process.exit(1);
+} else {
+  console.log("Localization check passed: all locales have the same set of pages.");
+}
 
 
