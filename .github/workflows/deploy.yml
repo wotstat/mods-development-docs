@@ -23,6 +23,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
+
+      - name: Remove lock file # to avoid issues with Node 24 and GitHub Actions Runners https://github.com/npm/cli/issues/4828
+        run: rm -f package-lock.json
+
       - name: Install dependencies
         run: bun install
       - name: Run translation check
