@@ -48,6 +48,16 @@ const sidebar: DefaultTheme.Sidebar = {
         items: [
           { text: 'Настройки модов', link: '/mods-settings/' },
           { text: 'Список модов', link: '/mods-list/' },
+          {
+            text: 'WotStat виджеты',
+            base: '/guide/integrations/wotstat-widgets/',
+            collapsed: true,
+            items: [
+              { text: 'Введение', link: '/introducing/' },
+              { text: 'Взаимодействие с игрой', link: '/data-provider/' },
+              { text: 'Удалённое управление', link: '/remote-control/' },
+            ]
+          },
         ]
       },
       {
@@ -88,8 +98,7 @@ const sidebar: DefaultTheme.Sidebar = {
         collapsed: false,
         base: '/guide/widgets',
         items: [
-          { text: 'Для стримов', link: '/stream/' },
-          { text: 'WotStat', link: '/wotstat/' },
+          { text: 'Для стримов', link: '/stream/' }
         ]
       },
       {
