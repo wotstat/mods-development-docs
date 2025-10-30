@@ -72,12 +72,12 @@
 :::code-group
 
 ```sh [npm]
-$ bun add -D vitepress@next
+$ bun add -D wotstat-widgets-sdk
 ```
 
 
 ```sh [bun]
-$ bun add -D vitepress@next
+$ bun add -D wotstat-widgets-sdk
 ```
 
 ```html [index.html]
