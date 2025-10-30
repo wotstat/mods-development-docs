@@ -72,7 +72,7 @@
 :::code-group
 
 ```sh [npm]
-$ bun add -D wotstat-widgets-sdk
+$ npm add -D wotstat-widgets-sdk
 ```
 
 
