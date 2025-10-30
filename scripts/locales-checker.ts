@@ -104,7 +104,7 @@ for (const element of missingPaths) {
   }
 }
 
-const GITHUB_STEP_SUMMARY = process.env.$GITHUB_STEP_SUMMARY;
+const GITHUB_STEP_SUMMARY = process.env.GITHUB_STEP_SUMMARY;
 const hasErrors = missingPaths.some(p => p.missing.length > 0);
 if (hasErrors) {
   console.error(output);
