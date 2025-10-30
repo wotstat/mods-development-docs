@@ -110,17 +110,15 @@ if (hasErrors) {
   console.error(output);
 
   if (GITHUB_STEP_SUMMARY) {
-    const fs = require('fs');
-    fs.appendFileSync(GITHUB_STEP_SUMMARY, `## :warning: Localization Check Failed\n`);
-    fs.appendFileSync(GITHUB_STEP_SUMMARY, `The following locales are missing pages:\n\n`);
+    let mdOutput = `## :warning: Localization Check Failed\n`;
+    mdOutput += `The following locales are missing pages:\n\n`;
     for (const element of missingPaths) {
       if (element.missing.length === 0) continue;
-      fs.appendFileSync(GITHUB_STEP_SUMMARY, `### Locale '${element.locale}' (${element.lang}):\n`);
-      for (const path of element.missing) {
-        fs.appendFileSync(GITHUB_STEP_SUMMARY, `- ${path}\n`);
-      }
-      fs.appendFileSync(GITHUB_STEP_SUMMARY, `\n`);
+      mdOutput += `### Locale '${element.locale}' (${element.lang}):\n`;
+      for (const path of element.missing) mdOutput += `- \`${path}\`\n`;
+      mdOutput += `\n`;
     }
+    await Bun.write(GITHUB_STEP_SUMMARY, mdOutput);
   }
 
   process.exit(1);
