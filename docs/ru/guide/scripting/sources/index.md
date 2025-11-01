@@ -16,6 +16,6 @@
 
 ## Готовый репозиторий с картинками `gui.pkg` {#scripting-sources-gui-resources}
 
-Ресурсы пользовательского интерфейса из архива `gui.pkg` можно найти в репозитории [github.com/izeberg/wot-gui-resources](https://github.com/Kurzdor/wot.assets). По веткам можно переключаться между `WG` и `Lesta`.
+Ресурсы пользовательского интерфейса из архива `gui.pkg` можно найти в репозитории [github.com/Kurzdor/wot.assets](https://github.com/Kurzdor/wot.assets). По веткам можно переключаться между `WG` и `Lesta`.
 
 
