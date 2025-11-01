@@ -125,6 +125,7 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Статьи',
         items: [
+          { text: 'Виджет с удалённым управлением', link: '/how-to-create-remote-control-widget/' },
           { text: 'Статистические данные среднего урона', link: '/vehicle-moe/' },
           { text: 'Как создать контекстное меню', link: '/how-to-create-context-menu/' },
           { text: 'Как работать с Dependency Injections', link: '/how-to-work-with-di/' },

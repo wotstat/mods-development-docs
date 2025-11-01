@@ -1,0 +1,1 @@
+# How to create widget for streams with remote control {#how-to-create-remote-control-widget}

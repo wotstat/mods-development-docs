@@ -1,0 +1,158 @@
+:root {
+  /* Прозрачный фон */
+  color-scheme: dark;
+  background: transparent;
+}
+
+@font-face {
+  font-family: Warhelios;
+  src: url(./assets/Warhelios-Regular.ttf) format("truetype");
+}
+
+body {
+  /* Устанавливаем размер шрифта в зависимости от ширины окна */
+  font-size: 1vw;
+
+  /* Убираем отступ и скрываем скролл */
+  margin: 0;
+  overflow: hidden;
+
+  font-family: Warhelios, sans-serif;
+}
+
+#app {
+  display: flex;
+  gap: 1em;
+  padding: 1em;
+}
+
+.item {
+  border-radius: 1.3em;
+  padding: 1.2em;
+  border: 0.25em solid rgba(255, 173, 65, 0.4);
+  background:
+    linear-gradient(0deg, rgba(195, 90, 4, 0.1), rgba(255, 255, 255, 0) 50%),
+    radial-gradient(farthest-corner at 50% 200%, rgba(251, 166, 20, 0.4), rgba(218, 139, 1, 0.3) 90%);
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  max-width: 30%;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+}
+
+.completed {
+  border: 0.25em solid rgba(106, 255, 65, 0.3);
+  background:
+    linear-gradient(0deg, rgba(80, 255, 27, 0.3), rgba(26, 255, 0, 0) 50%),
+    radial-gradient(farthest-corner at 50% 200%, rgba(4, 102, 5, 0.4), rgba(13, 114, 0, 0.3) 90%);
+}
+
+header {
+  font-size: 1em;
+  display: flex;
+}
+
+header h2 {
+  flex: 1;
+}
+
+header h2,
+header p {
+  font-size: 2.7em;
+  margin: 0;
+  font-weight: normal;
+}
+
+.current {
+  color: #ffd28f;
+}
+
+img {
+  width: 9em;
+  height: 9em;
+  margin: -3em;
+  display: none;
+}
+
+/* Прогресс бар */
+.progress-bar {
+  height: 0.3em;
+  width: 100%;
+  margin-top: 1em;
+  position: relative;
+}
+
+/* Фоновая часть прогресс бара (серые прямоугольники) */
+.progress-bar-background {
+  background-image: url(./assets/pattern_grey.png);
+  background-repeat: repeat;
+  background-position: 0 50%;
+  background-size: 0.4em 1em;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 2em rgba(0, 0, 0, 0.5);
+}
+
+/* Текущее значение прогресса (блик) */
+.progress-bar-blink {
+  height: 5em;
+  width: 5em;
+
+  background-image: url(./assets//glow_small.png);
+  background-size: contain;
+  mix-blend-mode: lighten;
+  position: absolute;
+  transform: translate(-49%, -50%);
+  top: 50%;
+  left: var(--progress, 60%);
+  transition: left 0.2s ease;
+}
+
+/* Заполненная часть прогресс бара */
+.progress-bar-pattern {
+  background-image: url(./assets/pattern_orange.png);
+  background-repeat: repeat;
+  background-position: 0 50%;
+  background-size: 0.4em 1em;
+
+  position: absolute;
+  height: 100%;
+  width: var(--progress, 60%);
+  transition: width 0.2s ease;
+}
+
+/* Градиентная подсветка прогресс бара */
+.progress-bar-pattern::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(255, 206, 122, 0.5));
+  mix-blend-mode: overlay;
+}
+
+/* Переопределяет для завершенных этапов */
+.completed .progress-bar-pattern {
+  background-image: url(./assets/pattern_green.png);
+  width: 100%;
+}
+
+.completed .progress-bar-pattern::after {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(187, 255, 78, 0.519), rgba(0, 0, 0, 0.6));
+}
+
+.completed .progress-bar-blink,
+.completed header p {
+  display: none;
+}
+
+.completed img {
+  display: block;
+}
