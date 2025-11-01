@@ -125,6 +125,7 @@ const sidebar: DefaultTheme.Sidebar = {
       {
         text: 'Articles',
         items: [
+          { text: 'Creating Remote Control Widget', link: '/how-to-create-remote-control-widget/' },
           { text: 'Retrieving Average Damage Statistics for Vehicles from the Client', link: '/vehicle-moe/' },
           { text: 'Create Context Menu', link: '/how-to-create-context-menu/' },
           { text: 'Working with Dependency Injection', link: '/how-to-work-with-di/' },
