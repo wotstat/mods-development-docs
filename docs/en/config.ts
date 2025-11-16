@@ -58,6 +58,7 @@ const sidebar: DefaultTheme.Sidebar = {
               { text: 'Remote Control', link: '/remote-control/' },
             ]
           },
+          { text: 'Styles Aggregator', link: '/user-customization/' }
         ]
       },
       {
