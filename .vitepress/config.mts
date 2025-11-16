@@ -41,7 +41,15 @@ export default defineConfig({
             name: 'Kurzdor',
             username: 'Kurzdor',
             mapByEmailAliases: ['kurzdor@mail.ru'],
-          }
+          },
+          {
+            name: 'Roman Levchencko',
+            username: 'ValbertonHere',
+            mapByEmailAliases: [
+              'romandogmc@gmail.com',
+              '67109628+ValbertonHere@users.noreply.github.com'
+            ],
+          },
         ]
       }),
       GitChangelogMarkdownSection(),
