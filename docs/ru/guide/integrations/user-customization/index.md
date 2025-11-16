@@ -6,11 +6,9 @@
 
 Хотите интегрировать свой камуфляж в игру, не меняя при этом игровые стили? Используйте Агрегатор стилей!
 
-![Пример интегрированного стиля](./assets/modpack.png)
-::: tip TODO
-Поменять картинку на момент начала публичного тестирования.
-::: 
+Пример интегрированного стиля:
 
+_- Изображение пока не готово -_
 
 Основные этапы работы модификации заключается в следующем:
 
@@ -34,11 +32,11 @@
 
 ## Текстуры {#style-textures}
 
-::: warning TODO
+::: warning Внимание!
 Данный раздел не завершён, автор `UotsonDesign` допишет его, как разберётся с делами IRL.
 :::
 
-Здесь будет использоваться сложная >_< дизайнерская терминология:
+Здесь будет использоваться следующая терминология:
 
 1. `Паттерн (Pattern)` - зацикленный узор .
 
@@ -52,9 +50,9 @@
 Скорость анимации `PatternMap` и яркость `EmmissionMap` регулируется в [скрипте камуфляжа](#camouflages) cледующими параметрами:
 
 ```xml [user_camouflages.xml]
-    <forwardEmissionBrightness> 7 </forwardEmissionBrightness>
-    <deferredEmissionBrightness> 7 </deferredEmissionBrightness>
-    <emissionAnimationSpeed>  0.3 </emissionAnimationSpeed>.
+  <forwardEmissionBrightness> 7 </forwardEmissionBrightness>
+  <deferredEmissionBrightness> 7 </deferredEmissionBrightness>
+  <emissionAnimationSpeed>  0.3 </emissionAnimationSpeed>
 ```
 
 ### Рисование камуфляжа {#camo-drawing}
@@ -67,16 +65,14 @@
 
 ##### Мир Танков {#mt}
 
-::: tip TODO
-Бебебе с бабаба.
-:::
+_- Текст пока не готов. -_
 
 ##### Photoshop {#photoshop}
 
-1. После скачивания фотошопа, вам потребуется `DDS-расширение` для создания текстурных файлов с расширением `.dds`. Скачать расширение вы можете с официального сайта `разбработчика(TODO: ДОБАВИТЬ САЙТ NVIDIA И ДОПИСАТЬ ГАЙД ПО УСТАНОВКЕ)`.
+1. После скачивания фотошопа, вам потребуется `DDS-расширение` для создания текстурных файлов с расширением `.dds`. Скачать расширение вы можете [здесь](https://disk.yandex.ru/d/4PXKJhSfBxL3kg). Для установки запустить инсталлер, соответствующий разрядности вашей ОС.
 
 2. После установки расширения, в `папке установки Photoshop` у вас должна появится папка `NVTT`:
-![Папка установки Photoshop](./assets/instal-plugin.png).
+![Папка установки Photoshop](./assets/instal-plugin.png)
 3. Теперь запускаем или перезапускаем, если был запущен, `Photoshop` и создаем файл с размерами с соотношением сторон `1:1`.
 
 :::tip Примеры размеров текстуры для Мира Танков
@@ -90,9 +86,7 @@
 
 ##### Paint.NET {#paint-net}
 
-:::tip TODO
-Тут должен быть текст.
-:::
+_- Текст пока не готов. -_
 
 ***
 #### AM - Текстура {#albedo}
@@ -121,10 +115,6 @@
 5. Повторяем `пункт 4`, но теперь выбираем 2 кусочка, нажимаем `CTRL+J` и теперь `отражаем копию по вертикали`(*Или по горизонтали, смотря какой вариант вы выбрали в 4 пункте*). Результат должен получится таким:![Создаем основу узора](./assets/result.png)
 6. Сохраняем получившийся файл в папку `camouflages` по алгоритму: `Файл` -> `Сохранить как...` -> `DDS`. ![HowToSave](./assets/How-to-save.png)
 
-:::
-
-:::tip TODO
-Надо сделать кнопку создания дефолтных xml скриптов и папок в `res_mods` по шаблону.
 :::
 
 ## Локализация {#style-localization}
@@ -197,11 +187,9 @@ XML - это древовидный язык разметки, поэтому к
 ```xml
 <x>
     <y>
-        <z> value </z>
+        <z> значение </z>
     </y>
 </x>
-
-где value - абстрактное значение.
 ```
 Ниже приведены пустышки для всех импортируемых элементов кастомизации. Нужные для редактирования строки будут подсвечены.
 
@@ -223,52 +211,52 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml{4,12-13,15,19-31,38-45} [user_camouflages.xml]
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-    <itemGroup>
-        <userString>	#vehicle_customization:camouflage/transparent	</userString>
-        <season>	ALL	</season>
-        <historical>	true	</historical>
-        <tags> questsProgression fullRGB styleOnly </tags>
-        <priceGroup>	MT camouflages 50g notInShop	</priceGroup>
-        <vehicleFilter>
-            <include/>
-        </vehicleFilter>
-        <camouflage>
-            <id>	10000	</id>
-            <texture>	valberton/user_customization/camouflages/ous_test_camo.dds	</texture>
-            <description>	#vehicle_customization:camouflage/christmas_chinese/description	</description>
-            <scales>	1.3 1 0.5	</scales>
-            <userString>	#vehicle_customization:camouflage/christmas_chinese/label	</userString>
-            <tags> hiddenInUI </tags>
-            <invisibilityFactor>	1	</invisibilityFactor>
-            <palettes>
-                <palette>
-                    <c0> 255 0 0 255 </c0>
-                    <c1> 0 255 0 255 </c1>
-                    <c2> 0 0 255 255 </c2>
-                    <c3> 0 0 0 255 </c3>
-                </palette>
-            </palettes>
-			<rotation>
-				<HULL> -0.234747 </HULL>
-				<TURRET> 1.610764 </TURRET>
-				<GUN> -0.234747 </GUN>
-			</rotation>
-            <tiling/>
-            <tilingSettings>
-                <type>	relative	</type>
-                <factor>	2.574355  2.582175	</factor>
-                <offset>	0.000000 0.000000	</offset>
-            </tilingSettings>
-			<gloss> 0.509 0.509 0.409 0.509 </gloss>
-			<metallic> 0.23 0.2 0.19 0.23 </metallic>
-            <glossMetallicMap> valberton/user_customization/camouflages/example_gm.dds </glossMetallicMap>
-            <emissionMap> valberton/user_customization/camouflages/example_em.dds </emissionMap>
-            <emissionPatternMap> valberton/user_customization/camouflages/example_pat.dds </emissionPatternMap>
-            <forwardEmissionBrightness> 7 </forwardEmissionBrightness>
-            <deferredEmissionBrightness> 7 </deferredEmissionBrightness>
-            <emissionAnimationSpeed>  0.3 </emissionAnimationSpeed>
-        </camouflage>
-    </itemGroup>
+  <itemGroup>
+    <userString> #vehicle_customization:camouflage/transparent </userString>
+    <season> ALL </season>
+    <historical> true </historical>
+    <tags> questsProgression fullRGB styleOnly </tags>
+    <priceGroup> MT camouflages 50g notInShop </priceGroup>
+    <vehicleFilter>
+      <include/>
+    </vehicleFilter>
+    <camouflage>
+      <id> 10000 </id>
+      <texture>	valberton/user_customization/camouflages/ous_test_camo.dds </texture>
+      <description> #vehicle_customization:camouflage/christmas_chinese/description	</description>
+      <scales> 1.3 1 0.5 </scales>
+      <userString> #vehicle_customization:camouflage/christmas_chinese/label </userString>
+      <tags> hiddenInUI </tags>
+      <invisibilityFactor> 1 </invisibilityFactor>
+      <palettes>
+        <palette>
+          <c0> 255 0 0 255 </c0>
+          <c1> 0 255 0 255 </c1>
+          <c2> 0 0 255 255 </c2>
+          <c3> 0 0 0 255 </c3>
+        </palette>
+      </palettes>
+      <rotation>
+        <HULL> -0.234747 </HULL>
+        <TURRET> 1.610764 </TURRET>
+        <GUN> -0.234747 </GUN>
+      </rotation>
+      <tiling/>
+      <tilingSettings>
+        <type> relative </type>
+        <factor> 2.574355 2.582175 </factor>
+        <offset> 0.000000 0.000000 </offset>
+      </tilingSettings>
+      <gloss> 0.509 0.509 0.409 0.509 </gloss>
+      <metallic> 0.23 0.2 0.19 0.23 </metallic>
+      <glossMetallicMap> valberton/user_customization/camouflages/example_gm.dds </glossMetallicMap>
+      <emissionMap> valberton/user_customization/camouflages/example_em.dds </emissionMap>
+      <emissionPatternMap> valberton/user_customization/camouflages/example_pat.dds </emissionPatternMap>
+      <forwardEmissionBrightness> 7 </forwardEmissionBrightness>
+      <deferredEmissionBrightness> 7 </deferredEmissionBrightness>
+      <emissionAnimationSpeed> 0.3 </emissionAnimationSpeed>
+    </camouflage>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -307,36 +295,36 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{6,9,11,13,15,21,24,26,28,30} [user_decals.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<name/>
-		<userString/>
-		<season>ALL</season>
-		<historical>true</historical>
-		<priceGroup>MT emblems 25g notInShop</priceGroup>
-		<type>EMBLEM</type>
-		<decal>
-			<id>10000</id>
-			<tags> hiddenInUI </tags>
-			<texture>valberton/user_customization/decals/example_emblem.dds</texture>
-			<userString />
-			<mirror>false</mirror>
-		</decal>
-	</itemGroup>
-	<itemGroup>
-		<name>user_inscriptions</name>
-		<userString> empty </userString>
-		<season>ALL</season>
-		<historical>true</historical>
-		<priceGroup>MT inscriptions 25g notInShop</priceGroup>
-		<type>INSCRIPTION</type>
-		<decal>
-			<id>20000</id>
-			<tags> hiddenInUI </tags>
-			<texture>valberton/user_customization/decals/example_inscr.dds</texture>
-			<userString />
-			<mirror>false</mirror>
-		</decal>
-	</itemGroup>
+  <itemGroup>
+    <name/>
+    <userString/>
+    <season> ALL </season>
+    <historical> true </historical>
+    <priceGroup> MT emblems 25g notInShop </priceGroup>
+    <type> EMBLEM </type>
+    <decal>
+      <id> 10000 </id>
+      <tags> hiddenInUI </tags>
+      <texture> valberton/user_customization/decals/example_emblem.dds </texture>
+      <userString />
+      <mirror> false </mirror>
+    </decal>
+  </itemGroup>
+  <itemGroup>
+    <name> user_inscriptions </name>
+    <userString> empty </userString>
+    <season> ALL </season>
+    <historical> true </historical>
+    <priceGroup> MT inscriptions 25g notInShop </priceGroup>
+    <type> INSCRIPTION </type>
+    <decal>
+      <id> 20000 </id>
+      <tags> hiddenInUI </tags>
+      <texture> valberton/user_customization/decals/example_inscr.dds </texture>
+      <userString />
+      <mirror> false </mirror>
+    </decal>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -361,21 +349,21 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{6,11,13,14} [user_attachments.xml]
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<name>attachments</name>
-		<userString>#vehicle_customization:attachment/general</userString>
-		<season>ALL</season>
-		<historical> true </historical>
-		<priceGroup>attachments 50g notInShop</priceGroup>
-		<tags> hiddenInUI </tags>
-		<attachment>
-			<id> 10000 </id>
-			<name> attachment_01 </name>
-			<modelName> content/Hangars/CharacterAnimations/Flag/normal/lod0/shaft_hd.model </modelName>
-			<attachmentLogic> flagPart </attachmentLogic>
-			<initialVisibility> false </initialVisibility>
-		</attachment>
-	</itemGroup>
+  <itemGroup>
+    <name> attachments </name>
+    <userString> #vehicle_customization:attachment/general </userString>
+    <season> ALL </season>
+    <historical> true </historical>
+    <priceGroup> attachments 50g notInShop </priceGroup>
+    <tags> hiddenInUI </tags>
+    <attachment>
+      <id> 10000 </id>
+      <name> attachment_01 </name>
+      <modelName> content/Hangars/CharacterAnimations/Flag/normal/lod0/shaft_hd.model </modelName>
+      <attachmentLogic> flagPart </attachmentLogic>
+      <initialVisibility> false </initialVisibility>
+    </attachment>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -397,20 +385,20 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{6,11-14} [user_insignias.xml]
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <itemGroup>
-		<name/>
-		<userString/>
-		<season>ALL</season>
-		<historical>1</historical>
-		<priceGroup>insignias 50g notInShop</priceGroup>
-		<tags>hiddenInUI</tags>
-		<insignia>
-			<id>10000</id>
-			<atlas>valberton/user_customization/decals/insignias.dds</atlas>
-			<alphabet>valberton/user_customization/decals/insignias.xml</alphabet>
-			<texture>valberton/user_customization/decals/insignias.dds</texture>
-		</insignia>
-	</itemGroup>
+  <itemGroup>
+    <name/>
+    <userString/>
+    <season> ALL </season>
+    <historical> 1 </historical>
+    <priceGroup> insignias 50g notInShop </priceGroup>
+    <tags> hiddenInUI </tags>
+    <insignia>
+      <id> 10000 </id>
+      <atlas> valberton/user_customization/decals/insignias.dds </atlas>
+      <alphabet> valberton/user_customization/decals/insignias.xml </alphabet>
+      <texture> valberton/user_customization/decals/insignias.dds </texture>
+    </insignia>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -430,11 +418,11 @@ XML - это древовидный язык разметки, поэтому к
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-	<glyph>
-		<name>*</name>
-		<begin> 0.0 0.0 </begin>
-		<end> 1.0 1.0 </end>
-	</glyph>
+  <glyph>
+    <name> * </name>
+    <begin> 0.0 0.0 </begin>
+    <end> 1.0 1.0 </end>
+  </glyph>
 </root>
 ```
 где `begin` и `end` - начальные и конечные используемых координат относительно левого верхнего угла изображения в процентах (1.0 = 100%).
@@ -450,30 +438,30 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{4,11,12,14-23} [user_modifications.xml]
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<season> ALL </season>
-		<historical> 0 </historical>
-		<priceGroup> modifications 300g </priceGroup>
-		<vehicleFilter>
-			<include/>
-		</vehicleFilter>
-		<modification>
-			<id> 10000 </id>
-			<texture> gui/maps/vehicles/modifications/effect.png </texture>
-			<description> #vehicle_customization:modifications/age_effect_01/description </description>
-			<effects>
-				<effect>
-					<type> paint_age </type>
-					<value> 0.3 </value>
-				</effect>
-				<effect>
-					<type> paint_fading </type>
-					<value> 0.1 </value>
-				</effect>
-			</effects>
-			<userString> #vehicle_customization:modifications/age_effect_01 </userString>
-		</modification>
-	</itemGroup>
+  <itemGroup>
+    <season> ALL </season>
+    <historical> 0 </historical>
+    <priceGroup> modifications 300g </priceGroup>
+    <vehicleFilter>
+      <include/>
+    </vehicleFilter>
+    <modification>
+      <id> 10000 </id>
+      <texture> gui/maps/vehicles/modifications/effect.png </texture>
+      <description> #vehicle_customization:modifications/age_effect_01/description </description>
+      <effects>
+        <effect>
+          <type> paint_age </type>
+          <value> 0.3 </value>
+        </effect>
+        <effect>
+          <type> paint_fading </type>
+          <value> 0.1 </value>
+        </effect>
+      </effects>
+      <userString> #vehicle_customization:modifications/age_effect_01 </userString>
+    </modification>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -494,28 +482,28 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{6,10-14} [user_paints.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<name/>
-		<userString/>
-		<season> ALL </season>
-		<historical> false </historical>
-		<priceGroup> paints 20g notInShop </priceGroup>
-		<paint>
-			<id> 10000 </id>
-			<texture> valberton/user_customization/paints/example_paint.png </texture>
-			<color> 00 00 255 255 </color>
-			<gloss> 0.753 </gloss>
-			<metallic> 0.576 </metallic>
-			<userString> blue paint </userString>
-			<tags> hiddenInUI </tags>
-		</paint>
-		<usages>
-			<item>
-				<componentType> ALL </componentType>
-				<cost> 1 </cost>
-			</item>
-		</usages>
-	</itemGroup>
+  <itemGroup>
+    <name/>
+    <userString/>
+    <season> ALL </season>
+    <historical> false </historical>
+    <priceGroup> paints 20g notInShop </priceGroup>
+    <paint>
+      <id> 10000 </id>
+      <texture> valberton/user_customization/paints/example_paint.png </texture>
+      <color> 00 00 255 255 </color>
+      <gloss> 0.753 </gloss>
+      <metallic> 0.576 </metallic>
+      <userString> blue paint </userString>
+      <tags> hiddenInUI </tags>
+    </paint>
+    <usages>
+      <item>
+        <componentType> ALL </componentType>
+        <cost> 1 </cost>
+      </item>
+    </usages>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -548,22 +536,22 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{5,9-11,14} [user_personalnumbers.xml]
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<userString>#vehicle_customization:personal_number/general</userString>
-		<season>ALL</season>
-		<historical>0</historical>
-		<priceGroup>MT personal_numbers 25g notInShop</priceGroup>
-		<personal_number>
-			<id>14</id>
-			<digitsCount>3</digitsCount>
-			<texture>gui/maps/vehicles/personal_numbers/font_14.png</texture>
-			<preview_texture>gui/maps/vehicles/personal_numbers/font_14_preview.png</preview_texture>
-			<userString>#vehicle_customization:personal_number/fonts/font_14</userString>
-			<fontId>14</fontId>
-			<tags>styleOnly</tags>
-		</personal_number>
-		<name>Collapsible style numbers</name>
-	</itemGroup>
+  <itemGroup>
+    <userString> #vehicle_customization:personal_number/general </userString>
+    <season> ALL </season>
+    <historical> 0 </historical>
+    <priceGroup> MT personal_numbers 25g notInShop </priceGroup>
+    <personal_number>
+      <id> 14 </id>
+      <digitsCount> 3 </digitsCount>
+      <texture> gui/maps/vehicles/personal_numbers/font_14.png </texture>
+      <preview_texture> gui/maps/vehicles/personal_numbers/font_14_preview.png </preview_texture>
+      <userString> #vehicle_customization:personal_number/fonts/font_14 </userString>
+      <fontId> 14 </fontId>
+      <tags> styleOnly </tags>
+    </personal_number>
+    <name> Collapsible style numbers </name>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -588,12 +576,12 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{4,6,7}
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<font>
-		<id>10000</id>
-		<name>font_01</name>
-		<texture>gui/maps/vehicles/font_maps/font_01.dds</texture>
-		<alphabet>gui/maps/vehicles/font_maps/font_01.xml</alphabet>
-	</font>
+  <font>
+    <id> 10000 </id>
+    <name> font_01 </name>
+    <texture> gui/maps/vehicles/font_maps/font_01.dds </texture>
+    <alphabet> gui/maps/vehicles/font_maps/font_01.xml </alphabet>
+  </font>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -616,56 +604,56 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <root>
-    <glyph>
-        <name>	0	</name>
-        <begin>	0.000000 0.000000	</begin>
-        <end>	0.121 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	1	</name>
-        <begin>	0.121 0.000000	</begin>
-        <end>	0.2089 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	2	</name>
-        <begin>	0.2089 0.000000	</begin>
-        <end>	0.33 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	3	</name>
-        <begin>	0.33 0.000000	</begin>
-        <end>	0.4492 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	4	</name>
-        <begin>	0.4492 0.000000	</begin>
-        <end>	0.5742 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	5	</name>
-        <begin>	0.5742 0.000000	</begin>
-        <end>	0.6933 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	6	</name>
-        <begin>	0.6933 0.000000	</begin>
-        <end>	0.8144 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	7	</name>
-        <begin>	0.8144 0.000000	</begin>
-        <end>	0.9257 0.5	</end>
-    </glyph>
-    <glyph>
-        <name>	8	</name>
-        <begin>	0.000000 0.5	</begin>
-        <end>	0.1152 1	</end>
-    </glyph>
-    <glyph>
-        <name>	9	</name>
-        <begin>	0.1152 0.5	</begin>
-        <end>	0.2363 1	</end>
-    </glyph>
+  <glyph>
+    <name>	0	</name>
+    <begin>	0.000000 0.000000	</begin>
+    <end>	0.121 0.5	</end>
+  </glyph>
+  <glyph>
+    <name>	1	</name>
+    <begin>	0.121 0.000000	</begin>
+    <end>	0.2089 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	2	</name>
+    <begin>	0.2089 0.000000	</begin>
+    <end>	0.33 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	3	</name>
+    <begin>	0.33 0.000000	</begin>
+    <end>	0.4492 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	4	</name>
+    <begin>	0.4492 0.000000	</begin>
+    <end>	0.5742 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	5	</name>
+    <begin>	0.5742 0.000000	</begin>
+    <end>	0.6933 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	6	</name>
+    <begin>	0.6933 0.000000	</begin>
+    <end>	0.8144 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	7	</name>
+    <begin>	0.8144 0.000000	</begin>
+    <end>	0.9257 0.5 </end>
+  </glyph>
+  <glyph>
+    <name>	8	</name>
+    <begin>	0.000000 0.5 </begin>
+    <end>	0.1152 1 </end>
+  </glyph>
+  <glyph>
+    <name>	9	</name>
+    <begin>	0.1152 0.5 </begin>
+    <end>	0.2363 1 </end>
+  </glyph>
 </root>
 ```
 :::
@@ -680,23 +668,23 @@ XML - это древовидный язык разметки, поэтому к
 ```xml{5,12,13,16} [user_projectiondecals.xml]
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
-	<itemGroup>
-		<userString>#vehicle_customization:projection_decals/damage</userString>
-		<season>ALL</season>
-		<historical>1</historical>
-		<priceGroup>MT projection_decals 100g</priceGroup>
-		<vehicleFilter>
-            <include/>
-		</vehicleFilter>
-		<projection_decal>
-			<id>10000</id>
-			<texture>gui/maps/vehicles/decals/projection_decals/damage/projection_decal_01.dds</texture>
-			<userString>#vehicle_customization:projection_decals/damage/projection_decal_01</userString>
-			<tags>direction_right_to_left formfactor_square</tags>
-			<mirror>true</mirror>
-		</projection_decal>
-		<name/>
-	</itemGroup>
+  <itemGroup>
+    <userString> #vehicle_customization:projection_decals/damage </userString>
+    <season> ALL </season>
+    <historical> 1 </historical>
+    <priceGroup> MT projection_decals 100g </priceGroup>
+    <vehicleFilter>
+      <include/>
+    </vehicleFilter>
+    <projection_decal>
+      <id> 10000 </id>
+      <texture> gui/maps/vehicles/decals/projection_decals/damage/projection_decal_01.dds </texture>
+      <userString> #vehicle_customization:projection_decals/damage/projection_decal_01 </userString>
+      <tags> direction_right_to_left formfactor_square </tags>
+      <mirror> true </mirror>
+    </projection_decal>
+    <name/>
+  </itemGroup>
 </root>
 ```
 Необходимые для редактирования секции:
@@ -719,37 +707,37 @@ XML - это древовидный язык разметки, поэтому к
 <root xmlns:china="china" xmlns:czech="czech" xmlns:france="france" xmlns:germany="germany" xmlns:italy="italy" xmlns:japan="japan" xmlns:poland="poland" xmlns:sweden="sweden" xmlns:uk="uk" xmlns:usa="usa" xmlns:ussr="ussr" xmlns:xmlref="http://bwt/xmlref">
   <itemGroup>
     <userString/>
-    <season>	ALL	</season>
-    <historical>	true	</historical>
-    <priceGroup>	MT 2D styles universal 1000g notInShop	</priceGroup>
+    <season> ALL </season>
+    <historical> true </historical>
+    <priceGroup> MT 2D styles universal 1000g notInShop </priceGroup>
     <vehicleFilter>
       <exclude>
-        <vehicles>	china:Ch01_Type59_Gold	</vehicles>
+        <vehicles> china:Ch01_Type59_Gold </vehicles>
       </exclude>
     </vehicleFilter>
     <style>
-      <id>	10000	</id>
-      <texture>	gui/maps/vehicles/styles/example.png	</texture>
-      <userString>	#pb_octopus_mod:octopus/styleName	</userString>
-      <longDescriptionSpecial>	#vehicle_customization:ny_style/asian_ny_style_01_desc/long	</longDescriptionSpecial>
+      <id> 10000 </id>
+      <texture> gui/maps/vehicles/styles/example.png </texture>
+      <userString> #pb_octopus_mod:octopus/styleName </userString>
+      <longDescriptionSpecial> #vehicle_customization:ny_style/asian_ny_style_01_desc/long </longDescriptionSpecial>
       <tags> hiddenInUI </tags>
       <alternateItems>
         <camouflage>
-            <id>20010 20020</id>
+            <id> 20010 20020 </id>
         </camouflage>
         <decal>
-            <id>40010 40020 30010 40011</id>
+            <id> 40010 40020 30010 40011 </id>
         </decal>
       </alternateItems>
       <outfits>
         <outfit>
-          <season>	ALL	</season>
+          <season> ALL </season>
           <camouflages>
             <item>
-              <id>	20010	</id>
-              <appliedTo>	4368	</appliedTo>
-              <patternSize>	1	</patternSize>
-              <palette>	0	</palette>
+              <id> 20010 </id>
+              <appliedTo> 4368 </appliedTo>
+              <patternSize> 1 </patternSize>
+              <palette> 0 </palette>
             </item>
           </camouflages>
           <modification>
@@ -763,12 +751,12 @@ XML - это древовидный язык разметки, поэтому к
           </insignias>
           <decals>
             <item>
-              <id>	30010	</id>
-              <appliedTo>	13104	</appliedTo>
+              <id> 30010 </id>
+              <appliedTo> 13104 </appliedTo>
             </item>
             <item>
-              <id>	40010	</id>
-              <appliedTo>	52416	</appliedTo>
+              <id> 40010 </id>
+              <appliedTo> 52416 </appliedTo>
             </item>
           </decals>
         </outfit>
@@ -786,12 +774,12 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <vehicleFilter>
-    <include>
-        <vehicles>	germany:G98_Waffentrager_E100	</vehicles>
-    </include>
-    <exclude>
-        <vehicles>	china:Ch01_Type59_Gold	</vehicles>
-    </exclude>
+  <include>
+    <vehicles> germany:G98_Waffentrager_E100 </vehicles>
+  </include>
+  <exclude>
+    <vehicles> china:Ch01_Type59_Gold </vehicles>
+  </exclude>
 </vehicleFilter>
 ```
 
@@ -823,12 +811,12 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <alternateItems>
-    <camouflage>
-        <id>20010 20020</id>
-    </camouflage>
-    <decal>
-        <id>40010 40020 30010 40011</id>
-    </decal>
+  <camouflage>
+    <id> 20010 20020 </id>
+  </camouflage>
+  <decal>
+    <id> 40010 40020 30010 40011 </id>
+  </decal>
 </alternateItems>
 ```
 
@@ -874,14 +862,14 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <decals>
-    <item>
-        <id> 30010</id>
-        <appliedTo> 13104 </appliedTo>
-    </item>
-    <item>
-        <id> 40010 </id>
-        <appliedTo> 52416 </appliedTo>
-    </item>
+  <item>
+    <id> 30010 </id>
+    <appliedTo> 13104 </appliedTo>
+  </item>
+  <item>
+    <id> 40010 </id>
+    <appliedTo> 52416 </appliedTo>
+  </item>
 </decals>
 ```
 
@@ -900,10 +888,10 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <attachments>
-	<item>
-		<id> 31014 </id>
-		<slotId> 18000 </slotId>
-	</item>
+  <item>
+    <id> 31014 </id>
+    <slotId> 18000 </slotId>
+  </item>
 </attachments>
 ```
 
@@ -914,10 +902,10 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <insignias>
-    <item>
-        <id> 10000 </id>
-        <appliedTo> 4096 </appliedTo>
-    </item>
+  <item>
+    <id> 10000 </id>
+    <appliedTo> 4096 </appliedTo>
+  </item>
 </insignias>
 ```
 Области применения отметок:
@@ -928,7 +916,7 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <modification>
-    <item> 5 </item>
+  <item> 5 </item>
 </modification>
 ```
 * `modification.item` = `id`
@@ -938,10 +926,10 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <paints>
-	<item>
-		<id> 256 </id>
-		<appliedTo> 30576 </appliedTo>
-	</item>
+  <item>
+    <id> 256 </id>
+    <appliedTo> 30576 </appliedTo>
+  </item>
 </paints>
 ```
 
@@ -956,11 +944,11 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <personal_numbers>
-	<item>
-		<id> 256 </id>
-        <number> 111 </number>
-		<appliedTo> 52416 </appliedTo>
-	</item>
+  <item>
+    <id> 256 </id>
+    <number> 111 </number>
+    <appliedTo> 52416 </appliedTo>
+  </item>
 </personal_numbers>
 ```
 Области применения персонального номера такие же, как и у надписей.
@@ -970,11 +958,11 @@ XML - это древовидный язык разметки, поэтому к
 
 ```xml
 <projection_decals>
-	<item>
-		<id> 31312 </id>
-		<scaleFactorId> 2 </scaleFactorId>
-		<tags> formfactor_square safe left </tags>
-	</item>
+  <item>
+    <id> 31312 </id>
+    <scaleFactorId> 2 </scaleFactorId>
+    <tags> formfactor_square safe left </tags>
+  </item>
 </projection_decals>
 ```
 * `projection_decals.item.scaleFactorId` - идентификатор фактора масштабирования от 0 до 3.
