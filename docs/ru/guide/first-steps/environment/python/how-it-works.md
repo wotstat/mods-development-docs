@@ -40,7 +40,10 @@ xcopy ".\res" ".\build\res" /E /I /Y >nul
 ```bat:line-numbers=33
 set "configPath=.\build\res\scripts\client\gui\mods\%MOD_ENTRY%"
 if exist "%configPath%" (
-  powershell -NoProfile -Command "(Get-Content '%configPath%' -Raw) -replace '\{\{VERSION\}\}','%v%' | Set-Content '%configPath%' -Encoding utf8"
+  powershell -NoProfile -Command ^
+    "(Get-Content '%configPath%' -Raw -Encoding utf8) " ^
+    "-replace '\{\{VERSION\}\}','%v%' | " ^
+    "Set-Content '%configPath%' -Encoding utf8"
 ) else (
   echo [WARN] %configPath% not found.
 )
@@ -51,7 +54,7 @@ if exist "%configPath%" (
 
 Происходит компиляция всех `.py`‑файлов в папке `build` в байткод `.pyc`, который используется игрой.
 
-```bat:line-numbers=41
+```bat:line-numbers=44
 python -m compileall ".\build"
 ```
 
@@ -60,7 +63,7 @@ python -m compileall ".\build"
 
 Запускается скрипт `build.bat` из папки `as3`, если такая папка есть в корне проекта. Этот скрипт должен скомпилировать все `ActionScript`‑файлы в `SWF`‑файлы и поместить их в папку `./as3/bin`. После этого все `SWF`‑файлы копируются в папку `build/res/gui/flash`, откуда попадают в файл мода.
 
-```bat:line-numbers=44
+```bat:line-numbers=47
 if exist ".\as3\build.bat" (
   pushd ".\as3"
   del /Q /F ".\bin\*.swf"
@@ -75,9 +78,12 @@ if exist ".\as3\build.bat" (
 
 Аналогично точке входа в `meta.xml` проставляется версия мода.
 
-```bat:line-numbers=53
+```bat:line-numbers=56
 if exist ".\meta.xml" (
-  powershell -NoProfile -Command "$m = Get-Content '.\meta.xml' -Raw; $m = $m -replace '\{\{VERSION\}\}','%v%'; Set-Content '.\build\meta.xml' $m -Encoding utf8"
+  powershell -NoProfile -Command ^
+    "$m = Get-Content '.\meta.xml' -Raw -Encoding utf8; " ^
+    "$m = $m -replace '\{\{VERSION\}\}','%v%'; " ^
+    "Set-Content '.\build\meta.xml' $m -Encoding utf8"
 ) else (
   echo [ERROR] meta.xml not found.
   exit /b 1
@@ -89,7 +95,7 @@ if exist ".\meta.xml" (
 
 Происходит упаковка необходимых файлов в архив `.mtmod` с помощью 7-Zip. Упаковываются только файлы с расширениями `.pyc`, `.swf`, `.png` и `meta.xml`.
 
-```bat:line-numbers=61
+```bat:line-numbers=67
 pushd ".\build"
 
 set "folder=%MOD_NAME%_%v%.mtmod"

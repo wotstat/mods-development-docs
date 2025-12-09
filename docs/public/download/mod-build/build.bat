@@ -32,7 +32,10 @@ xcopy ".\res" ".\build\res" /E /I /Y >nul
 rem ==== проставить версию ====
 set "configPath=.\build\res\scripts\client\gui\mods\%MOD_ENTRY%"
 if exist "%configPath%" (
-  powershell -NoProfile -Command "(Get-Content '%configPath%' -Raw) -replace '\{\{VERSION\}\}','%v%' | Set-Content '%configPath%' -Encoding utf8"
+  powershell -NoProfile -Command ^
+    "(Get-Content '%configPath%' -Raw -Encoding utf8) " ^
+    "-replace '\{\{VERSION\}\}','%v%' | " ^
+    "Set-Content '%configPath%' -Encoding utf8"
 ) else (
   echo [WARN] %configPath% not found.
 )
@@ -51,7 +54,10 @@ if exist ".\as3\build.bat" (
 
 rem ==== meta.xml с версией ====
 if exist ".\meta.xml" (
-  powershell -NoProfile -Command "$m = Get-Content '.\meta.xml' -Raw; $m = $m -replace '\{\{VERSION\}\}','%v%'; Set-Content '.\build\meta.xml' $m -Encoding utf8"
+  powershell -NoProfile -Command ^
+    "$m = Get-Content '.\meta.xml' -Raw -Encoding utf8; " ^
+    "$m = $m -replace '\{\{VERSION\}\}','%v%'; " ^
+    "Set-Content '.\build\meta.xml' $m -Encoding utf8"
 ) else (
   echo [ERROR] meta.xml not found.
   exit /b 1
