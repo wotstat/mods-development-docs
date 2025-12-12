@@ -4,7 +4,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Home', link: '/en/' },
   { text: 'Guide', link: '/en/guide/first-steps/introduction/', activeMatch: '/en/guide/' },
-  { text: 'Articles', link: '/en/articles/how-to-create-context-menu/', activeMatch: '/en/articles/' },
+  { text: 'Articles', link: '/en/articles/how-to-create-remote-control-widget/', activeMatch: '/en/articles/' },
 ]
 
 const sidebar: DefaultTheme.Sidebar = {
