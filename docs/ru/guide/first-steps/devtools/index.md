@@ -4,7 +4,7 @@
 
 Новая система интерфейса игры «Мир Танков» построена с использованием [`Coherent Gameface`](https://docs.coherent-labs.com/cpp-gameface/) на основе веб-технологий (`HTML`, `CSS`, `JavaScript`). Благодаря этому, к интерфейсу игры можно подключить `Chrome DevTools`.
 
-<video autoplay loop playsinline><source src="./assets/hero-wg.mp4" type="video/webm"></source></video>
+<video autoplay loop playsinline><source src="./assets/hero-wg.mp4" type="video/mp4"></source></video>
 
 ## Подключение DevTools к игре {#connecting-devtools}
 Официальная поддержка `DevTools` в игре отключена, но можно воспользоваться модификацией [`wotstat.chrome-devtools-protocol`](https://github.com/wotstat/wotstat-chrome-devtools-protocol), которая реализует протокол удалённой отладки `Chrome DevTools`.

@@ -2,7 +2,7 @@
 
 In this article, we’ll go **step by step** to create a stream widget with remote control. You can follow along and end up with a working widget.
 
-<video autoplay loop playsinline><source src="./assets/hero-widget.mp4"></source></video>
+<video autoplay loop playsinline><source src="./assets/hero-widget.mp4" type="video/mp4"></source></video>
 
 ## Preparation {#preparation}
 

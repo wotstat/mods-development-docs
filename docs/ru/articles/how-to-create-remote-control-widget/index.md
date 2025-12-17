@@ -2,7 +2,7 @@
 
 В этой статье мы рассмотрим как **по шагам** создать виджет для стримов с удалённым управлением. Вы сможете повторить эту статью и получить рабочий виджет.
 
-<video autoplay loop playsinline><source src="./assets/hero-widget.mp4"></source></video>
+<video autoplay loop playsinline><source src="./assets/hero-widget.mp4" type="video/mp4"></source></video>
 
 ## Подготовка {#preparation}
 
