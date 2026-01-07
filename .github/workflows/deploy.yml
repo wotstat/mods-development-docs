@@ -53,8 +53,13 @@ jobs:
 
       - name: Install dependencies
         run: npm i
+
       - name: Build with VitePress
         run: npm run build
+
+      - name: Copy sitemap for working with Google
+        run: cp .vitepress/dist/sitemap.xml .vitepress/dist/sitemap-google.xml
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
