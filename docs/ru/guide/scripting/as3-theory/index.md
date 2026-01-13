@@ -1,7 +1,7 @@
 # Теория AS3 модов {#as3-mods}
 
 Пользовательский интерфейс игры состоит из совокупности окон (`Windows`), которыми управляет движок `wulf`. Сами окна могут быть реализованы на:
-- `CGF` – Coherent GameFace, это `HTML` + `JavaScript` + `CSS`
+- `GF` – Coherent GameFace, это `HTML` + `JavaScript` + `CSS`
 - `Unbound` – собственный фреймворк Лесты
 - `Scaleform` – это `Flash`, в котором используется язык программирования `ActionScript 3` (AS3)
 
