@@ -59,6 +59,53 @@ class ExampleView(ViewImpl):
     return super(ExampleView, self).getViewModel()
 ```
 
+### Получение значений в JavaScript {#getting-values-in-javascript}
+Значения из модели данных доступны в `JavaScript`-коде страницы через глобальную переменную `window.model`. Модель реактивная, за изменениями можно следить подписавшись на событие `viewEnv.onDataChanged`.
+
+```javascript [example.js]
+
+function onModelChanged() {
+  console.warn(`exampleString changed to: ${window.model.exampleString},
+               exampleNumber changed to: ${window.model.exampleNumber},
+               exampleBool changed to: ${window.model.exampleBool}`)
+}
+
+engine.whenReady.then(() => {
+  engine.on('viewEnv.onDataChanged', onModelChanged)
+})
+```
+
+Если у вас есть вложенные модели, то необходимо явно указать, что надо следить за изменениями в этих моделях, для этого используется метод `addDataChangedCallback`:
+
+```javascript
+engine.whenReady.then(() => {
+  viewEnv.addDataChangedCallback('model.child', 0, true)
+})
+```
+
+После чего, изменение в `child` модели также будет вызывать событие `viewEnv.onDataChanged`.
+
+### Вызов команд из JavaScript {#calling-commands-from-javascript}
+Команды из модели данных вызываются в `JavaScript`-коде страницы как методы на объекте `window.model`. Аргументы команды передаются в виде словаря.
+```javascript [example.js]
+function sendCommandToPython() {
+  window.model.exampleCommand({ arg1: 'value1', arg2: 42 });
+}
+```
+
+В `Python`-коде команды обрабатываются посредством подписки на событие команды:
+```python [example_model.py]
+class ExampleModel(ViewModel):
+  ...
+
+  def _initialize(self):
+    ...
+    self.exampleCommand += self._onExampleCommand
+
+  def _onExampleCommand(self, args):
+    print("exampleCommand called with args: {}".format(args))
+```
+
 ## Ресурсы игры (res_map.json) {#res-map}
 Для использования в Python-скриптах различных ресурсов известных на этапе компиляции игры, Мир Танков использует механизм `DynAccessor` и файл `res_map.json`, на который эти `DynAccessor` ссылаются.
 
@@ -135,4 +182,241 @@ const title = R.dialogs.title;
 ```
 > TODO: Проверить такой ли путь
 
-## Пример создания окна GF {#gf-window-example}
+## Пример добавления своего окна {#gf-window-example}
+
+### Регистрация в res_map.json {#res-map-registration}
+Для регистрации в `res_map` необходим мод [`OpenWG.Gameface`](https://gitlab.com/openwg/wot.gameface).
+
+```json [mods/configs/res_map/example_mod.json]
+[
+  {
+    "itemID": "EXAMPLE_MOD_WINDOW",
+    "type": "Layout",
+    "path": "coui://gui/gameface/mods/example_mod/index.html",
+    "parameters": {
+      "extension": "",
+      "entrance": "ExampleMod",
+      "impl": "gameface"
+    }
+  }
+]
+```
+
+В качестве `itemID` указываем уникальный идентификатор окна, который будет использоваться в `Python`-коде для его создания. В `path` указываем путь к `HTML`-файлу окна (внутри вашего мода). В качестве `type` указываем `Layout`.
+
+### Код окна {#window-code}
+Создадим простое `Hello World` окно `GF`.
+
+```html [mods/gui/gameface/mods/example_mod/index.html]
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" crossorigin src="./index.js"></script>
+  <link rel="stylesheet" crossorigin href="./index.css">
+</head>
+
+<body>
+  <div id="root">
+    <h1>Hello, World!</h1>
+  </div>
+</body>
+
+</html>
+```
+
+Для управления окном используется `JavaScript`-код, который можно разместить в файле `index.js`. А для стилизации окна используется файл `index.css`.
+
+### Отображение окна в игре {#displaying-window}
+
+Для создания окна необходимо создать класс окна `WindowImpl`, класс представления `ViewImpl` и модель данных `ViewModel`.
+
+#### Модель данных {#viewmodel}
+Используется для определения значений, которые будут переданы в `JavaScript`-код окна, а также команд, которые могут быть вызваны из `JavaScript`.
+
+```python
+from gui.impl.pub import ViewModel
+
+class ExampleViewModel(ViewModel):
+  
+  def __init__(self, properties=1, commands=1):
+    # type: (int, int) -> None
+    super(ExampleViewModel, self).__init__(properties=properties, commands=commands)
+  
+  def _initialize(self):
+    # type: () -> None
+    super(ExampleViewModel, self)._initialize()
+    self._addStringProperty('exampleString', 'Hello, World!')
+    self._exampleCommand = self._addCommand('exampleCommand')
+    
+    self._exampleCommand += self._onExampleCommand
+
+  def _onExampleCommand(self, args):
+    # type: (dict) -> None
+    print("Example command executed with args: {}".format(args))
+
+  @property
+  def exampleString(self):
+    # type: () -> str
+    return self._getString(0)
+
+  @exampleString.setter
+  def exampleString(self, value):
+    # type: (str) -> None
+    self._setString(0, value)
+```
+
+#### Представление окна {#viewimpl}
+Используется для инициализации модели данных и управления логикой окна.
+
+```python
+from gui.impl.pub import ViewImpl
+from frameworks.wulf import ViewSettings, ViewFlags
+from openwg_gameface import ModDynAccessor
+
+RES_MAP_ITEM_ID = 'EXAMPLE_MOD_WINDOW'
+
+class ExampleView(ViewImpl):
+  viewLayoutID = ModDynAccessor(RES_MAP_ITEM_ID)
+  
+  def __init__(self):
+    settings = ViewSettings(ExampleView.viewLayoutID(), flags=ViewFlags.VIEW, model=ExampleViewModel())
+    super(ExampleView, self).__init__(settings)
+
+  @property
+  def viewModel(self):
+    # type: () -> ExampleViewModel
+    return super(ExampleView, self).getViewModel()
+```
+
+#### Класс окна {#windowimpl}
+Используется для создания экземпляра окна и его отображения на экране.
+
+```python
+from gui.impl.pub import WindowImpl
+from frameworks.wulf import WindowFlags, ViewSettings, ViewFlags
+
+class ExampleWindow(WindowImpl):
+  def __init__(self):
+    super(ExampleWindow, self).__init__(wndFlags=WindowFlags.WINDOW, content=ExampleView())
+```
+
+### Создание и показ окна {#creating-and-showing-window}
+
+```python
+from skeletons.gui.impl import IGuiLoader
+from helpers import dependency
+from openwg_gameface import res_id_by_key
+
+RES_MAP_ITEM_ID = 'EXAMPLE_MOD_WINDOW'
+
+uiLoader = dependency.instance(IGuiLoader) # type: IGuiLoader
+view = uiLoader.windowsManager.getViewByLayoutID(res_id_by_key(RES_MAP_ITEM_ID))
+ExampleWindow().load()
+```
+
+## Пример модификации существующего окна {#modifying-existing-window}
+Для модификации существующего окна `GF` необходимо с помощью мода `OpenWG.Gameface` инжектировать свой `JavaScript`-код в страницу окна. 
+
+Для этого можно добавить своё `ViewImpl` в качестве дочернего к существующему окну. При этом новая `HTML`-страница не будет создана, а подключить свой `JavaScript`-код можно будет через `gf_mod_inject`.
+
+```python
+from openwg_gameface import ModDynAccessor, gf_mod_inject
+from gui.impl.pub import ViewImpl, ViewSettings, ViewFlags
+from gui.impl.lobby.crew.hangar_crew_widget import HangarCrewWidget
+
+RES_MAP_ITEM_ID = 'EXAMPLE_MOD_SUBVIEW'
+
+class MyModel(ViewModel):
+  def _initialize(self):
+    ...
+    gf_mod_inject(self, RES_MAP_ITEM_ID, 
+      styles=['coui://gui/gameface/mods/example/index.css'], 
+      modules=['coui://gui/gameface/mods/example/index.js']
+    )
+
+class MyView(ViewImpl):
+  viewLayoutID = ModDynAccessor(RES_MAP_ITEM_ID)
+
+  def __init__(self, server, pageName='', pageId=''):
+    settings = ViewSettings(MyView.viewLayoutID(), flags=ViewFlags.VIEW, model=MyView())
+    super(MyView, self).__init__(settings)
+
+orig_load = HangarCrewWidget._onLoading
+def new_load(self, *args, **kwargs):
+  orig_load(self, *args, **kwargs)
+  self.setChildView(MyView.viewLayoutID(), MyView())
+
+HangarCrewWidget._onLoading = new_load
+```
+
+В `res_map.json` необходимо зарегистрировать ваш ресурс, однако в качестве `HTML` файла можно оставить пустую заглушку
+```json [mods/configs/res_map/example_mod.json]
+[
+  {
+    "itemID": "EXAMPLE_MOD_SUBVIEW",
+    "type": "Layout",
+    "path": "coui://gui/gameface/mods/example/index.html",
+    "parameters": {
+      "extension": "",
+      "entrance": "example",
+      "impl": "gameface"
+    }
+  }
+]
+```
+
+## Управление окном из JavaScript {#javascript-window-interaction}
+
+Для работы подсказок кода вы можете установить библиотеку с типами [`wot-gameface-types`](https://www.npmjs.com/package/wot-gameface-types). После чего подключите референсы типов в ваш `JavaScript`-код:
+
+```javascript [index.js]
+/// <reference types="wot-gameface-types" />
+```
+
+После чего у вас появится автодополнение для всех доступных в `Gameface` API.
+![gameface-types-autocomplete.png](./assets/gameface-types-autocomplete.png)
+
+## JavaScript API {#gameface-api}
+
+Тут описаны некоторые из доступных API.
+
+### `engine.whenReady` {#engine-whenready}
+Большинство API доступны только после инициализации движка `engine`, которая происходит после загрузки страницы. Для того чтобы дождаться инициализации, используйте promise `engine.whenReady`:
+
+```javascript
+engine.whenReady.then(() => {
+  console.warn("Engine is ready!");
+})
+```
+
+> `console.warn` используется вместо `console.log`, так как warning-сообщения видны в логах игры, а обычные сообщения нет.
+
+### `engine.on` {#engine-on}
+На некоторые события можно подписаться с помощью метода `on`:
+
+```javascript
+engine.on('clientResized', () => console.warn("Client resized"))
+engine.on('self.onScaleUpdated', () => console.warn("Scale updated"))
+```
+
+### `viewEnv` {#viewenv}
+Изменить размер окна можно с помощью метода `resizeViewPx` на объекте `viewEnv`:
+
+```javascript
+const { height, width } = viewEnv.getClientSizePx()
+viewEnv.resizeViewPx(width, height)
+```
+
+Установить интерактивную область окна можно с помощью метода `setHitAreaPaddingsRem` на объекте `viewEnv`:
+
+```javascript
+const remTop = viewEnv.pxToRem(top)
+const remBottom = viewEnv.pxToRem(bottom)
+const remLeft = viewEnv.pxToRem(left)
+const remRight = viewEnv.pxToRem(right)
+
+viewEnv.setHitAreaPaddingsRem(remTop, remRight, remBottom, remLeft, 15)
+```
