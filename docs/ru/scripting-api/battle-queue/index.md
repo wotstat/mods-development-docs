@@ -1,15 +1,15 @@
 # Очередь в бой {#battle-queue-api}
 
-WoT использует систему **Prebattle Control** (`gui/prb_control/`) для управления очередями в бой.
+Мир Танков использует систему **Prebattle Control** (`gui/prb_control/`) для управления очередями в бой.
 
 ## Ключевые компоненты {#key-components}
 
-| Компонент | Путь | Назначение |
-|-----------|------|------------|
-| `_PreBattleDispatcher` | `gui/prb_control/dispatcher.py` | Главный диспетчер всех prebattle действий |
-| `PreQueueEntity` | `gui/prb_control/entities/base/pre_queue/entity.py` | Базовый класс для очередей |
-| `RandomEntity` | `gui/prb_control/entities/random/pre_queue/entity.py` | Очередь случайных боёв |
-| `PlayerAccount` | `Account.py` | Низкоуровневые методы очереди |
+| Компонент              | Путь                                                  | Назначение                                |
+| ---------------------- | ----------------------------------------------------- | ----------------------------------------- |
+| `_PreBattleDispatcher` | `gui/prb_control/dispatcher.py`                       | Главный диспетчер всех prebattle действий |
+| `PreQueueEntity`       | `gui/prb_control/entities/base/pre_queue/entity.py`   | Базовый класс для очередей                |
+| `RandomEntity`         | `gui/prb_control/entities/random/pre_queue/entity.py` | Очередь случайных боёв                    |
+| `PlayerAccount`        | `Account.py`                                          | Низкоуровневые методы очереди             |
 
 ## Типы очередей {#queue-types}
 
@@ -136,12 +136,12 @@ def onArenaCreated():
 player.enqueueRandom(vehInvID, gameplaysMask=255, arenaTypeID=0, randomFlags=0)
 ```
 
-| Параметр | Описание |
-|----------|----------|
-| `vehInvID` | ID танка в инвентаре (`g_currentVehicle.invID`) |
-| `gameplaysMask` | Битовая маска разрешённых режимов/карт |
-| `arenaTypeID` | ID конкретной карты для демонстратора (0 = любая) |
-| `randomFlags` | Дополнительные флаги |
+| Параметр        | Описание                                          |
+| --------------- | ------------------------------------------------- |
+| `vehInvID`      | ID танка в инвентаре (`g_currentVehicle.invID`)   |
+| `gameplaysMask` | Битовая маска разрешённых режимов/карт            |
+| `arenaTypeID`   | ID конкретной карты для демонстратора (0 = любая) |
+| `randomFlags`   | Дополнительные флаги                              |
 
 ### gameplaysMask {#gameplay-mask}
 

@@ -1,16 +1,16 @@
 # Система сообщений {#messenger-api}
 
-WoT использует **XMPP протокол** (Jabber) для приватных сообщений между игроками.
+Мир Танков использует **XMPP протокол** (Jabber) для приватных сообщений между игроками.
 
 ## Ключевые компоненты {#key-components}
 
-| Компонент | Путь | Назначение |
-|-----------|------|------------|
-| `MessengerEntry` | `messenger/MessengerEntry.py` | Главная точка входа, глобальный экземпляр `g_instance` |
-| `ChatProvider.sendMessage()` | `messenger/proto/xmpp/messages/provider.py` | Отправка XMPP сообщений |
-| `ChatSessionsProvider` | `messenger/proto/xmpp/messages/chat_session.py` | Управление чат-сессиями |
-| `ClientDecorator.sendMessage()` | `messenger/proto/xmpp/gloox_wrapper.py` | Низкоуровневая отправка через BigWorld.XmppClient |
-| `ArenaChatHandler.broadcast()` | `messenger/proto/bw_chat2/chat_handlers.py` | Боевой чат |
+| Компонент                       | Путь                                            | Назначение                                             |
+| ------------------------------- | ----------------------------------------------- | ------------------------------------------------------ |
+| `MessengerEntry`                | `messenger/MessengerEntry.py`                   | Главная точка входа, глобальный экземпляр `g_instance` |
+| `ChatProvider.sendMessage()`    | `messenger/proto/xmpp/messages/provider.py`     | Отправка XMPP сообщений                                |
+| `ChatSessionsProvider`          | `messenger/proto/xmpp/messages/chat_session.py` | Управление чат-сессиями                                |
+| `ClientDecorator.sendMessage()` | `messenger/proto/xmpp/gloox_wrapper.py`         | Низкоуровневая отправка через BigWorld.XmppClient      |
+| `ArenaChatHandler.broadcast()`  | `messenger/proto/bw_chat2/chat_handlers.py`     | Боевой чат                                             |
 
 ## Отправка приватного сообщения {#send-private-message}
 

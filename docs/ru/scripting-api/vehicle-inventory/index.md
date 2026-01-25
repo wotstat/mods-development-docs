@@ -1,14 +1,14 @@
 # Инвентарь танков {#vehicle-inventory-api}
 
-WoT использует **ItemsCache** для доступа к инвентарю игрока, включая танки.
+Мир Танков использует **ItemsCache** для доступа к инвентарю игрока, включая танки.
 
 ## Ключевые компоненты {#key-components}
 
-| Компонент | Путь | Назначение |
-|-----------|------|------------|
-| `ItemsCache` | `gui/shared/items_cache.py` | Главный кэш всех предметов |
+| Компонент        | Путь                                            | Назначение                    |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `ItemsCache`     | `gui/shared/items_cache.py`                     | Главный кэш всех предметов    |
 | `ItemsRequester` | `gui/shared/utils/requesters/ItemsRequester.py` | Запрос и фильтрация предметов |
-| `REQ_CRITERIA` | `gui/shared/utils/requesters/ItemsRequester.py` | Критерии фильтрации |
+| `REQ_CRITERIA`   | `gui/shared/utils/requesters/ItemsRequester.py` | Критерии фильтрации           |
 
 ## Получение всех танков {#get-all-vehicles}
 
@@ -89,7 +89,7 @@ vehicle.isRented        # Арендованный?
 vehicle.health          # Текущее HP
 vehicle.repairCost      # Стоимость ремонта
 vehicle.descriptor      # VehicleDescriptor с полными данными
-vehicle.crew# Данные экипажа
+vehicle.crew            # Данные экипажа
 vehicle.shells          # Заряженные снаряды
 vehicle.eqs             # Оборудование
 ```
