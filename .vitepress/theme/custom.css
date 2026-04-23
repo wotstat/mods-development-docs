@@ -51,3 +51,11 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
 }
+
+
+/* changelog */
+
+.vp-nolebase-git-changelog-history .vp-nolebase-git-changelog-commit-avatar {
+  margin-top: 0;
+  margin-bottom: 0;
+}
