@@ -8,7 +8,7 @@
   },
   "scripts": {
     "setup": "npm install",
-    "dev": "vitepress dev",
+    "dev": "vitepress dev --host",
     "build": "vitepress build",
     "preview": "vitepress preview"
   }
