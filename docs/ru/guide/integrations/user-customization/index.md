@@ -30,7 +30,7 @@
 Перед началом разработки стиля крайне рекомендуется ознакомиться с принципом работы формата **JSON**, так как он является основным форматом передачи данных мода в игру.
 
 Также стоит учесть, что в этой статье указание путей к файлам происходит от папки `res` в директории игры.
-То есть, `scripts/client/path/to/file.py` означает, что искать этот файл нужно по пути `<папка_с_игрой>/res/scripts/client/path/to/file.py` относительно [виртуальной файловой системы](http://docs./guide/first-steps/introduction/#vfs).
+То есть, `scripts/client/path/to/file.py` означает, что искать этот файл нужно по пути `<папка_с_игрой>/res/scripts/client/path/to/file.py` относительно [виртуальной файловой системы](/guide/first-steps/introduction/#vfs).
 :::
 
 Для 3D-стилей ещё необходимы:
@@ -670,7 +670,7 @@ JSON — это древовидный формат обмена данными,
 {
   "styles": {
     "template": {
-      "styleIcon": "valberton/user_customization/styles/template.png",
+      "styleIcon": "gui/maps/vehicles/styles/template.png",
       "styleName": "Пример для подражания",
       "outfits": [{
           "season": "ALL",
