@@ -437,8 +437,8 @@ JSON — это древовидный формат обмена данными,
       "texture": "valberton/user_customization/paints/template_paint_icon.png",
       "color": [255, 255, 255, 255],
 
-      "gloss": [0.509, 0.509, 0.509, 0.509],
-      "metallic": [0.23, 0.23, 0.23, 0.23]
+      "gloss": 0.509,
+      "metallic": 0.23
     }
   }
 }
