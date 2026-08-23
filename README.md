@@ -4,16 +4,22 @@
 
 Используется [VitePress](https://vitepress.dev)
 
-Для запуска нужна `Node 22+`. В будущем планируется переезд на `Bun`, но он пока не поддерживает `Vite7`
+Для локального запуска нужен [Bun 1.4+](https://bun.com/docs/installation).
 
 **Установка зависимостей**
 
 ```bash
-npm install
+bun install
 ```
 
 **Запуск**
 
 ```bash
-npm run dev
+bun run dev
+```
+
+**Сборка**
+
+```bash
+bun run build
 ```
