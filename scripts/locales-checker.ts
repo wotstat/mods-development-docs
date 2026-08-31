@@ -1,6 +1,6 @@
 import { Glob } from 'bun';
-import { AdditionalConfig } from 'vitepress';
-import mainConfig from "../.vitepress/config.mjs";
+import type { AdditionalConfig } from 'vitepress';
+import mainConfig from "../.vitepress/config.mts";
 
 const locales = new Map<string, string>(Object.entries(mainConfig.locales as Record<string, any>).map(([key, value]) => [key, value.lang || 'unknown']));
 
@@ -125,5 +125,3 @@ if (hasErrors) {
 } else {
   console.log("Localization check passed: all locales have the same set of pages.");
 }
-
-

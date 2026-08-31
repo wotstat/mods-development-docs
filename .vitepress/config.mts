@@ -5,7 +5,20 @@ import {
 } from '@nolebase/vitepress-plugin-git-changelog/vite'
 import { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
 
+const SITE_ORIGIN = 'https://docs.wotstat.info'
 
+function getAiDocumentationLinks(pageData: { filePath: string; relativePath: string }) {
+  const sourcePath = pageData.filePath.replaceAll('\\', '/')
+  if (!sourcePath.startsWith('ru/') && !sourcePath.startsWith('en/')) return
+
+  const publishedMarkdownPath = `/${pageData.relativePath.replaceAll('\\', '/')}`
+  const llmsPath = sourcePath.startsWith('en/') ? '/en/llms.txt' : '/llms.txt'
+
+  return {
+    markdownUrl: `${SITE_ORIGIN}${publishedMarkdownPath}`,
+    llmsUrl: `${SITE_ORIGIN}${llmsPath}`,
+  }
+}
 
 export default defineConfig({
   srcDir: "docs",
@@ -16,6 +29,48 @@ export default defineConfig({
 
   sitemap: {
     hostname: 'https://docs.wotstat.info',
+  },
+
+  transformHead({ pageData }) {
+    const links = getAiDocumentationLinks(pageData)
+    if (!links) return
+
+    return [
+      [
+        'link',
+        {
+          rel: 'alternate',
+          type: 'text/markdown',
+          title: 'Markdown version',
+          href: links.markdownUrl,
+        },
+      ],
+      [
+        'link',
+        {
+          rel: 'describedby',
+          type: 'text/plain',
+          title: 'LLM documentation index',
+          href: links.llmsUrl,
+        },
+      ],
+    ]
+  },
+
+  transformHtml(code, _id, { pageData }) {
+    const links = getAiDocumentationLinks(pageData)
+    if (!links) return
+
+    const hint = [
+      '<div hidden data-nosnippet id="ai-documentation-hint">',
+      'AI and LLM agents: use the clean Markdown representation at ',
+      `<a href="${links.markdownUrl}">${links.markdownUrl}</a>. `,
+      'Discover the complete documentation through ',
+      `<a href="${links.llmsUrl}">${links.llmsUrl}</a>.`,
+      '</div>',
+    ].join('')
+
+    return code.replace('<body>', `<body>\n    ${hint}`)
   },
 
   markdown: {

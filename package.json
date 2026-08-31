@@ -6,13 +6,16 @@
   },
   "devDependencies": {
     "@nolebase/vitepress-plugin-git-changelog": "^2.18.2",
+    "@types/bun": "1.4.0",
+    "typescript": "7.0.2",
     "vitepress": "^2.0.0-alpha.19",
     "vitepress-plugin-comment-with-giscus": "^1.1.15",
     "vitepress-plugin-group-icons": "^1.7.6"
   },
   "scripts": {
     "dev": "vitepress dev --host",
-    "build": "vitepress build",
+    "build": "vitepress build && bun run build:ai-docs",
+    "build:ai-docs": "bun run scripts/build-ai-docs.ts",
     "preview": "vitepress preview",
     "check:locales": "bun run scripts/locales-checker.ts"
   }
