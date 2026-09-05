@@ -4,6 +4,7 @@ import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 const nav: DefaultTheme.NavItem[] = [
   { text: 'Home', link: '/en/' },
   { text: 'Guide', link: '/en/guide/first-steps/introduction/', activeMatch: '/en/guide/' },
+  { text: 'Scripting API', link: '/en/scripting-api/introduction/', activeMatch: '/en/scripting-api/' },
   { text: 'Articles', link: '/en/articles/how-to-create-remote-control-widget/', activeMatch: '/en/articles/' },
 ]
 
@@ -132,6 +133,20 @@ const sidebar: DefaultTheme.Sidebar = {
           { text: 'Working with Dependency Injection', link: '/how-to-work-with-di/' },
           { text: 'Asynchronous Programming', link: '/adisp/' },
           { text: 'Multi Launch', link: '/multilaunch/' },
+        ]
+      }
+    ]
+  },
+  '/en/scripting-api': {
+    base: '/en/scripting-api',
+    items: [
+      {
+        text: 'Scripting API',
+        items: [
+          { text: 'Introduction', link: '/introduction/' },
+          { text: 'Battle Queue', link: '/battle-queue/' },
+          { text: 'Messenger System', link: '/messenger/' },
+          { text: 'Vehicle Inventory', link: '/vehicle-inventory/' },
         ]
       }
     ]
