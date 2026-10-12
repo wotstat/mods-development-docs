@@ -383,11 +383,22 @@ call "%MXMLC%" -load-config+=build-config.xml --output=bin/my.first_mod.Piercing
 
 Теперь создадим контролирующий Python-скрипт `my_first_mod/PiercingMainView.py`, который будет связан с `SWF`.
 
+В этом же файле добавим обёртку `getEntitiesFactories()` для регистрации окна. Она поддерживает новый API WG с версии 2.4.1, предыдущие версии WoT и Мир Танков.
+
 ```python [my_first_mod/PiercingMainView.py]:
 from frameworks.wulf import WindowLayer
 from gui.Scaleform.framework.entities.View import View
-from gui.Scaleform.framework import g_entitiesFactories, ScopeTemplates, ViewSettings
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 from gui.shared import events, EVENT_BUS_SCOPE, g_eventBus
+
+def getEntitiesFactories():
+  try:
+    from gui.Scaleform.framework import g_entitiesFactories
+    return g_entitiesFactories
+  except ImportError:
+    from helpers import dependency
+    from skeletons.gui.impl import IGuiLoader
+    return dependency.instance(IGuiLoader).entitiesFactory
 
 MY_FIRST_MOD_PIERCING_MAIN_VIEW = "MY_FIRST_MOD_PIERCING_MAIN_VIEW"
 
@@ -404,7 +415,7 @@ def setup():
     None,
     ScopeTemplates.VIEW_SCOPE,
   )
-  g_entitiesFactories.addSettings(settingsViewSettings)
+  getEntitiesFactories().addSettings(settingsViewSettings)
 
   def onAppInitialized(event):
     if event.ns == APP_NAME_SPACE.SF_BATTLE:
@@ -805,7 +816,7 @@ import math
 from ProjectileMover import EntityCollisionData
 from frameworks.wulf import WindowLayer
 from gui.Scaleform.framework.entities.View import View
-from gui.Scaleform.framework import g_entitiesFactories, ScopeTemplates, ViewSettings
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 from gui.shared import events, EVENT_BUS_SCOPE, g_eventBus
 from gui.app_loader.settings import APP_NAME_SPACE
 from gui.Scaleform.framework.application import AppEntry
@@ -822,6 +833,15 @@ from .color import lerpColor
 
 import BigWorld
 
+
+def getEntitiesFactories():
+  try:
+    from gui.Scaleform.framework import g_entitiesFactories
+    return g_entitiesFactories
+  except ImportError:
+    from helpers import dependency
+    from skeletons.gui.impl import IGuiLoader
+    return dependency.instance(IGuiLoader).entitiesFactory
 
 MY_FIRST_MOD_PIERCING_MAIN_VIEW = "MY_FIRST_MOD_PIERCING_MAIN_VIEW"
 
@@ -982,7 +1002,7 @@ def setup():
     None,
     ScopeTemplates.DEFAULT_SCOPE,
   )
-  g_entitiesFactories.addSettings(settingsViewSettings)
+  getEntitiesFactories().addSettings(settingsViewSettings)
 
   def onAppInitialized(event):
     if event.ns == APP_NAME_SPACE.SF_BATTLE:

@@ -50,21 +50,37 @@ class HelloWorldWindow(AbstractWindowView):
 Если создать связку между этими двумя классами, то можно будет в `Python`‑коде обратиться к `self.flashObject` и вызывать на нём метод, объявленный в `AS3`. И наоборот, в `AS3`‑коде можно объявить переменную типа `Function`, которая будет ассоциирована с методом из `Python`‑класса.
 
 ### Создание связки {#daapi-binding}
-Чтобы связать `AS3`‑класс с `Python`‑классом, необходимо в `g_entitiesFactories` зарегистрировать `ViewSettings`, указав класс `Python` и путь к `SWF`‑файлу.
+Чтобы связать `AS3`‑класс с `Python`‑классом, необходимо через фабрику интерфейса зарегистрировать `ViewSettings`, указав класс `Python` и путь к `SWF`‑файлу.
+
+В World of Tanks (WG) начиная с версии **2.4.1** `g_entitiesFactories` больше не импортируется из `gui.Scaleform.framework`. Фабрика доступна через `dependency.instance(IGuiLoader).entitiesFactory`. В предыдущих версиях WoT и в Мире Танков используется старый импорт.
+
+Для совместимости добавьте простую обёртку в тот же Python-файл, где регистрируется окно.
+
+Вызывайте обёртку при регистрации окна в `init()` или `setup()`: так загрузчик интерфейса получается в момент использования, а не при импорте модуля. Методы фабрики `addSettings()` и `removeSettings()` используются как прежде.
 
 ```python
 from frameworks.wulf.gui_constants import WindowLayer
-from gui.Scaleform.framework import g_entitiesFactories, ScopeTemplates, ViewSettings
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 
-viewSettings = ViewSettings(
-  'MY_MOD_HELLO_WORLD_WINDOW', # уникальный ID окна
-  HelloWorldWindow, # управляющий класс Python
-  "HelloWorldWindow.swf", # путь к SWF файлу
-  WindowLayer.TOP_WINDOW,
-  None,
-  ScopeTemplates.VIEW_SCOPE,
-)
-g_entitiesFactories.addSettings(viewSettings)
+def getEntitiesFactories():
+  try:
+    from gui.Scaleform.framework import g_entitiesFactories
+    return g_entitiesFactories
+  except ImportError:
+    from helpers import dependency
+    from skeletons.gui.impl import IGuiLoader
+    return dependency.instance(IGuiLoader).entitiesFactory
+
+def setup():
+  viewSettings = ViewSettings(
+    'MY_MOD_HELLO_WORLD_WINDOW', # уникальный ID окна
+    HelloWorldWindow, # управляющий класс Python
+    "HelloWorldWindow.swf", # путь к SWF файлу
+    WindowLayer.TOP_WINDOW,
+    None,
+    ScopeTemplates.VIEW_SCOPE,
+  )
+  getEntitiesFactories().addSettings(viewSettings)
 ```
 
 ### Добавление окна в интерфейс {#adding-window}
@@ -93,15 +109,16 @@ app.loadView(SFViewLoadParams('MY_MOD_HELLO_WORLD_WINDOW'))
 ```python
 DEV_SWF = 'reload-exmaple/HelloWorldWindow.swf'
 
-viewSettings = ViewSettings(
-  'MY_MOD_HELLO_WORLD_WINDOW',
-  HelloWorldWindow,
-  DEV_SWF,
-  WindowLayer.TOP_WINDOW,
-  None,
-  ScopeTemplates.VIEW_SCOPE,
-)
-g_entitiesFactories.addSettings(viewSettings)
+def setup():
+  viewSettings = ViewSettings(
+    'MY_MOD_HELLO_WORLD_WINDOW',
+    HelloWorldWindow,
+    DEV_SWF,
+    WindowLayer.TOP_WINDOW,
+    None,
+    ScopeTemplates.VIEW_SCOPE,
+  )
+  getEntitiesFactories().addSettings(viewSettings)
 ```
 
 Файл не обязательно размещать в корне `gui/flash`: каталог `reload-exmaple` в примере нужен, чтобы получить отдельный виртуальный путь для разработки. Вы можете выбрать другое имя, главное — чтобы итоговый путь не совпадал с существующими ресурсами игры и с путём `SWF` внутри вашего `.mtmod`.

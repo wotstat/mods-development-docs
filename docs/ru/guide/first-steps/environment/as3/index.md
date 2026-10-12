@@ -155,16 +155,27 @@ package my.first_mod
 ### Отображение окна из Python {#show-window}
 Чтобы окно появилось в игре, нужно из `Python`‑скрипта добавить его на экран. Для этого создадим управляющий `Python`‑класс (подробнее в [теории AS3](../../../scripting/as3-theory/)).
 
-Создайте файл `res/scripts/client/gui/mods/my_first_mod/HelloWorldWindow.py` со следующим содержимым:
+Создайте файл `res/scripts/client/gui/mods/my_first_mod/HelloWorldWindow.py` со следующим содержимым.
+
+Для регистрации окна понадобится обёртка над фабрикой интерфейса: на WG с версии 2.4.1 она доступна через `IGuiLoader.entitiesFactory`, а в старых версиях WoT и в Мире Танков — через `g_entitiesFactories` (подробнее в [теории AS3](../../../scripting/as3-theory/#daapi-binding)).
 
 ```python [HelloWorldWindow.py]
 from frameworks.wulf.gui_constants import WindowLayer
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
-from gui.Scaleform.framework import g_entitiesFactories, ScopeTemplates, ViewSettings
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
 from helpers import dependency
 from skeletons.gui.app_loader import IAppLoader
 from gui.Scaleform.framework.application import AppEntry
+
+def getEntitiesFactories():
+  try:
+    from gui.Scaleform.framework import g_entitiesFactories
+    return g_entitiesFactories
+  except ImportError:
+    from helpers import dependency
+    from skeletons.gui.impl import IGuiLoader
+    return dependency.instance(IGuiLoader).entitiesFactory
 
 class HelloWorldWindow(AbstractWindowView):
   def onWindowClose(self):
@@ -181,7 +192,7 @@ def setup():
     None,
     ScopeTemplates.VIEW_SCOPE,
   )
-  g_entitiesFactories.addSettings(settingsViewSettings)
+  getEntitiesFactories().addSettings(settingsViewSettings)
 
 
 def show():
